@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import './BraindanceEditor.css'
+import './CameraViewer.css'
 
 const LAYERS = [
   { id: 'visual', name: 'Visual Layer', icon: '◉', color: '#00f0ff' },
@@ -15,7 +15,7 @@ const CLUES = [
   { id: 4, time: 22, duration: 2, layer: 'visual', label: 'Face visible' },
 ]
 
-function BraindanceEditor({ videoSrc = '/preuve1.mp4' }) {
+function CameraViewer({ videoSrc = '/preuve1.mp4' }) {
   const videoRef = useRef(null)
   const audioContextRef = useRef(null)
   const analyserRef = useRef(null)
@@ -231,21 +231,21 @@ function BraindanceEditor({ videoSrc = '/preuve1.mp4' }) {
   }, [isPlaying])
 
   return (
-    <div className="braindance-container">
+    <div className="camera-container">
       {/* Header */}
-      <div className="braindance-header">
-        <div className="braindance-title">
+      <div className="camera-header">
+        <div className="camera-title">
           <span className="bd-icon">◈</span>
-          BRAINDANCE EDITOR
+          ANALYSEUR CAMÉRA
         </div>
-        <div className="braindance-header-info">
+        <div className="camera-header-info">
           <span className="bd-status">● REC</span>
           <span className="bd-quality">HD 1080p</span>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="braindance-main">
+      <div className="camera-main">
         {/* Left Panel - Layer Selector */}
         <div className="bd-panel bd-panel-left">
           <div className="bd-panel-header">
@@ -511,4 +511,4 @@ function BraindanceEditor({ videoSrc = '/preuve1.mp4' }) {
   )
 }
 
-export default BraindanceEditor
+export default CameraViewer

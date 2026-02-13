@@ -1,17 +1,17 @@
 import { useState } from 'react'
-import BraindanceEditor from './components/PhotoAnalyzer/BraindanceEditor'
+import CameraViewer from './components/PhotoAnalyzer/CameraViewer'
 import SuspectProfiles from './components/SuspectProfiles/SuspectProfiles'
 import './App.css'
 
 function App() {
-  const [currentView, setCurrentView] = useState('profiles') // 'profiles' ou 'braindance'
+  const [currentView, setCurrentView] = useState('profiles') // 'profiles' ou 'camera'
   const [selectedVideo, setSelectedVideo] = useState('/preuve1.mp4')
 
   const handleSelectIndice = (indice) => {
-    // Si l'indice est une video, ouvrir le lecteur Braindance
+    // Si l'indice est une video, ouvrir l'analyseur de caméra
     if (indice.type === 'video') {
       setSelectedVideo(indice.src)
-      setCurrentView('braindance')
+      setCurrentView('camera')
     }
   }
 
@@ -27,11 +27,11 @@ function App() {
           PROFILES
         </button>
         <button
-          className={`nav-btn ${currentView === 'braindance' ? 'active' : ''}`}
-          onClick={() => setCurrentView('braindance')}
+          className={`nav-btn ${currentView === 'camera' ? 'active' : ''}`}
+          onClick={() => setCurrentView('camera')}
         >
           <span className="nav-icon">▶</span>
-          BRAINDANCE
+          CAMÉRA
         </button>
       </nav>
 
@@ -40,8 +40,8 @@ function App() {
         {currentView === 'profiles' && (
           <SuspectProfiles onSelectIndice={handleSelectIndice} />
         )}
-        {currentView === 'braindance' && (
-          <BraindanceEditor videoSrc={selectedVideo} />
+        {currentView === 'camera' && (
+          <CameraViewer videoSrc={selectedVideo} />
         )}
       </div>
     </div>

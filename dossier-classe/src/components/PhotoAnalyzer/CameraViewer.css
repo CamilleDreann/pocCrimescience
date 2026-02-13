@@ -1,9 +1,9 @@
-/* Braindance Editor - Cyberpunk 2077 Style */
+/* Camera Viewer - Dispositif Caméra Style */
 
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
 
 /* ===== CSS Variables ===== */
-.braindance-container {
+.camera-container {
   --bd-cyan: #00f0ff;
   --bd-red: #ff3d00;
   --bd-yellow: #f0d000;
@@ -21,7 +21,7 @@
 }
 
 /* ===== Container ===== */
-.braindance-container {
+.camera-container {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -34,7 +34,7 @@
 }
 
 /* Background noise effect */
-.braindance-container::before {
+.camera-container::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -44,7 +44,7 @@
 }
 
 /* ===== Header ===== */
-.braindance-header {
+.camera-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -54,7 +54,7 @@
   position: relative;
 }
 
-.braindance-header::before {
+.camera-header::before {
   content: '';
   position: absolute;
   top: 0;
@@ -64,7 +64,7 @@
   background: linear-gradient(90deg, transparent, var(--bd-cyan), transparent);
 }
 
-.braindance-title {
+.camera-title {
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -86,7 +86,7 @@
   50% { opacity: 0.5; }
 }
 
-.braindance-header-info {
+.camera-header-info {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -109,7 +109,7 @@
 }
 
 /* ===== Main Layout ===== */
-.braindance-main {
+.camera-main {
   display: flex;
   flex: 1;
   overflow: hidden;
@@ -737,7 +737,7 @@
 }
 
 @media (max-width: 900px) {
-  .braindance-main {
+  .camera-main {
     flex-direction: column;
   }
 
