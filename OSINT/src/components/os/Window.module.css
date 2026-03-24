@@ -1,0 +1,71 @@
+.window {
+  position: absolute;
+  background: var(--color-bg-window);
+  border-radius: var(--window-border-radius);
+  box-shadow: var(--shadow-window);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 400px;
+  min-height: 300px;
+}
+
+.maximized {
+  border-radius: 0;
+}
+
+.dragging {
+  cursor: grabbing;
+  opacity: 0.95;
+}
+
+.content {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
+
+/* Resize handles */
+.resizeHandle {
+  position: absolute;
+}
+
+.resize_n {
+  top: -3px; left: 10px; right: 10px; height: 6px;
+  cursor: n-resize;
+}
+
+.resize_s {
+  bottom: -3px; left: 10px; right: 10px; height: 6px;
+  cursor: s-resize;
+}
+
+.resize_e {
+  right: -3px; top: 10px; bottom: 10px; width: 6px;
+  cursor: e-resize;
+}
+
+.resize_w {
+  left: -3px; top: 10px; bottom: 10px; width: 6px;
+  cursor: w-resize;
+}
+
+.resize_ne {
+  top: -3px; right: -3px; width: 14px; height: 14px;
+  cursor: ne-resize;
+}
+
+.resize_nw {
+  top: -3px; left: -3px; width: 14px; height: 14px;
+  cursor: nw-resize;
+}
+
+.resize_se {
+  bottom: -3px; right: -3px; width: 14px; height: 14px;
+  cursor: se-resize;
+}
+
+.resize_sw {
+  bottom: -3px; left: -3px; width: 14px; height: 14px;
+  cursor: sw-resize;
+}

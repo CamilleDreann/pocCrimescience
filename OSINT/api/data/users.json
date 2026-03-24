@@ -1,0 +1,350 @@
+[
+  {
+    "email": "marie.dupont@gmail.com",
+    "name": "Marie Dupont",
+    "platforms": [
+      {
+        "name": "Instagram",
+        "username": "@marie.dpt",
+        "url": "https://instagram.com/marie.dpt",
+        "bio": "Photographe | Lyon | Amoureuese de la nature",
+        "found": true
+      },
+      {
+        "name": "LinkedIn",
+        "username": "Marie Dupont",
+        "url": "https://linkedin.com/in/marie-dupont-photo",
+        "bio": "Photographe freelance chez Studio Lumiere",
+        "found": true
+      },
+      {
+        "name": "Twitter",
+        "username": "@mariedpt_photo",
+        "url": "https://x.com/mariedpt_photo",
+        "bio": "Photo | Voyages | Lyon",
+        "found": true
+      },
+      {
+        "name": "Facebook",
+        "username": "Marie Dupont",
+        "url": "https://facebook.com/marie.dupont.photo",
+        "bio": "Photographe professionnelle basee a Lyon",
+        "found": true
+      },
+      {
+        "name": "GitHub",
+        "username": "mariedpt",
+        "url": "https://github.com/mariedpt",
+        "bio": "Learning web dev",
+        "found": true
+      }
+    ]
+  },
+  {
+    "email": "lucas.martin@hotmail.com",
+    "name": "Lucas Martin",
+    "platforms": [
+      {
+        "name": "Instagram",
+        "username": "@lucas_mrt",
+        "url": "https://instagram.com/lucas_mrt",
+        "bio": "Etudiant en informatique | Paris | Gaming",
+        "found": true
+      },
+      {
+        "name": "GitHub",
+        "username": "lucasmrt",
+        "url": "https://github.com/lucasmrt",
+        "bio": "CS student @ Universite Paris-Saclay",
+        "found": true
+      },
+      {
+        "name": "Discord",
+        "username": "LucasM#4521",
+        "url": null,
+        "bio": "Gamer & dev",
+        "found": true
+      },
+      {
+        "name": "Twitter",
+        "username": "@lucasmrt_dev",
+        "url": "https://x.com/lucasmrt_dev",
+        "bio": "Code, jeux video, tech",
+        "found": true
+      },
+      {
+        "name": "TikTok",
+        "username": "@lucas.mrt",
+        "url": "https://tiktok.com/@lucas.mrt",
+        "bio": "Tech tips & gaming clips",
+        "found": true
+      }
+    ]
+  },
+  {
+    "email": "sophie.bernard@yahoo.fr",
+    "name": "Sophie Bernard",
+    "platforms": [
+      {
+        "name": "LinkedIn",
+        "username": "Sophie Bernard",
+        "url": "https://linkedin.com/in/sophie-bernard-rh",
+        "bio": "DRH chez Nexia Group | Recrutement & Talent Management",
+        "found": true
+      },
+      {
+        "name": "Facebook",
+        "username": "Sophie Bernard",
+        "url": "https://facebook.com/sophie.bernard.rh",
+        "bio": "Nantes, France",
+        "found": true
+      },
+      {
+        "name": "Twitter",
+        "username": "@sbernard_rh",
+        "url": "https://x.com/sbernard_rh",
+        "bio": "RH | Management | Leadership | Nantes",
+        "found": true
+      }
+    ]
+  },
+  {
+    "email": "thomas.leroy@proton.me",
+    "name": "Thomas Leroy",
+    "platforms": [
+      {
+        "name": "GitHub",
+        "username": "tleroy-sec",
+        "url": "https://github.com/tleroy-sec",
+        "bio": "Pentester | Bug bounty hunter | CTF player",
+        "found": true
+      },
+      {
+        "name": "Twitter",
+        "username": "@tleroy_sec",
+        "url": "https://x.com/tleroy_sec",
+        "bio": "Offensive security | OSCP | HackTheBox Top 100",
+        "found": true
+      },
+      {
+        "name": "Discord",
+        "username": "tleroy_sec#0001",
+        "url": null,
+        "bio": "CTF & Cybersec",
+        "found": true
+      }
+    ]
+  },
+  {
+    "email": "emma.petit@gmail.com",
+    "name": "Emma Petit",
+    "platforms": [
+      {
+        "name": "Instagram",
+        "username": "@emma.petit.fit",
+        "url": "https://instagram.com/emma.petit.fit",
+        "bio": "Coach sportif | Nutrition | Bien-etre | Bordeaux",
+        "found": true
+      },
+      {
+        "name": "TikTok",
+        "username": "@emmapetitfit",
+        "url": "https://tiktok.com/@emmapetitfit",
+        "bio": "Fitness & recettes healthy",
+        "found": true
+      },
+      {
+        "name": "Facebook",
+        "username": "Emma Petit Coaching",
+        "url": "https://facebook.com/emma.petit.coaching",
+        "bio": "Coach sportif certifiee - Bordeaux",
+        "found": true
+      },
+      {
+        "name": "LinkedIn",
+        "username": "Emma Petit",
+        "url": "https://linkedin.com/in/emma-petit-coach",
+        "bio": "Coach sportif independante | BPJEPS",
+        "found": true
+      },
+      {
+        "name": "Snapchat",
+        "username": "emma.pfit",
+        "url": null,
+        "bio": null,
+        "found": true
+      },
+      {
+        "name": "Twitter",
+        "username": "@emmapetitfit",
+        "url": "https://x.com/emmapetitfit",
+        "bio": "Sport | Sante | Motivation",
+        "found": true
+      }
+    ]
+  },
+  {
+    "email": "antoine.moreau@outlook.com",
+    "name": "Antoine Moreau",
+    "platforms": [
+      {
+        "name": "LinkedIn",
+        "username": "Antoine Moreau",
+        "url": "https://linkedin.com/in/antoine-moreau-data",
+        "bio": "Data Engineer @ Dataiku | Big Data | Cloud",
+        "found": true
+      },
+      {
+        "name": "GitHub",
+        "username": "amoreau-data",
+        "url": "https://github.com/amoreau-data",
+        "bio": "Data pipelines & ML ops",
+        "found": true
+      },
+      {
+        "name": "Twitter",
+        "username": "@amoreau_data",
+        "url": "https://x.com/amoreau_data",
+        "bio": "Data | Python | Spark | Toulouse",
+        "found": true
+      }
+    ]
+  },
+  {
+    "email": "chloe.roux@gmail.com",
+    "name": "Chloe Roux",
+    "platforms": [
+      {
+        "name": "Instagram",
+        "username": "@chloe.roux.art",
+        "url": "https://instagram.com/chloe.roux.art",
+        "bio": "Illustratrice & graphiste | Commissions ouvertes",
+        "found": true
+      },
+      {
+        "name": "TikTok",
+        "username": "@chloerouxart",
+        "url": "https://tiktok.com/@chloerouxart",
+        "bio": "Speed paintings & process videos",
+        "found": true
+      },
+      {
+        "name": "Twitter",
+        "username": "@chloeroux_art",
+        "url": "https://x.com/chloeroux_art",
+        "bio": "Digital art | Commissions open | FR/EN",
+        "found": true
+      },
+      {
+        "name": "Discord",
+        "username": "ChloeArt#7788",
+        "url": null,
+        "bio": "Art community",
+        "found": true
+      }
+    ]
+  },
+  {
+    "email": "julien.garcia@laposte.net",
+    "name": "Julien Garcia",
+    "platforms": [
+      {
+        "name": "Facebook",
+        "username": "Julien Garcia",
+        "url": "https://facebook.com/julien.garcia.marseille",
+        "bio": "Marseille, France | Restaurateur",
+        "found": true
+      },
+      {
+        "name": "Instagram",
+        "username": "@chez_julien_mrs",
+        "url": "https://instagram.com/chez_julien_mrs",
+        "bio": "Restaurant Chez Julien | Cuisine mediterraneenne | Marseille",
+        "found": true
+      },
+      {
+        "name": "TikTok",
+        "username": "@chezjulien_mrs",
+        "url": "https://tiktok.com/@chezjulien_mrs",
+        "bio": "En cuisine avec Julien",
+        "found": true
+      },
+      {
+        "name": "LinkedIn",
+        "username": "Julien Garcia",
+        "url": "https://linkedin.com/in/julien-garcia-resto",
+        "bio": "Chef & Gerant - Restaurant Chez Julien",
+        "found": true
+      },
+      {
+        "name": "Snapchat",
+        "username": "julien.garcia13",
+        "url": null,
+        "bio": null,
+        "found": true
+      }
+    ]
+  },
+  {
+    "email": "julien.caron@gmail.com",
+    "name": "Julien Caron",
+    "platforms": [
+      {
+        "name": "Instagram",
+        "username": "@julien.caron",
+        "url": "https://instagram.com/julien.caron",
+        "bio": "Photographe urbain | Lille | Street art & architecture",
+        "found": true
+      },
+      {
+        "name": "LinkedIn",
+        "username": "Julien Caron",
+        "url": "https://linkedin.com/in/julien-caron-photo",
+        "bio": "Photographe freelance | Direction artistique",
+        "found": true
+      },
+      {
+        "name": "Twitter",
+        "username": "@jcaron_photo",
+        "url": "https://x.com/jcaron_photo",
+        "bio": "Photo urbaine | Lille & ailleurs",
+        "found": true
+      },
+      {
+        "name": "Facebook",
+        "username": "Julien Caron Photographie",
+        "url": "https://facebook.com/julien.caron.photo",
+        "bio": "Photographe professionnel base a Lille",
+        "found": true
+      },
+      {
+        "name": "GitHub",
+        "username": "jcaron-dev",
+        "url": "https://github.com/jcaron-dev",
+        "bio": "Portfolio & side projects",
+        "found": true
+      },
+      {
+        "name": "TikTok",
+        "username": "@julien.caron",
+        "url": "https://tiktok.com/@julien.caron",
+        "bio": "Behind the lens | Photo tips",
+        "found": true
+      },
+      {
+        "name": "Discord",
+        "username": "JulienC#3456",
+        "url": null,
+        "bio": "Photo & creative community",
+        "found": true
+      },
+      {
+        "name": "Snapchat",
+        "username": "julien.caron59",
+        "url": null,
+        "bio": null,
+        "found": true
+      }
+    ]
+  }
+]

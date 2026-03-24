@@ -1,0 +1,129 @@
+.tray {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  position: relative;
+}
+
+.trayBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px var(--space-1);
+  border-radius: 4px;
+  transition: background var(--transition-fast);
+  color: var(--color-text-primary);
+}
+
+.trayBtn:hover {
+  background: var(--color-bg-hover);
+}
+
+/* Popup */
+.popup {
+  position: absolute;
+  top: calc(var(--panel-height) + 4px);
+  right: 0;
+  width: 280px;
+  background: #2d2d2d;
+  border-radius: 12px;
+  box-shadow: var(--shadow-menu);
+  padding: var(--space-3);
+  z-index: var(--z-menu);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  animation: slideDown 0.15s ease-out;
+}
+
+.popupRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border-radius: 8px;
+  font-size: var(--font-size-sm);
+}
+
+.popupRow span {
+  flex: 1;
+}
+
+.toggleBtn {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: #555;
+  position: relative;
+  transition: background var(--transition-fast);
+  padding: 0;
+}
+
+.toggleBtn.active {
+  background: var(--color-accent);
+}
+
+.toggleThumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform var(--transition-fast);
+}
+
+.toggleBtn.active .toggleThumb {
+  transform: translateX(16px);
+}
+
+.divider {
+  height: 1px;
+  background: var(--color-border-subtle);
+  margin: var(--space-1) 0;
+}
+
+.sliderRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-1) var(--space-2);
+}
+
+.slider {
+  flex: 1;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #555;
+  border-radius: 2px;
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.popupAction {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border-radius: 8px;
+  font-size: var(--font-size-sm);
+  transition: background var(--transition-fast);
+  width: 100%;
+  text-align: left;
+}
+
+.popupAction:hover {
+  background: var(--color-bg-hover);
+}

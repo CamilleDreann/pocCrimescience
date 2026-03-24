@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# OSINT Desktop — Proof of Concept Crimescience
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application web de recherche OSINT (Open Source Intelligence) présentée sous la forme d'un environnement de bureau inspiré de Linux. Ce projet est un **Proof of Concept** développé dans le cadre du BUT3, permettant de rechercher l'empreinte numérique d'une personne à partir de son adresse email.
 
-Currently, two official plugins are available:
+## Fonctionnalités
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Recherche OSINT
+- Recherche de profils sur les réseaux sociaux (Instagram, LinkedIn, Twitter, Facebook, GitHub, Discord, TikTok, Snapchat) à partir d'une adresse email
+- Affichage des résultats sous forme de cartes par plateforme avec nom d'utilisateur, bio et lien vers le profil
+- Suggestions d'emails de démonstration pour tester rapidement
 
-## React Compiler
+### Interface OS
+- **Bureau** avec icônes, panneau supérieur et menu contextuel (clic droit)
+- **Fenêtres** déplaçables et redimensionnables avec minimisation/maximisation
+- **Lanceur d'applications** avec recherche intégrée
+- **Barre système** avec horloge, indicateurs Wi-Fi, Bluetooth, volume et luminosité
+- **Notifications** type toast avec historique
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Applications intégrées
+| Application | Description |
+|---|---|
+| **OSINT Search** | Recherche d'empreinte numérique par email |
+| **Terminal** | Émulateur de terminal bash avec commandes simulées (`ls`, `cat`, `neofetch`…) |
+| **Gestionnaire de fichiers** | Explorateur de fichiers virtuel avec navigation par dossiers |
+| **Éditeur de texte** | Éditeur multi-onglets avec numérotation des lignes |
+| **Paramètres** | Réseau, son, affichage, Bluetooth, informations système |
 
-## Expanding the ESLint configuration
+## Stack technique
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Frontend** : React 19, CSS Modules, Vite
+- **Backend** : Fastify (Node.js)
+- **État** : Context API avec pattern reducer
+- **Données** : Fichier JSON de démonstration (`api/data/users.json`)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+```bash
+# Installer les dépendances
+yarn install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Lancer le serveur API (port 3001)
+node api/server.js
+
+# Lancer le frontend (port 5173)
+yarn dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Architecture
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── apps/               # Applications du bureau (OSINT, Terminal, FileManager…)
+├── components/
+│   ├── os/             # Composants système (Desktop, Window, TopPanel…)
+│   └── ui/             # Composants réutilisables (Button, Input, Toggle…)
+├── context/            # État global (OSContext, useOS)
+├── data/               # Registre des applications, système de fichiers virtuel
+├── hooks/              # Hooks personnalisés (useDrag, useResize)
+└── styles/             # Tokens CSS, reset, animations
+api/
+├── server.js           # Serveur Fastify
+└── data/users.json     # Données de démonstration
 ```

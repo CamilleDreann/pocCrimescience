@@ -1,0 +1,88 @@
+.titleBar {
+  display: flex;
+  align-items: center;
+  height: var(--window-header-height);
+  padding: 0 var(--space-3);
+  background: var(--color-bg-window-header);
+  border-radius: var(--window-border-radius) var(--window-border-radius) 0 0;
+  cursor: default;
+  flex-shrink: 0;
+}
+
+.controls {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.btn {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+  background: #555;
+  padding: 0;
+}
+
+.btn svg {
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.titleBar:hover .btn svg {
+  opacity: 1;
+}
+
+.close {
+  background: #e5534b;
+}
+
+.close:hover {
+  background: #ff6b6b;
+}
+
+.minimize {
+  background: #f0ad4e;
+}
+
+.minimize:hover {
+  background: #ffc966;
+}
+
+.maximize {
+  background: #3fb950;
+}
+
+.maximize:hover {
+  background: #5cd66e;
+}
+
+.titleCenter {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  overflow: hidden;
+}
+
+.titleIcon {
+  opacity: 0.7;
+}
+
+.titleText {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-text-secondary);
+}
+
+.spacer {
+  width: 62px;
+  flex-shrink: 0;
+}

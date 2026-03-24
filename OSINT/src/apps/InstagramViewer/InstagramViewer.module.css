@@ -1,0 +1,399 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #000;
+  color: #fafafa;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Top bar */
+.topBar {
+  height: 44px;
+  border-bottom: 1px solid #262626;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  flex-shrink: 0;
+  background: #000;
+}
+
+.topBarInner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.igLogo {
+  color: #fafafa;
+}
+
+.topBarTitle {
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Scrollable content */
+.scrollContent {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Profile header */
+.profileHeader {
+  display: flex;
+  align-items: center;
+  padding: 20px 24px 12px;
+  gap: 28px;
+}
+
+.profileAvatar {
+  flex-shrink: 0;
+}
+
+.avatarRing {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  padding: 3px;
+}
+
+.avatarInner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #E1306C;
+  border: 2px solid #000;
+}
+
+.profileStats {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statNumber {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fafafa;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #a8a8a8;
+  margin-top: 2px;
+}
+
+/* Profile info */
+.profileInfo {
+  padding: 0 24px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.displayName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.bio {
+  font-size: 13px;
+  color: #a8a8a8;
+  white-space: pre-line;
+  line-height: 1.4;
+}
+
+/* Actions */
+.profileActions {
+  display: flex;
+  gap: 8px;
+  padding: 8px 24px 16px;
+}
+
+.followBtn {
+  flex: 1;
+  padding: 7px 0;
+  border-radius: 8px;
+  border: none;
+  background: #0095f6;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.followBtn:hover {
+  background: #1aa1f7;
+}
+
+.messageBtn {
+  flex: 1;
+  padding: 7px 0;
+  border-radius: 8px;
+  border: none;
+  background: #363636;
+  color: #fafafa;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.messageBtn:hover {
+  background: #444;
+}
+
+/* Posts section */
+.postsSection {
+  border-top: 1px solid #262626;
+}
+
+.postsTabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #262626;
+}
+
+.tabBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  color: #8e8e8e;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-top: 1px solid transparent;
+  margin-top: -1px;
+}
+
+.tabActive {
+  color: #fafafa;
+  border-top-color: #fafafa;
+}
+
+/* Posts grid */
+.postsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3px;
+  padding: 3px;
+}
+
+.postThumb {
+  aspect-ratio: 1;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.postThumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.postThumbPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.postThumbEmoji {
+  font-size: 40px;
+}
+
+.postThumbOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.postThumb:hover .postThumbOverlay {
+  opacity: 1;
+}
+
+/* Modal */
+.modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modalContent {
+  display: flex;
+  background: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 90%;
+  max-height: 90%;
+  width: 700px;
+  position: relative;
+}
+
+.modalClose {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #fafafa;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 10;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modalImage {
+  flex: 1;
+  min-height: 300px;
+  max-height: 450px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modalPlaceholder {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalEmoji {
+  font-size: 64px;
+}
+
+.modalSide {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #262626;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  border-bottom: 1px solid #262626;
+}
+
+.modalAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E1306C33, #E1306C11);
+  border: 1px solid #E1306C55;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #E1306C;
+}
+
+.modalUsername {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.modalCaption {
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #a8a8a8;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.modalCaptionUser {
+  font-weight: 600;
+  color: #fafafa;
+  margin-right: 4px;
+}
+
+.modalDate {
+  padding: 0 14px 8px;
+  font-size: 11px;
+  color: #555;
+  text-transform: uppercase;
+}
+
+.modalActions {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid #262626;
+}
+
+.actionBtn {
+  background: none;
+  border: none;
+  color: #fafafa;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.actionBtn:hover {
+  opacity: 0.7;
+}
+
+.liked {
+  color: #ed4956;
+}

@@ -1,0 +1,38 @@
+.menu {
+  position: fixed;
+  background: #2d2d2d;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: var(--space-1);
+  min-width: 180px;
+  box-shadow: var(--shadow-menu);
+  z-index: var(--z-menu);
+  animation: scaleIn 0.1s ease-out;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: 6px;
+  font-size: var(--font-size-sm);
+  width: 100%;
+  text-align: left;
+  transition: background var(--transition-fast);
+}
+
+.item:hover:not(.disabled) {
+  background: var(--color-bg-hover);
+}
+
+.item.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.divider {
+  height: 1px;
+  background: var(--color-border-subtle);
+  margin: var(--space-1) var(--space-2);
+}

@@ -1,0 +1,215 @@
+.container {
+  display: flex;
+  height: 100%;
+  background: var(--color-bg-window);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 300px;
+  min-width: 300px;
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.count {
+  margin-left: auto;
+  background: var(--color-accent);
+  color: white;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 10px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.messageList {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.messageItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: background var(--transition-fast);
+  position: relative;
+}
+
+.messageItem:hover {
+  background: var(--color-bg-hover);
+}
+
+.messageItem.selected {
+  background: var(--color-bg-active);
+}
+
+.messageItem.unread {
+  background: rgba(233, 84, 32, 0.06);
+}
+
+.messageItem.unread .messageFrom,
+.messageItem.unread .messageSubject {
+  font-weight: 700;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.messagePreview {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.messageFrom {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.messageSubject {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.messageSnippet {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.messageTime {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.unreadDot {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+/* Reader */
+.reader {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.readerHeader {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.readerSubject {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin: 0 0 var(--space-3) 0;
+}
+
+.readerMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.readerAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.readerFrom {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+}
+
+.readerRole {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.readerDate {
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.readerBody {
+  flex: 1;
+  padding: var(--space-6);
+  font-size: var(--font-size-base);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  color: var(--color-text-secondary);
+}
+
+/* Empty state */
+.emptyState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  color: var(--color-text-muted);
+}
+
+.emptyState p {
+  font-size: var(--font-size-sm);
+}

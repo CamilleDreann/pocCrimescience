@@ -1,0 +1,55 @@
+.terminal {
+  height: 100%;
+  background: #1a1a2e;
+  padding: var(--space-3);
+  overflow: auto;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  cursor: text;
+}
+
+.output {
+  display: flex;
+  flex-direction: column;
+}
+
+.line {
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.5;
+}
+
+.input {
+  color: #3fb950;
+}
+
+.output {
+  color: #d4d4d4;
+}
+
+.error {
+  color: #e5534b;
+}
+
+.inputLine {
+  display: flex;
+  align-items: center;
+  line-height: 1.5;
+}
+
+.prompt {
+  color: #3fb950;
+  white-space: nowrap;
+}
+
+.input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #d4d4d4;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  caret-color: #3fb950;
+}
