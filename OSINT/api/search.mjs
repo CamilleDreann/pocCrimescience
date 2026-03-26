@@ -1,11 +1,14 @@
 import { readFile } from 'fs/promises'
-import { join } from 'path'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 let emailIndex = null
 
 async function loadData() {
   if (emailIndex) return emailIndex
-  const raw = await readFile(join(process.cwd(), 'api', 'data', 'users.json'), 'utf-8')
+  const raw = await readFile(join(__dirname, 'data', 'users.json'), 'utf-8')
   const users = JSON.parse(raw)
   emailIndex = new Map()
   for (const user of users) {
