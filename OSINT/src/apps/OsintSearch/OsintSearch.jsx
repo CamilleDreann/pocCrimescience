@@ -44,7 +44,7 @@ export default function OsintSearch() {
     setSearched(true)
 
     try {
-      const res = await fetch(`http://localhost:3001/api/search?email=${encodeURIComponent(email)}`)
+      const res = await fetch(`/api/search?email=${encodeURIComponent(email)}`)
 
       if (res.status === 404) {
         setError('Aucun resultat pour cet email.')
