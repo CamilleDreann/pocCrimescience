@@ -18,7 +18,13 @@ const EyeIcon = () => (
 export default function MissionSelect({ onMissionSelect }) {
   return (
     <div className={styles.container}>
-      <div className={styles.side} onClick={() => onMissionSelect('beginner')}>
+      <div
+        className={styles.side}
+        role="button"
+        tabIndex={0}
+        onClick={() => onMissionSelect('beginner')}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onMissionSelect('beginner') }}
+      >
         <div className={styles.illustrationWrap}>
           <ShieldIcon />
         </div>
@@ -31,7 +37,13 @@ export default function MissionSelect({ onMissionSelect }) {
 
       <div className={styles.divider} />
 
-      <div className={`${styles.side} ${styles.sideRight}`} onClick={() => onMissionSelect('expert')}>
+      <div
+        className={`${styles.side} ${styles.sideRight}`}
+        role="button"
+        tabIndex={0}
+        onClick={() => onMissionSelect('expert')}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onMissionSelect('expert') }}
+      >
         <div className={styles.illustrationWrap}>
           <EyeIcon />
         </div>
