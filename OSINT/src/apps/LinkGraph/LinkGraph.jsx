@@ -898,6 +898,24 @@ export default function LinkGraph() {
                     <span>Consulter le profil</span>
                   </button>
                 )}
+                {selectedNode.data.platform === 'Strava' && selectedNode.data.found && selectedNode.data.activities && (
+                  <button
+                    className={styles.viewProfileBtn}
+                    onClick={() => {
+                      openApp({
+                        appId: 'strava-viewer',
+                        title: `Strava — ${selectedNode.data.username}`,
+                        icon: 'platform-strava',
+                        defaultSize: { width: 820, height: 580 },
+                        props: { profile: selectedNode.data },
+                        multiInstance: true,
+                      })
+                    }}
+                  >
+                    <span>🚴</span>
+                    <span>Consulter le profil</span>
+                  </button>
+                )}
               </div>
             )}
           </div>
