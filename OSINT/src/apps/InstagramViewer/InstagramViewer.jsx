@@ -1,60 +1,22 @@
 import { useState } from 'react'
 import styles from './InstagramViewer.module.css'
 
-const POSTS = [
-  {
-    id: 1,
-    image: '/image.png',
-    caption: 'Lumiere du matin sur les toits de Lille 🌅 #streetphotography #lille #urbanphoto',
-    likes: 284,
-    comments: 12,
-    date: '14 mars',
-  },
-  {
-    id: 2,
-    image: null,
-    gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    emoji: '🏗️',
-    caption: 'Nouveau projet en cours — serie sur le patrimoine industriel du Nord. Stay tuned! #architecture #patrimoine #nord',
-    likes: 197,
-    comments: 8,
-    date: '9 mars',
-  },
-  {
-    id: 3,
-    image: null,
-    gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    emoji: '🎨',
-    caption: 'Expo "Regards Urbains" a la Gare Saint-Sauveur — merci a tous ceux qui sont venus ! #expo #art #lille',
-    likes: 342,
-    comments: 24,
-    date: '2 mars',
-  },
-  {
-    id: 4,
-    image: null,
-    gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    emoji: '📸',
-    caption: 'Le reflet parfait n\'existe p... ah si, en fait. Canal de la Deule au petit matin. #reflection #canal #photography',
-    likes: 156,
-    comments: 6,
-    date: '25 fev',
-  },
-]
-
-const PROFILE = {
-  username: 'julien.caron',
-  displayName: 'Julien Caron',
-  bio: 'Photographe urbain | Lille\nStreet art & architecture\n📧 julien.caron@gmail.com',
-  posts: 127,
-  followers: '2,4k',
-  following: 843,
-  verified: false,
+function getInitials(username) {
+  // "@marie.dpt" -> "MD", "@lucas_mrt" -> "LM", "@chez_julien_mrs" -> "CJ"
+  const clean = username.replace(/^@/, '')
+  const parts = clean.split(/[._]/).filter(Boolean)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
+  }
+  return clean.slice(0, 2).toUpperCase()
 }
 
-export default function InstagramViewer({ username }) {
+export default function InstagramViewer({ profile }) {
   const [selectedPost, setSelectedPost] = useState(null)
   const [likedPosts, setLikedPosts] = useState(new Set())
+
+  const initials = getInitials(profile.username)
+  const posts = profile.posts ?? []
 
   const toggleLike = (postId) => {
     setLikedPosts(prev => {
@@ -84,28 +46,28 @@ export default function InstagramViewer({ username }) {
         <div className={styles.profileHeader}>
           <div className={styles.profileAvatar}>
             <div className={styles.avatarRing}>
-              <div className={styles.avatarInner}>JC</div>
+              <div className={styles.avatarInner}>{initials}</div>
             </div>
           </div>
           <div className={styles.profileStats}>
             <div className={styles.statItem}>
-              <span className={styles.statNumber}>{PROFILE.posts}</span>
+              <span className={styles.statNumber}>{profile.postsCount ?? posts.length}</span>
               <span className={styles.statLabel}>Publications</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statNumber}>{PROFILE.followers}</span>
+              <span className={styles.statNumber}>{profile.followers ?? '0'}</span>
               <span className={styles.statLabel}>Abonnes</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statNumber}>{PROFILE.following}</span>
+              <span className={styles.statNumber}>{profile.following ?? 0}</span>
               <span className={styles.statLabel}>Abonnements</span>
             </div>
           </div>
         </div>
 
         <div className={styles.profileInfo}>
-          <span className={styles.displayName}>{PROFILE.displayName}</span>
-          <span className={styles.bio}>{PROFILE.bio}</span>
+          <span className={styles.displayName}>{profile.username}</span>
+          <span className={styles.bio}>{profile.bio}</span>
         </div>
 
         <div className={styles.profileActions}>
@@ -125,7 +87,7 @@ export default function InstagramViewer({ username }) {
           </div>
 
           <div className={styles.postsGrid}>
-            {POSTS.map(post => (
+            {posts.map(post => (
               <div
                 key={post.id}
                 className={styles.postThumb}
@@ -169,12 +131,12 @@ export default function InstagramViewer({ username }) {
 
             <div className={styles.modalSide}>
               <div className={styles.modalHeader}>
-                <div className={styles.modalAvatar}>JC</div>
-                <span className={styles.modalUsername}>{PROFILE.username}</span>
+                <div className={styles.modalAvatar}>{initials}</div>
+                <span className={styles.modalUsername}>{profile.username}</span>
               </div>
 
               <div className={styles.modalCaption}>
-                <span className={styles.modalCaptionUser}>{PROFILE.username}</span>{' '}
+                <span className={styles.modalCaptionUser}>{profile.username}</span>{' '}
                 {selectedPost.caption}
               </div>
 

@@ -1,7 +1,11 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
+import { useStore } from '@nanostores/react'
 import { useOS } from '../../context/useOS'
 import Icon from '../../components/ui/Icon'
 import styles from './LinkGraph.module.css'
+import { getChildren, addFile } from '../FileManager/fileSystemData'
+import { generateReport } from './generateReport'
+import { $graph, addCustomNode, clearGraph, updateNodePosition, uid } from '../../stores/graphStore'
 
 const PLATFORM_THEMES = {
   Instagram: { color: '#E1306C', bg: '#2a0f18' },
@@ -25,167 +29,234 @@ const PLATFORM_ICONS = {
   Snapchat: 'platform-snapchat',
 }
 
+const ICON_OPTIONS = [
+  'search', 'link-graph', 'osint-search', 'terminal', 'text-editor', 'file', 'settings',
+  'platform-instagram', 'platform-twitter', 'platform-github', 'platform-linkedin',
+  'platform-discord', 'platform-tiktok', 'platform-facebook', 'platform-snapchat',
+]
+
+const COLOR_OPTIONS = [
+  '#e95420', '#3fb950', '#58a6ff', '#E1306C',
+  '#8B5CF6', '#f0a500', '#00F2EA', '#888888',
+]
+
 const NODE_W = 160
 const NODE_H = 40
 const PERSON_W = 180
 const PERSON_H = 48
+const CUSTOM_W = 160
+const CUSTOM_H = 40
 
-let idCounter = 0
-const uid = () => `n${++idCounter}`
 
-function buildGraphData(apiData, existing) {
-  const nodes = [...existing.nodes]
-  const edges = [...existing.edges]
+function AddNodePanel({ onConfirm, onCancel, onOpenFilePicker }) {
+  const [icon, setIcon] = useState('search')
+  const [title, setTitle] = useState('')
+  const [color, setColor] = useState('#3fb950')
+  const [contents, setContents] = useState([])
+  const [showContentMenu, setShowContentMenu] = useState(false)
 
-  // Check if person already exists
-  const existingPerson = nodes.find(
-    (n) => n.type === 'person' && n.data.email === apiData.email
-  )
-  if (existingPerson) return existing
-
-  // Find a good position for the new person node
-  const personNodes = nodes.filter((n) => n.type === 'person')
-  const offsetX = personNodes.length * 320
-  const centerX = 400 + offsetX
-  const centerY = 300
-
-  const personId = uid()
-  nodes.push({
-    id: personId,
-    type: 'person',
-    x: centerX,
-    y: centerY,
-    data: { name: apiData.name, email: apiData.email, platformCount: apiData.platforms.length },
-  })
-
-  const count = apiData.platforms.length
-  apiData.platforms.forEach((p, i) => {
-    const angle = (2 * Math.PI * i) / count - Math.PI / 2
-    const rx = 200 + Math.random() * 40
-    const ry = 150 + Math.random() * 30
-    const platId = uid()
-
-    nodes.push({
-      id: platId,
-      type: 'platform',
-      x: centerX + Math.cos(angle) * rx,
-      y: centerY + Math.sin(angle) * ry,
-      data: {
-        platform: p.name,
-        username: p.username,
-        bio: p.bio,
-        url: p.url,
-        found: p.found,
-      },
-    })
-
-    edges.push({ id: `e${personId}-${platId}`, from: personId, to: platId })
-  })
-
-  return { nodes, edges }
-}
-
-// Simple force simulation
-function runForceStep(nodes, edges, iterations = 60) {
-  const pos = nodes.map((n) => ({ id: n.id, x: n.x, y: n.y }))
-  const posMap = Object.fromEntries(pos.map((p) => [p.id, p]))
-
-  for (let iter = 0; iter < iterations; iter++) {
-    const alpha = 1 - iter / iterations
-
-    // Repulsion between all nodes
-    for (let i = 0; i < pos.length; i++) {
-      for (let j = i + 1; j < pos.length; j++) {
-        const a = pos[i]
-        const b = pos[j]
-        let dx = b.x - a.x
-        let dy = b.y - a.y
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1
-        const force = (800 / (dist * dist)) * alpha
-        const fx = (dx / dist) * force
-        const fy = (dy / dist) * force
-        a.x -= fx
-        a.y -= fy
-        b.x += fx
-        b.y += fy
-      }
-    }
-
-    // Attraction along edges
-    for (const e of edges) {
-      const a = posMap[e.from]
-      const b = posMap[e.to]
-      if (!a || !b) continue
-      let dx = b.x - a.x
-      let dy = b.y - a.y
-      const dist = Math.sqrt(dx * dx + dy * dy) || 1
-      const idealDist = 180
-      const force = ((dist - idealDist) * 0.01) * alpha
-      const fx = (dx / dist) * force
-      const fy = (dy / dist) * force
-      a.x += fx
-      a.y += fy
-      b.x -= fx
-      b.y -= fy
-    }
+  const addContent = (type) => {
+    setShowContentMenu(false)
+    if (type === 'text') setContents((c) => [...c, { type: 'text', value: '' }])
+    if (type === 'link') setContents((c) => [...c, { type: 'link', value: '', label: '' }])
+    if (type === 'image') setContents((c) => [...c, { type: 'image', value: '' }])
   }
 
-  return nodes.map((n) => {
-    const p = posMap[n.id]
-    return { ...n, x: p.x, y: p.y }
-  })
+  const updateContent = (i, patch) => {
+    setContents((c) => c.map((item, idx) => (idx === i ? { ...item, ...patch } : item)))
+  }
+
+  const removeContent = (i) => {
+    setContents((c) => c.filter((_, idx) => idx !== i))
+  }
+
+  const handleConfirm = () => {
+    if (!title.trim()) return
+    onConfirm({ icon, title: title.trim(), color, contents })
+  }
+
+  return (
+    <div className={styles.addNodePanel} onMouseDown={(e) => e.stopPropagation()}>
+      <div className={styles.addNodePanelHeader}>
+        <span>Nouveau noeud</span>
+        <button className={styles.sidebarClose} onClick={onCancel}>
+          <Icon name="close" size={14} />
+        </button>
+      </div>
+
+      <div className={styles.addNodePanelBody}>
+        {/* Title */}
+        <div className={styles.addNodeField}>
+          <label className={styles.addNodeLabel}>Titre</label>
+          <input
+            className={styles.addNodeInput}
+            placeholder="Nom du noeud..."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleConfirm()}
+            autoFocus
+          />
+        </div>
+
+        {/* Color */}
+        <div className={styles.addNodeField}>
+          <label className={styles.addNodeLabel}>Couleur</label>
+          <div className={styles.colorPicker}>
+            {COLOR_OPTIONS.map((c) => (
+              <button
+                key={c}
+                className={`${styles.colorSwatch} ${color === c ? styles.colorSwatchActive : ''}`}
+                style={{ background: c, boxShadow: color === c ? `0 0 0 2px #111118, 0 0 0 4px ${c}` : undefined }}
+                onClick={() => setColor(c)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Icon */}
+        <div className={styles.addNodeField}>
+          <label className={styles.addNodeLabel}>Icone</label>
+          <div className={styles.iconGrid}>
+            {ICON_OPTIONS.map((ic) => (
+              <button
+                key={ic}
+                className={`${styles.iconOption} ${icon === ic ? styles.iconOptionActive : ''}`}
+                style={icon === ic ? { borderColor: color, background: `${color}22` } : {}}
+                onClick={() => setIcon(ic)}
+                title={ic}
+              >
+                <Icon name={ic} size={16} color={icon === ic ? color : '#666'} />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Contents */}
+        <div className={styles.addNodeField}>
+          <label className={styles.addNodeLabel}>Contenu</label>
+          <div className={styles.contentList}>
+            {contents.map((item, i) => (
+              <div key={i} className={styles.contentItem}>
+                <span className={styles.contentTypeBadge}>{item.type}</span>
+                <div className={styles.contentInputs}>
+                  {item.type === 'text' && (
+                    <textarea
+                      className={styles.addNodeTextarea}
+                      placeholder="Texte..."
+                      value={item.value}
+                      onChange={(e) => updateContent(i, { value: e.target.value })}
+                      rows={2}
+                    />
+                  )}
+                  {item.type === 'link' && (
+                    <>
+                      <input
+                        className={styles.addNodeInput}
+                        placeholder="URL..."
+                        value={item.value}
+                        onChange={(e) => updateContent(i, { value: e.target.value })}
+                      />
+                      <input
+                        className={styles.addNodeInput}
+                        placeholder="Label (optionnel)..."
+                        value={item.label}
+                        onChange={(e) => updateContent(i, { label: e.target.value })}
+                      />
+                    </>
+                  )}
+                  {item.type === 'image' && (
+                    <div className={styles.imagePickerWrap}>
+                      <button
+                        className={styles.imagePickerBtn}
+                        onClick={() => {
+                          onOpenFilePicker((content) => updateContent(i, { value: content }))
+                        }}
+                      >
+                        {item.value ? 'Changer l\'image' : 'Choisir une image'}
+                      </button>
+                      {item.value && (
+                        <img
+                          src={item.value}
+                          alt="preview"
+                          className={styles.imagePickerPreview}
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+                <button className={styles.contentRemoveBtn} onClick={() => removeContent(i)}>
+                  <Icon name="close" size={10} />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.addContentWrap}>
+            <button
+              className={styles.addContentBtn}
+              onClick={() => setShowContentMenu((m) => !m)}
+            >
+              + Ajouter du contenu
+            </button>
+            {showContentMenu && (
+              <div className={styles.contentTypeMenu}>
+                <button onClick={() => addContent('text')}>Texte</button>
+                <button onClick={() => addContent('link')}>Lien</button>
+                <button onClick={() => addContent('image')}>Image</button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.addNodePanelFooter}>
+        <button className={styles.cancelBtn} onClick={onCancel}>
+          Annuler
+        </button>
+        <button
+          className={styles.confirmBtn}
+          style={
+            title.trim()
+              ? { background: `${color}22`, borderColor: color, color }
+              : {}
+          }
+          onClick={handleConfirm}
+          disabled={!title.trim()}
+        >
+          Ajouter
+        </button>
+      </div>
+    </div>
+  )
 }
 
 export default function LinkGraph() {
-  const { graphData, clearGraph, openApp } = useOS()
-  const [graph, setGraph] = useState({ nodes: [], edges: [] })
+  const { openApp, addNotification } = useOS()
+  const graph = useStore($graph)
   const [selectedNode, setSelectedNode] = useState(null)
   const [dragging, setDragging] = useState(null)
   const [pan, setPan] = useState({ x: 0, y: 0 })
   const [isPanning, setIsPanning] = useState(false)
+  const [addNodeModal, setAddNodeModal] = useState(null) // { sourceNodeId, sourceX, sourceY }
+  const [filePicker, setFilePicker] = useState(null) // { onSelect: fn } | null
+  const [filePickerPath, setFilePickerPath] = useState('/home')
+  const [reportPreview, setReportPreview] = useState(null) // { html, filename, timestamp } | null
   const panStart = useRef({ x: 0, y: 0, panX: 0, panY: 0 })
   const svgRef = useRef(null)
   const dragStart = useRef({ x: 0, y: 0, nodeX: 0, nodeY: 0 })
-  const prevGraphDataLen = useRef(0)
 
-  // Rebuild graph when graphData changes
-  useEffect(() => {
-    if (graphData.length === 0) {
-      setGraph({ nodes: [], edges: [] })
-      setSelectedNode(null)
-      prevGraphDataLen.current = 0
-      idCounter = 0
-      return
+  const onNodeMouseDown = useCallback((e, node) => {
+    e.stopPropagation()
+    setDragging(node.id)
+    setSelectedNode(node)
+    dragStart.current = {
+      x: e.clientX,
+      y: e.clientY,
+      nodeX: node.x,
+      nodeY: node.y,
     }
-    if (graphData.length !== prevGraphDataLen.current) {
-      idCounter = 0
-      let current = { nodes: [], edges: [] }
-      for (const entry of graphData) {
-        current = buildGraphData(entry, current)
-      }
-      const layouted = runForceStep(current.nodes, current.edges)
-      setGraph({ nodes: layouted, edges: current.edges })
-      prevGraphDataLen.current = graphData.length
-    }
-  }, [graphData])
+  }, [])
 
-  // Node drag handlers
-  const onNodeMouseDown = useCallback(
-    (e, node) => {
-      e.stopPropagation()
-      setDragging(node.id)
-      setSelectedNode(node)
-      dragStart.current = {
-        x: e.clientX,
-        y: e.clientY,
-        nodeX: node.x,
-        nodeY: node.y,
-      }
-    },
-    []
-  )
-
-  // Canvas pan handlers
   const onCanvasMouseDown = useCallback(
     (e) => {
       if (e.target === svgRef.current || e.target.tagName === 'rect') {
@@ -207,19 +278,11 @@ export default function LinkGraph() {
       if (dragging) {
         const dx = e.clientX - dragStart.current.x
         const dy = e.clientY - dragStart.current.y
-        setGraph((prev) => ({
-          ...prev,
-          nodes: prev.nodes.map((n) =>
-            n.id === dragging
-              ? { ...n, x: dragStart.current.nodeX + dx, y: dragStart.current.nodeY + dy }
-              : n
-          ),
-        }))
-        // Update selected node position too
+        const nx = dragStart.current.nodeX + dx
+        const ny = dragStart.current.nodeY + dy
+        updateNodePosition(dragging, nx, ny)
         setSelectedNode((prev) =>
-          prev && prev.id === dragging
-            ? { ...prev, x: dragStart.current.nodeX + dx, y: dragStart.current.nodeY + dy }
-            : prev
+          prev && prev.id === dragging ? { ...prev, x: nx, y: ny } : prev
         )
       } else if (isPanning) {
         const dx = e.clientX - panStart.current.x
@@ -245,12 +308,66 @@ export default function LinkGraph() {
   }, [onMouseMove, onMouseUp])
 
   const getNodeCenter = (node) => {
-    const w = node.type === 'person' ? PERSON_W : NODE_W
-    const h = node.type === 'person' ? PERSON_H : NODE_H
+    const w = node.type === 'person' ? PERSON_W : node.type === 'custom' ? CUSTOM_W : NODE_W
+    const h = node.type === 'person' ? PERSON_H : node.type === 'custom' ? CUSTOM_H : NODE_H
     return { cx: node.x + w / 2, cy: node.y + h / 2 }
   }
 
+  const getNodeDims = (node) => {
+    if (node.type === 'person') return { w: PERSON_W, h: PERSON_H }
+    if (node.type === 'custom') return { w: CUSTOM_W, h: CUSTOM_H }
+    return { w: NODE_W, h: NODE_H }
+  }
+
+  const handleAddNode = useCallback(
+    (data) => {
+      const { sourceNodeId, sourceX, sourceY } = addNodeModal
+      const newId = uid()
+      const newNode = {
+        id: newId,
+        type: 'custom',
+        x: sourceX + 220,
+        y: sourceY,
+        data,
+      }
+      const newEdge = { id: `e${sourceNodeId}-${newId}`, from: sourceNodeId, to: newId }
+      addCustomNode(newNode, newEdge)
+      setAddNodeModal(null)
+    },
+    [addNodeModal]
+  )
+
   const isEmpty = graph.nodes.length === 0
+
+  const handleGenerateReport = useCallback(() => {
+    const timestamp = Date.now()
+    const dateStr = new Date(timestamp).toISOString().slice(0, 10)
+    const filename = `rapport-${dateStr}-${timestamp}.pdf`
+    const html = generateReport(graph, timestamp)
+    setReportPreview({ html, filename, timestamp, dateStr })
+  }, [graph])
+
+  const handleSaveReport = useCallback(() => {
+    if (!reportPreview) return
+    const { html, filename, timestamp, dateStr } = reportPreview
+    const path = `/home/Documents/Rapports/${filename}`
+    const sizeKB = (new Blob([html]).size / 1024).toFixed(1)
+    addFile(path, {
+      type: 'file',
+      name: filename,
+      size: `${sizeKB} KB`,
+      modified: dateStr,
+      content: html,
+    })
+    addNotification({
+      id: `report-${timestamp}`,
+      title: 'Rapport sauvegardé',
+      message: `${filename} sauvegardé dans Documents/Rapports`,
+      type: 'success',
+      time: new Date(timestamp).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
+    })
+    setReportPreview(null)
+  }, [reportPreview, addNotification])
 
   return (
     <div className={styles.container}>
@@ -266,16 +383,19 @@ export default function LinkGraph() {
           {graph.nodes.length > 0 && (
             <>
               <span className={styles.nodeCount}>
-                {graph.nodes.filter((n) => n.type === 'person').length} cible{graph.nodes.filter((n) => n.type === 'person').length !== 1 ? 's' : ''}
+                {graph.nodes.filter((n) => n.type === 'person').length} cible
+                {graph.nodes.filter((n) => n.type === 'person').length !== 1 ? 's' : ''}
               </span>
               <span className={styles.separator}>|</span>
-              <span className={styles.nodeCount}>
-                {graph.nodes.length} noeuds
-              </span>
+              <span className={styles.nodeCount}>{graph.nodes.length} noeuds</span>
               <span className={styles.separator}>|</span>
               <button className={styles.clearBtn} onClick={clearGraph}>
                 <Icon name="close" size={12} />
                 <span>Vider</span>
+              </button>
+              <button className={styles.reportBtn} onClick={handleGenerateReport}>
+                <Icon name="file" size={12} />
+                <span>Rapport</span>
               </button>
             </>
           )}
@@ -307,7 +427,14 @@ export default function LinkGraph() {
                 </p>
                 <button
                   className={styles.openSearchBtn}
-                  onClick={() => openApp({ appId: 'osint-search', title: 'OSINT Search', icon: 'osint-search', defaultSize: { width: 820, height: 580 } })}
+                  onClick={() =>
+                    openApp({
+                      appId: 'osint-search',
+                      title: 'OSINT Search',
+                      icon: 'osint-search',
+                      defaultSize: { width: 820, height: 580 },
+                    })
+                  }
                 >
                   <Icon name="osint-search" size={16} />
                   <span>Ouvrir OSINT Search</span>
@@ -322,7 +449,6 @@ export default function LinkGraph() {
               style={{ cursor: isPanning ? 'grabbing' : dragging ? 'grabbing' : 'grab' }}
             >
               <defs>
-                {/* Glow filters per platform */}
                 {Object.entries(PLATFORM_THEMES).map(([name, theme]) => (
                   <filter key={name} id={`glow-${name}`} x="-50%" y="-50%" width="200%" height="200%">
                     <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor={theme.color} floodOpacity="0.4" />
@@ -331,7 +457,6 @@ export default function LinkGraph() {
                 <filter id="glow-person" x="-50%" y="-50%" width="200%" height="200%">
                   <feDropShadow dx="0" dy="0" stdDeviation="8" floodColor="#e95420" floodOpacity="0.5" />
                 </filter>
-                {/* Grid pattern */}
                 <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
                   <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
                 </pattern>
@@ -348,42 +473,44 @@ export default function LinkGraph() {
                   if (!fromNode || !toNode) return null
                   const from = getNodeCenter(fromNode)
                   const to = getNodeCenter(toNode)
-                  const platformName = toNode.type === 'platform' ? toNode.data.platform : fromNode.data?.platform
-                  const theme = PLATFORM_THEMES[platformName] || { color: '#555' }
+                  const platformName =
+                    toNode.type === 'platform'
+                      ? toNode.data.platform
+                      : fromNode.data?.platform
+                  const edgeColor =
+                    toNode.type === 'custom'
+                      ? toNode.data.color
+                      : fromNode.type === 'custom'
+                      ? fromNode.data.color
+                      : (PLATFORM_THEMES[platformName] || { color: '#555' }).color
 
                   return (
                     <g key={edge.id}>
-                      {/* Glow line */}
                       <line
-                        x1={from.cx}
-                        y1={from.cy}
-                        x2={to.cx}
-                        y2={to.cy}
-                        stroke={theme.color}
+                        x1={from.cx} y1={from.cy}
+                        x2={to.cx} y2={to.cy}
+                        stroke={edgeColor}
                         strokeWidth="3"
                         opacity="0.15"
                       />
-                      {/* Main line */}
                       <line
-                        x1={from.cx}
-                        y1={from.cy}
-                        x2={to.cx}
-                        y2={to.cy}
-                        stroke={theme.color}
+                        x1={from.cx} y1={from.cy}
+                        x2={to.cx} y2={to.cy}
+                        stroke={edgeColor}
                         strokeWidth="1.5"
                         opacity="0.5"
                         strokeDasharray={
-                          selectedNode && (selectedNode.id === edge.from || selectedNode.id === edge.to)
+                          selectedNode &&
+                          (selectedNode.id === edge.from || selectedNode.id === edge.to)
                             ? 'none'
                             : '4 4'
                         }
                       />
-                      {/* Connection dot at midpoint */}
                       <circle
                         cx={(from.cx + to.cx) / 2}
                         cy={(from.cy + to.cy) / 2}
                         r="2"
-                        fill={theme.color}
+                        fill={edgeColor}
                         opacity="0.4"
                       />
                     </g>
@@ -400,76 +527,110 @@ export default function LinkGraph() {
                         key={node.id}
                         transform={`translate(${node.x}, ${node.y})`}
                         onMouseDown={(e) => onNodeMouseDown(e, node)}
+
                         style={{ cursor: 'pointer' }}
                         className={styles.nodeGroup}
                       >
-                        {/* Selection ring */}
                         {isSelected && (
                           <rect
-                            x="-4"
-                            y="-4"
-                            width={PERSON_W + 8}
-                            height={PERSON_H + 8}
-                            rx="14"
-                            fill="none"
-                            stroke="#e95420"
-                            strokeWidth="2"
-                            opacity="0.6"
+                            x="-4" y="-4"
+                            width={PERSON_W + 8} height={PERSON_H + 8}
+                            rx="14" fill="none"
+                            stroke="#e95420" strokeWidth="2" opacity="0.6"
                             className={styles.selectionRing}
                           />
                         )}
                         <rect
-                          width={PERSON_W}
-                          height={PERSON_H}
-                          rx="10"
+                          width={PERSON_W} height={PERSON_H} rx="10"
                           fill="#1a1018"
                           stroke={isSelected ? '#e95420' : 'rgba(233,84,32,0.4)'}
                           strokeWidth={isSelected ? 2 : 1}
                           filter="url(#glow-person)"
                         />
-                        {/* Avatar circle */}
                         <circle
-                          cx="26"
-                          cy={PERSON_H / 2}
-                          r="14"
+                          cx="26" cy={PERSON_H / 2} r="14"
                           fill="rgba(233,84,32,0.15)"
-                          stroke="rgba(233,84,32,0.3)"
-                          strokeWidth="1"
+                          stroke="rgba(233,84,32,0.3)" strokeWidth="1"
                         />
                         <text
-                          x="26"
-                          y={PERSON_H / 2 + 1}
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                          fill="#e95420"
-                          fontSize="12"
-                          fontWeight="700"
+                          x="26" y={PERSON_H / 2 + 1}
+                          textAnchor="middle" dominantBaseline="middle"
+                          fill="#e95420" fontSize="12" fontWeight="700"
                           fontFamily="var(--font-sans)"
                         >
                           {node.data.name.split(' ').map((w) => w[0]).join('')}
                         </text>
-                        {/* Name */}
                         <text
-                          x="48"
-                          y={PERSON_H / 2 - 5}
-                          fill="#fff"
-                          fontSize="13"
-                          fontWeight="600"
+                          x="48" y={PERSON_H / 2 - 5}
+                          fill="#fff" fontSize="13" fontWeight="600"
                           fontFamily="var(--font-sans)"
                         >
                           {node.data.name}
                         </text>
-                        {/* Email */}
                         <text
-                          x="48"
-                          y={PERSON_H / 2 + 10}
-                          fill="#888"
-                          fontSize="10"
-                          fontFamily="var(--font-mono)"
+                          x="48" y={PERSON_H / 2 + 10}
+                          fill="#888" fontSize="10" fontFamily="var(--font-mono)"
                         >
                           {node.data.email.length > 22
                             ? node.data.email.slice(0, 22) + '...'
                             : node.data.email}
+                        </text>
+                      </g>
+                    )
+                  }
+
+                  if (node.type === 'custom') {
+                    const col = node.data.color || '#3fb950'
+                    return (
+                      <g
+                        key={node.id}
+                        transform={`translate(${node.x}, ${node.y})`}
+                        onMouseDown={(e) => onNodeMouseDown(e, node)}
+
+                        style={{ cursor: 'pointer' }}
+                        className={styles.nodeGroup}
+                      >
+                        {isSelected && (
+                          <rect
+                            x="-4" y="-4"
+                            width={CUSTOM_W + 8} height={CUSTOM_H + 8}
+                            rx="12" fill="none"
+                            stroke={col} strokeWidth="2" opacity="0.6"
+                            className={styles.selectionRing}
+                          />
+                        )}
+                        <rect
+                          width={CUSTOM_W} height={CUSTOM_H} rx="8"
+                          fill="#111118"
+                          stroke={isSelected ? col : `${col}55`}
+                          strokeWidth={isSelected ? 1.5 : 1}
+                          style={{ filter: `drop-shadow(0 0 6px ${col}44)` }}
+                        />
+                        <rect x="4" y="4" width="32" height="32" rx="7" fill={`${col}22`} />
+                        <foreignObject x="8" y="8" width="24" height="24">
+                          <div
+                            xmlns="http://www.w3.org/1999/xhtml"
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}
+                          >
+                            <Icon name={node.data.icon} size={16} color={col} />
+                          </div>
+                        </foreignObject>
+                        <text
+                          x="42" y={CUSTOM_H / 2 - 4}
+                          fill="#fff" fontSize="12" fontWeight="600"
+                          fontFamily="var(--font-sans)"
+                        >
+                          {node.data.title.length > 14
+                            ? node.data.title.slice(0, 14) + '…'
+                            : node.data.title}
+                        </text>
+                        <text
+                          x="42" y={CUSTOM_H / 2 + 10}
+                          fill={col} fontSize="10" fontFamily="var(--font-mono)" opacity="0.8"
+                        >
+                          {node.data.contents.length > 0
+                            ? `${node.data.contents.length} element${node.data.contents.length !== 1 ? 's' : ''}`
+                            : 'noeud'}
                         </text>
                       </g>
                     )
@@ -489,37 +650,21 @@ export default function LinkGraph() {
                     >
                       {isSelected && (
                         <rect
-                          x="-4"
-                          y="-4"
-                          width={NODE_W + 8}
-                          height={NODE_H + 8}
-                          rx="12"
-                          fill="none"
-                          stroke={theme.color}
-                          strokeWidth="2"
-                          opacity="0.6"
+                          x="-4" y="-4"
+                          width={NODE_W + 8} height={NODE_H + 8}
+                          rx="12" fill="none"
+                          stroke={theme.color} strokeWidth="2" opacity="0.6"
                           className={styles.selectionRing}
                         />
                       )}
                       <rect
-                        width={NODE_W}
-                        height={NODE_H}
-                        rx="8"
+                        width={NODE_W} height={NODE_H} rx="8"
                         fill={theme.bg}
                         stroke={isSelected ? theme.color : `${theme.color}55`}
                         strokeWidth={isSelected ? 1.5 : 1}
                         filter={`url(#glow-${node.data.platform})`}
                       />
-                      {/* Icon bg */}
-                      <rect
-                        x="4"
-                        y="4"
-                        width="32"
-                        height="32"
-                        rx="7"
-                        fill={`${theme.color}22`}
-                      />
-                      {/* Platform icon via foreignObject */}
+                      <rect x="4" y="4" width="32" height="32" rx="7" fill={`${theme.color}22`} />
                       <foreignObject x="8" y="8" width="24" height="24">
                         <div
                           xmlns="http://www.w3.org/1999/xhtml"
@@ -528,25 +673,17 @@ export default function LinkGraph() {
                           <Icon name={iconName} size={16} color={theme.color} />
                         </div>
                       </foreignObject>
-                      {/* Platform name */}
                       <text
-                        x="42"
-                        y={NODE_H / 2 - 4}
-                        fill="#fff"
-                        fontSize="12"
-                        fontWeight="600"
+                        x="42" y={NODE_H / 2 - 4}
+                        fill="#fff" fontSize="12" fontWeight="600"
                         fontFamily="var(--font-sans)"
                       >
                         {node.data.platform}
                       </text>
-                      {/* Username */}
                       <text
-                        x="42"
-                        y={NODE_H / 2 + 10}
-                        fill={theme.color}
-                        fontSize="10"
-                        fontFamily="var(--font-mono)"
-                        opacity="0.8"
+                        x="42" y={NODE_H / 2 + 10}
+                        fill={theme.color} fontSize="10"
+                        fontFamily="var(--font-mono)" opacity="0.8"
                       >
                         {node.data.username.length > 16
                           ? node.data.username.slice(0, 16) + '...'
@@ -555,8 +692,44 @@ export default function LinkGraph() {
                     </g>
                   )
                 })}
+
+                {/* "+" button on hovered node */}
+                {selectedNode && !addNodeModal && (
+                  <g transform={`translate(${selectedNode.x + getNodeDims(selectedNode).w + 8}, ${selectedNode.y + getNodeDims(selectedNode).h / 2 - 12})`}>
+                    <foreignObject x="0" y="0" width="24" height="24">
+                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ width: '100%', height: '100%' }}>
+                        <button
+                          className={styles.addNodeBtn}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setAddNodeModal({
+                              sourceNodeId: selectedNode.id,
+                              sourceX: selectedNode.x,
+                              sourceY: selectedNode.y,
+                            })
+                          }}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </foreignObject>
+                  </g>
+                )}
               </g>
             </svg>
+          )}
+
+          {/* Add node panel overlay */}
+          {addNodeModal && (
+            <AddNodePanel
+              onConfirm={handleAddNode}
+              onCancel={() => setAddNodeModal(null)}
+              onOpenFilePicker={(onSelect) => {
+                setFilePickerPath('/home')
+                setFilePicker({ onSelect })
+              }}
+            />
           )}
         </div>
 
@@ -565,10 +738,7 @@ export default function LinkGraph() {
           <div className={styles.sidebar}>
             <div className={styles.sidebarHeader}>
               <span className={styles.sidebarTitle}>Details</span>
-              <button
-                className={styles.sidebarClose}
-                onClick={() => setSelectedNode(null)}
-              >
+              <button className={styles.sidebarClose} onClick={() => setSelectedNode(null)}>
                 <Icon name="close" size={14} />
               </button>
             </div>
@@ -600,6 +770,66 @@ export default function LinkGraph() {
                 <div className={styles.detailSection}>
                   <span className={styles.detailLabel}>Type</span>
                   <span className={styles.detailBadge}>Personne</span>
+                </div>
+              </div>
+            ) : selectedNode.type === 'custom' ? (
+              <div className={styles.sidebarBody}>
+                <div
+                  className={styles.detailPlatformBanner}
+                  style={{
+                    background: `linear-gradient(135deg, ${selectedNode.data.color}33, transparent)`,
+                  }}
+                >
+                  <Icon name={selectedNode.data.icon} size={28} color={selectedNode.data.color} />
+                </div>
+                <div className={styles.detailSection}>
+                  <span className={styles.detailLabel}>Titre</span>
+                  <span className={styles.detailValue}>{selectedNode.data.title}</span>
+                </div>
+                <div className={styles.detailDivider} />
+                {selectedNode.data.contents.length === 0 ? (
+                  <span className={styles.detailLabel}>Aucun contenu</span>
+                ) : (
+                  selectedNode.data.contents.map((item, i) => (
+                    <div key={i} className={styles.detailSection}>
+                      <span className={styles.detailLabel}>{item.type}</span>
+                      {item.type === 'text' && (
+                        <span className={styles.detailValue}>{item.value}</span>
+                      )}
+                      {item.type === 'link' && item.value && (
+                        <a
+                          href={item.value}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`${styles.detailValue} ${styles.detailUrl} ${styles.detailMono}`}
+                          style={{ color: selectedNode.data.color }}
+                        >
+                          {item.label || item.value}
+                        </a>
+                      )}
+                      {item.type === 'image' && item.value && (
+                        <img
+                          src={item.value}
+                          alt=""
+                          style={{ maxWidth: '100%', borderRadius: 6, marginTop: 4 }}
+                        />
+                      )}
+                    </div>
+                  ))
+                )}
+                <div className={styles.detailDivider} />
+                <div className={styles.detailSection}>
+                  <span className={styles.detailLabel}>Type</span>
+                  <span
+                    className={styles.detailBadge}
+                    style={{
+                      background: `${selectedNode.data.color}22`,
+                      color: selectedNode.data.color,
+                      borderColor: `${selectedNode.data.color}44`,
+                    }}
+                  >
+                    Noeud personnalise
+                  </span>
                 </div>
               </div>
             ) : (
@@ -648,11 +878,9 @@ export default function LinkGraph() {
                 <div className={styles.detailDivider} />
                 <div className={styles.detailSection}>
                   <span className={styles.detailLabel}>Statut</span>
-                  <span className={`${styles.detailBadge} ${styles.badgeSuccess}`}>
-                    Trouve
-                  </span>
+                  <span className={`${styles.detailBadge} ${styles.badgeSuccess}`}>Trouve</span>
                 </div>
-                {selectedNode.data.platform === 'Instagram' && (
+                {selectedNode.data.platform === 'Instagram' && selectedNode.data.found && selectedNode.data.posts && (
                   <button
                     className={styles.viewProfileBtn}
                     onClick={() => {
@@ -661,16 +889,12 @@ export default function LinkGraph() {
                         title: `Instagram — ${selectedNode.data.username}`,
                         icon: 'platform-instagram',
                         defaultSize: { width: 420, height: 650 },
-                        props: { username: selectedNode.data.username },
+                        props: { profile: selectedNode.data },
                         multiInstance: true,
                       })
                     }}
                   >
-                    <Icon
-                      name="platform-instagram"
-                      size={16}
-                      color="#E1306C"
-                    />
+                    <Icon name="platform-instagram" size={16} color="#E1306C" />
                     <span>Consulter le profil</span>
                   </button>
                 )}
@@ -679,6 +903,105 @@ export default function LinkGraph() {
           </div>
         )}
       </div>
+
+      {/* Virtual File Picker modal */}
+      {filePicker && (
+        <div className={styles.filePickerOverlay} onClick={() => setFilePicker(null)}>
+          <div className={styles.filePickerModal} onClick={e => e.stopPropagation()}>
+            <div className={styles.filePickerHeader}>
+              <span className={styles.filePickerTitle}>Choisir une image</span>
+              <button className={styles.filePickerClose} onClick={() => setFilePicker(null)}>
+                <Icon name="close" size={14} />
+              </button>
+            </div>
+            <div className={styles.filePickerBreadcrumb}>
+              {filePickerPath.split('/').filter(Boolean).map((part, i, arr) => (
+                <span key={i}>
+                  <button
+                    className={styles.filePickerBreadcrumbBtn}
+                    onClick={() => setFilePickerPath('/' + arr.slice(0, i + 1).join('/'))}
+                  >
+                    {part}
+                  </button>
+                  {i < arr.length - 1 && <span className={styles.filePickerSep}>/</span>}
+                </span>
+              ))}
+            </div>
+            <div className={styles.filePickerGrid}>
+              {filePickerPath !== '/home' && (
+                <button
+                  className={styles.filePickerItem}
+                  onClick={() => setFilePickerPath(filePickerPath.split('/').slice(0, -1).join('/') || '/home')}
+                >
+                  <Icon name="folder" size={28} color="#e95420" />
+                  <span>..</span>
+                </button>
+              )}
+              {getChildren(filePickerPath).map(item => {
+                const isImage = item.type === 'file' && /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(item.name)
+                const hasContent = item.type === 'file' && !!item.content
+                return (
+                  <button
+                    key={item.path}
+                    className={`${styles.filePickerItem} ${isImage && !hasContent ? styles.filePickerItemDim : ''}`}
+                    onClick={() => {
+                      if (item.type === 'folder') {
+                        setFilePickerPath(item.path)
+                      } else if (hasContent) {
+                        filePicker.onSelect(item.content)
+                        setFilePicker(null)
+                      }
+                    }}
+                    title={!hasContent && item.type === 'file' ? 'Aucun contenu disponible' : item.name}
+                  >
+                    {hasContent ? (
+                      <img src={item.content} alt={item.name} className={styles.filePickerThumb} />
+                    ) : (
+                      <Icon
+                        name={item.type === 'folder' ? 'folder' : 'file'}
+                        size={28}
+                        color={item.type === 'folder' ? '#e95420' : undefined}
+                      />
+                    )}
+                    <span>{item.name}</span>
+                  </button>
+                )
+              })}
+              {getChildren(filePickerPath).length === 0 && (
+                <div className={styles.filePickerEmpty}>Dossier vide</div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Report Preview modal */}
+      {reportPreview && (
+        <div className={styles.reportPreviewOverlay} onClick={() => setReportPreview(null)}>
+          <div className={styles.reportPreviewModal} onClick={e => e.stopPropagation()}>
+            <div className={styles.reportPreviewHeader}>
+              <span className={styles.reportPreviewTitle}>
+                <Icon name="file" size={13} />
+                {reportPreview.filename}
+              </span>
+              <div className={styles.reportPreviewActions}>
+                <button className={styles.reportSaveBtn} onClick={handleSaveReport}>
+                  Sauvegarder
+                </button>
+                <button className={styles.reportCloseBtn} onClick={() => setReportPreview(null)}>
+                  <Icon name="close" size={13} />
+                </button>
+              </div>
+            </div>
+            <iframe
+              className={styles.reportPreviewFrame}
+              srcDoc={reportPreview.html}
+              title="Aperçu du rapport"
+              sandbox="allow-same-origin"
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

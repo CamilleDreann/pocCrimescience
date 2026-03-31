@@ -7,8 +7,49 @@
         "name": "Instagram",
         "username": "@marie.dpt",
         "url": "https://instagram.com/marie.dpt",
-        "bio": "Photographe | Lyon | Amoureuese de la nature",
-        "found": true
+        "bio": "Photographe | Lyon | Amoureuse de la nature 🌿",
+        "found": true,
+        "followers": "3,1k",
+        "following": 284,
+        "postsCount": 214,
+        "posts": [
+          {
+            "id": 1,
+            "gradient": "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+            "emoji": "🌿",
+            "caption": "Sortie nature au Parc de la Tete d'Or ce matin. La lumiere etait parfaite. #lyon #nature #photographie",
+            "likes": 312,
+            "comments": 18,
+            "date": "22 mars"
+          },
+          {
+            "id": 2,
+            "gradient": "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
+            "emoji": "📸",
+            "caption": "Nouvelle serie portrait en cours. Merci a tous mes modeles ! #portrait #studio #lumiere",
+            "likes": 198,
+            "comments": 9,
+            "date": "15 mars"
+          },
+          {
+            "id": 3,
+            "gradient": "linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%)",
+            "emoji": "🌅",
+            "caption": "Coucher de soleil sur la Saone. Ces couleurs... 😍 #lyon #saone #golden_hour",
+            "likes": 445,
+            "comments": 31,
+            "date": "8 mars"
+          },
+          {
+            "id": 4,
+            "gradient": "linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)",
+            "emoji": "🎞️",
+            "caption": "Retour a l'argentique ce weekend. Rien ne vaut la texture du film. #argentique #analog #pellicule",
+            "likes": 267,
+            "comments": 14,
+            "date": "1 mars"
+          }
+        ]
       },
       {
         "name": "LinkedIn",
@@ -48,8 +89,49 @@
         "name": "Instagram",
         "username": "@lucas_mrt",
         "url": "https://instagram.com/lucas_mrt",
-        "bio": "Etudiant en informatique | Paris | Gaming",
-        "found": true
+        "bio": "Etudiant en informatique | Paris | Gaming 🎮",
+        "found": true,
+        "followers": "842",
+        "following": 391,
+        "postsCount": 47,
+        "posts": [
+          {
+            "id": 1,
+            "gradient": "linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)",
+            "emoji": "🎮",
+            "caption": "Mon nouveau setup est enfin complet. 3 ecrans, ca change la vie. #battlestation #setup #gaming",
+            "likes": 134,
+            "comments": 22,
+            "date": "20 mars"
+          },
+          {
+            "id": 2,
+            "gradient": "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
+            "emoji": "💻",
+            "caption": "Nuit blanche sur un projet d'algo. Le cafe est mon meilleur ami. ☕ #coding #informatique #etudiant",
+            "likes": 89,
+            "comments": 7,
+            "date": "14 mars"
+          },
+          {
+            "id": 3,
+            "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            "emoji": "🏆",
+            "caption": "CTF ce weekend avec l'equipe de Paris-Saclay. 3eme place national ! Super fier 🎉 #ctf #cybersec #hacking",
+            "likes": 203,
+            "comments": 41,
+            "date": "5 mars"
+          },
+          {
+            "id": 4,
+            "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+            "emoji": "🌃",
+            "caption": "Paris by night depuis la tour Montparnasse. Valait le detour. #paris #nuit #ville",
+            "likes": 156,
+            "comments": 12,
+            "date": "25 fev"
+          }
+        ]
       },
       {
         "name": "GitHub",
@@ -143,8 +225,49 @@
         "name": "Instagram",
         "username": "@emma.petit.fit",
         "url": "https://instagram.com/emma.petit.fit",
-        "bio": "Coach sportif | Nutrition | Bien-etre | Bordeaux",
-        "found": true
+        "bio": "Coach sportif 💪 | Nutrition | Bien-etre | Bordeaux",
+        "found": true,
+        "followers": "12,4k",
+        "following": 512,
+        "postsCount": 341,
+        "posts": [
+          {
+            "id": 1,
+            "gradient": "linear-gradient(135deg, #f8ffae 0%, #43c6ac 100%)",
+            "emoji": "💪",
+            "caption": "Seance du matin done ! 5h30, tout le monde dort, moi je sue. C'est ca la discipline. 🔥 #fitness #motivation #bordeaux",
+            "likes": 892,
+            "comments": 67,
+            "date": "28 mars"
+          },
+          {
+            "id": 2,
+            "gradient": "linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)",
+            "emoji": "🥗",
+            "caption": "Bowl proteine du midi ! Recette en story. #nutrition #healthy #mealprep #coaching",
+            "likes": 1204,
+            "comments": 93,
+            "date": "21 mars"
+          },
+          {
+            "id": 3,
+            "gradient": "linear-gradient(135deg, #fccb90 0%, #d57eeb 100%)",
+            "emoji": "🏃‍♀️",
+            "caption": "10km ce matin le long de la Garonne. Bordeaux est magnifique au lever du soleil. #running #bordeaux #garonne",
+            "likes": 743,
+            "comments": 45,
+            "date": "14 mars"
+          },
+          {
+            "id": 4,
+            "gradient": "linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)",
+            "emoji": "🧘‍♀️",
+            "caption": "Nouveau programme de 8 semaines disponible sur le lien en bio ! Inscriptions ouvertes 🙌 #coaching #programme #fitness",
+            "likes": 2103,
+            "comments": 187,
+            "date": "7 mars"
+          }
+        ]
       },
       {
         "name": "TikTok",
@@ -218,8 +341,49 @@
         "name": "Instagram",
         "username": "@chloe.roux.art",
         "url": "https://instagram.com/chloe.roux.art",
-        "bio": "Illustratrice & graphiste | Commissions ouvertes",
-        "found": true
+        "bio": "Illustratrice & graphiste ✏️ | Commissions ouvertes",
+        "found": true,
+        "followers": "8,7k",
+        "following": 643,
+        "postsCount": 178,
+        "posts": [
+          {
+            "id": 1,
+            "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+            "emoji": "🎨",
+            "caption": "Nouvelle illustration pour un client ! Projet de couverture de roman fantasy. DM pour commissions 🖌️ #illustration #fantasy #art",
+            "likes": 1456,
+            "comments": 112,
+            "date": "25 mars"
+          },
+          {
+            "id": 2,
+            "gradient": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+            "emoji": "✏️",
+            "caption": "Work in progress... une serie de portraits sur l'emotion. #wip #portrait #dessin #procreate",
+            "likes": 934,
+            "comments": 58,
+            "date": "18 mars"
+          },
+          {
+            "id": 3,
+            "gradient": "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+            "emoji": "🖼️",
+            "caption": "Petite retrospective de mes illustrations de fevrier. Votre prefere ? 👇 #artofinstagram #digitalart #graphisme",
+            "likes": 2103,
+            "comments": 204,
+            "date": "10 mars"
+          },
+          {
+            "id": 4,
+            "gradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+            "emoji": "🌈",
+            "caption": "Commissions de mars: 2 slots restants ! Tarifs en bio. #commission #illustratrice #freelance",
+            "likes": 687,
+            "comments": 89,
+            "date": "3 mars"
+          }
+        ]
       },
       {
         "name": "TikTok",
@@ -259,8 +423,49 @@
         "name": "Instagram",
         "username": "@chez_julien_mrs",
         "url": "https://instagram.com/chez_julien_mrs",
-        "bio": "Restaurant Chez Julien | Cuisine mediterraneenne | Marseille",
-        "found": true
+        "bio": "Restaurant Chez Julien 🍽️ | Cuisine mediterraneenne | Marseille",
+        "found": true,
+        "followers": "5,2k",
+        "following": 198,
+        "postsCount": 423,
+        "posts": [
+          {
+            "id": 1,
+            "gradient": "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)",
+            "emoji": "🍽️",
+            "caption": "Bouillabaisse du jour — poissons arrives ce matin du port. Reservations: lien en bio 📞 #bouillabaisse #marseille #restaurant",
+            "likes": 743,
+            "comments": 54,
+            "date": "29 mars"
+          },
+          {
+            "id": 2,
+            "gradient": "linear-gradient(135deg, #e65c00 0%, #f9d423 100%)",
+            "emoji": "🌿",
+            "caption": "Arrivage d'herbes fraiches du marche de Noailles ce matin. La cuisine ca commence par les produits. #frais #local #marseille",
+            "likes": 512,
+            "comments": 27,
+            "date": "22 mars"
+          },
+          {
+            "id": 3,
+            "gradient": "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
+            "emoji": "🥂",
+            "caption": "Soiree privee reussie hier soir ! Merci a tous nos convives. On peut accueillir jusqu'a 60 personnes. #evenement #privatisation #marseille",
+            "likes": 389,
+            "comments": 19,
+            "date": "15 mars"
+          },
+          {
+            "id": 4,
+            "gradient": "linear-gradient(135deg, #c94b4b 0%, #4b134f 100%)",
+            "emoji": "🐟",
+            "caption": "Nouvelle carte de printemps disponible des aujourd'hui ! Daurade, rouget, poulpe... 🌊 #carte #printemps #poisson",
+            "likes": 928,
+            "comments": 76,
+            "date": "8 mars"
+          }
+        ]
       },
       {
         "name": "TikTok",
@@ -293,8 +498,49 @@
         "name": "Instagram",
         "username": "@julien.caron",
         "url": "https://instagram.com/julien.caron",
-        "bio": "Photographe urbain | Lille | Street art & architecture",
-        "found": true
+        "bio": "Photographe urbain | Lille\nStreet art & architecture 📷",
+        "found": true,
+        "followers": "2,4k",
+        "following": 843,
+        "postsCount": 127,
+        "posts": [
+          {
+            "id": 1,
+            "gradient": "linear-gradient(135deg, #373b44 0%, #4286f4 100%)",
+            "emoji": "🌅",
+            "caption": "Lumiere du matin sur les toits de Lille 🌅 #streetphotography #lille #urbanphoto",
+            "likes": 284,
+            "comments": 12,
+            "date": "14 mars"
+          },
+          {
+            "id": 2,
+            "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            "emoji": "🏗️",
+            "caption": "Nouveau projet en cours — serie sur le patrimoine industriel du Nord. Stay tuned! #architecture #patrimoine #nord",
+            "likes": 197,
+            "comments": 8,
+            "date": "9 mars"
+          },
+          {
+            "id": 3,
+            "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+            "emoji": "🎨",
+            "caption": "Expo 'Regards Urbains' a la Gare Saint-Sauveur — merci a tous ceux qui sont venus ! #expo #art #lille",
+            "likes": 342,
+            "comments": 24,
+            "date": "2 mars"
+          },
+          {
+            "id": 4,
+            "gradient": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+            "emoji": "📸",
+            "caption": "Le reflet parfait existe. Canal de la Deule au petit matin. #reflection #canal #photography",
+            "likes": 156,
+            "comments": 6,
+            "date": "25 fev"
+          }
+        ]
       },
       {
         "name": "LinkedIn",
