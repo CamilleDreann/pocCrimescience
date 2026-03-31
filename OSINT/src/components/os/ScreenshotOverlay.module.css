@@ -1,0 +1,29 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  cursor: crosshair;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.selection {
+  position: absolute;
+  border: 2px dashed var(--color-accent);
+  background: rgba(233, 84, 32, 0.15);
+  pointer-events: none;
+}
+
+.hint {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-sans);
+  padding: var(--space-2) var(--space-4);
+  border-radius: 6px;
+  pointer-events: none;
+  white-space: nowrap;
+}

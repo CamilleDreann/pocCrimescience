@@ -1,12 +1,15 @@
 import { createContext, useReducer, useCallback } from 'react'
+import { addApiEntry, clearGraph as storeClearGraph } from '../stores/graphStore'
 
 const initialState = {
   windows: [],
   zIndexCounter: 10,
   activeWindowId: null,
   launcherOpen: false,
+  screenshotMode: false,
   notifications: [],
-  graphData: [],
+  screenshots: [],
+  filesystemVersion: 0,
   system: {
     volume: 70,
     brightness: 80,
@@ -129,6 +132,30 @@ function reducer(state, action) {
       }
     }
 
+    case 'SNAP_WINDOW': {
+      const { id, position, size, preSnapState } = action.payload
+      return {
+        ...state,
+        windows: state.windows.map(w =>
+          w.id === id
+            ? { ...w, position, size, isMaximized: false, preSnapState }
+            : w
+        ),
+      }
+    }
+
+    case 'UNSNAP_WINDOW': {
+      const { id } = action.payload
+      return {
+        ...state,
+        windows: state.windows.map(w => {
+          if (w.id !== id || !w.preSnapState) return w
+          const { preSnapState, ...rest } = w
+          return { ...rest, position: preSnapState.position, size: preSnapState.size }
+        }),
+      }
+    }
+
     case 'TOGGLE_LAUNCHER': {
       return { ...state, launcherOpen: !state.launcherOpen }
     }
@@ -165,15 +192,21 @@ function reducer(state, action) {
       }
     }
 
-    case 'EXPORT_TO_GRAPH': {
-      const newEntry = action.payload
-      const exists = state.graphData.some((d) => d.email === newEntry.email)
-      if (exists) return state
-      return { ...state, graphData: [...state.graphData, newEntry] }
+    case 'START_SCREENSHOT': {
+      return { ...state, screenshotMode: true }
     }
 
-    case 'CLEAR_GRAPH': {
-      return { ...state, graphData: [] }
+    case 'STOP_SCREENSHOT': {
+      return { ...state, screenshotMode: false }
+    }
+
+    case 'SAVE_SCREENSHOT': {
+      return {
+        ...state,
+        screenshotMode: false,
+        screenshots: [...state.screenshots, action.payload],
+        filesystemVersion: state.filesystemVersion + 1,
+      }
     }
 
     default:
@@ -214,6 +247,14 @@ export function OSProvider({ children }) {
     dispatch({ type: 'UPDATE_SIZE', payload: { id, size, position } })
   }, [])
 
+  const snapWindow = useCallback((id, position, size, preSnapState) => {
+    dispatch({ type: 'SNAP_WINDOW', payload: { id, position, size, preSnapState } })
+  }, [])
+
+  const unsnapWindow = useCallback((id) => {
+    dispatch({ type: 'UNSNAP_WINDOW', payload: { id } })
+  }, [])
+
   const toggleLauncher = useCallback(() => {
     dispatch({ type: 'TOGGLE_LAUNCHER' })
   }, [])
@@ -235,11 +276,23 @@ export function OSProvider({ children }) {
   }, [])
 
   const exportToGraph = useCallback((data) => {
-    dispatch({ type: 'EXPORT_TO_GRAPH', payload: data })
+    addApiEntry(data)
   }, [])
 
   const clearGraph = useCallback(() => {
-    dispatch({ type: 'CLEAR_GRAPH' })
+    storeClearGraph()
+  }, [])
+
+  const startScreenshot = useCallback(() => {
+    dispatch({ type: 'START_SCREENSHOT' })
+  }, [])
+
+  const stopScreenshot = useCallback(() => {
+    dispatch({ type: 'STOP_SCREENSHOT' })
+  }, [])
+
+  const saveScreenshot = useCallback((screenshot) => {
+    dispatch({ type: 'SAVE_SCREENSHOT', payload: screenshot })
   }, [])
 
   const value = {
@@ -256,8 +309,13 @@ export function OSProvider({ children }) {
     addNotification,
     dismissNotification,
     updateSystem,
+    snapWindow,
+    unsnapWindow,
     exportToGraph,
     clearGraph,
+    startScreenshot,
+    stopScreenshot,
+    saveScreenshot,
   }
 
   return <OSContext.Provider value={value}>{children}</OSContext.Provider>

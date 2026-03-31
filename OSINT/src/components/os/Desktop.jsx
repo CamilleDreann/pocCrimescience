@@ -8,6 +8,7 @@ import DesktopIcon from './DesktopIcon'
 import AppLauncher from './AppLauncher'
 import NotificationCenter from './NotificationCenter'
 import ContextMenu from '../ui/ContextMenu'
+import ScreenshotOverlay from './ScreenshotOverlay'
 import styles from './Desktop.module.css'
 
 const desktopIcons = [
@@ -96,6 +97,7 @@ export default function Desktop() {
       })}
 
       <AppLauncher />
+      <ScreenshotOverlay />
       <NotificationCenter />
       {menu.visible && (
         <ContextMenu items={menu.items} x={menu.x} y={menu.y} onClose={hideMenu} />

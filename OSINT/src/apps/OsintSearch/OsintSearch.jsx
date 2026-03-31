@@ -1,5 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useOS } from '../../context/useOS'
+import { $graph } from '../../stores/graphStore'
+import { useClickOutside } from '../../hooks/useClickOutside'
 import Icon from '../../components/ui/Icon'
 import styles from './OsintSearch.module.css'
 
@@ -26,16 +28,52 @@ const PLATFORM_ICONS = {
 }
 
 export default function OsintSearch() {
-  const { exportToGraph, graphData, openApp, addNotification } = useOS()
+  const { exportToGraph, openApp, addNotification } = useOS()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [searched, setSearched] = useState(false)
+  const [allEmails, setAllEmails] = useState([])
+  const [suggestions, setSuggestions] = useState([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
   const inputRef = useRef(null)
+  const searchAreaRef = useRef(null)
 
-  const handleSearch = async () => {
-    const email = query.trim()
+  useEffect(() => {
+    fetch('/api/users')
+      .then(res => res.json())
+      .then(data => setAllEmails(Array.isArray(data) ? data : []))
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (!query.trim()) {
+      setSuggestions([])
+      setShowSuggestions(false)
+      setResults(null)
+      setError(null)
+      setSearched(false)
+      return
+    }
+    const q = query.toLowerCase()
+    const filtered = allEmails
+      .filter(email => email.toLowerCase().includes(q))
+      .slice(0, 5)
+    setSuggestions(filtered)
+    setShowSuggestions(filtered.length > 0)
+  }, [query, allEmails])
+
+  useClickOutside(searchAreaRef, () => setShowSuggestions(false))
+
+  const handleSelectSuggestion = (email) => {
+    setQuery(email)
+    setShowSuggestions(false)
+    handleSearch(email)
+  }
+
+  const handleSearch = async (emailOverride) => {
+    const email = (emailOverride ?? query).trim()
     if (!email) return
 
     setLoading(true)
@@ -84,6 +122,7 @@ export default function OsintSearch() {
 
       {/* Search bar */}
       <div className={styles.searchArea}>
+        <div ref={searchAreaRef} style={{ position: 'relative' }}>
         <div className={styles.searchBar}>
           <Icon name="search" size={18} className={styles.searchIcon} />
           <input
@@ -106,6 +145,20 @@ export default function OsintSearch() {
               'Rechercher'
             )}
           </button>
+        </div>
+        {showSuggestions && suggestions.length > 0 && (
+          <ul className={styles.suggestionsDropdown}>
+            {suggestions.map(email => (
+              <li
+                key={email}
+                className={styles.suggestionItem}
+                onMouseDown={() => handleSelectSuggestion(email)}
+              >
+                {email}
+              </li>
+            ))}
+          </ul>
+        )}
         </div>
       </div>
 
@@ -139,7 +192,7 @@ export default function OsintSearch() {
               <button
                 className={styles.exportBtn}
                 onClick={() => {
-                  const alreadyExported = graphData.some((d) => d.email === results.email)
+                  const alreadyExported = $graph.get().nodes.some((n) => n.type === 'person' && n.data.email === results.email)
                   if (alreadyExported) {
                     addNotification({ title: 'OSINT Search', body: 'Deja exporte vers le graphe.', type: 'info' })
                   } else {

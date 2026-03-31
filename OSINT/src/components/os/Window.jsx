@@ -1,8 +1,9 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useOS } from '../../context/useOS'
-import { useDrag } from '../../hooks/useDrag'
+import { useDrag, getSnapBounds } from '../../hooks/useDrag'
 import { useResize } from '../../hooks/useResize'
 import WindowTitleBar from './WindowTitleBar'
+import SnapPreview from './SnapPreview'
 import styles from './Window.module.css'
 
 const RESIZE_DIRECTIONS = ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw']
@@ -14,15 +15,34 @@ export default function Window({ windowData, children }) {
     toggleMaximize,
     focusWindow,
     updateWindowPosition,
+    updateWindowSize,
+    snapWindow,
+    unsnapWindow,
   } = useOS()
 
-  const { id, title, icon, isMinimized, isMaximized, zIndex, position, size } = windowData
+  const { id, title, icon, isMinimized, isMaximized, zIndex, position, size, preSnapState } = windowData
+  const [snapZone, setSnapZone] = useState(null)
 
   const { position: dragPos, setPosition, isDragging, handleMouseDown: startDrag } = useDrag(position, {
-    onDragEnd: (pos) => updateWindowPosition(id, pos),
+    onDragEnd: (pos, zone) => {
+      setSnapZone(null)
+      if (zone) {
+        const bounds = getSnapBounds(zone)
+        if (bounds) {
+          snapWindow(id, bounds.position, bounds.size, { position: pos, size })
+        }
+      } else if (preSnapState) {
+        unsnapWindow(id)
+      } else {
+        updateWindowPosition(id, pos)
+      }
+    },
+    onSnapZoneChange: setSnapZone,
   })
 
-  const { size: resizeSize, handleResizeStart, isResizing } = useResize(size)
+  const { size: resizeSize, handleResizeStart, isResizing } = useResize(size, {
+    onResizeEnd: (newSize, finalPos) => updateWindowSize(id, newSize, finalPos),
+  })
 
   const handleFocus = useCallback(() => {
     focusWindow(id)
@@ -48,37 +68,40 @@ export default function Window({ windowData, children }) {
   if (isMinimized) return null
 
   return (
-    <div
-      className={`${styles.window} ${isMaximized ? styles.maximized : ''} ${isDragging || isResizing ? styles.dragging : ''}`}
-      style={{
-        left: actualPos.x,
-        top: actualPos.y,
-        width: actualSize.width,
-        height: actualSize.height,
-        zIndex,
-        animation: 'windowOpen 0.2s ease-out',
-      }}
-      onMouseDown={handleFocus}
-    >
-      <WindowTitleBar
-        title={title}
-        icon={icon}
-        isMaximized={isMaximized}
-        onClose={() => closeWindow(id)}
-        onMinimize={() => minimizeWindow(id)}
-        onMaximize={() => toggleMaximize(id)}
-        onMouseDown={handleDragStart}
-      />
-      <div className={styles.content}>
-        {children}
-      </div>
-      {!isMaximized && RESIZE_DIRECTIONS.map(dir => (
-        <div
-          key={dir}
-          className={`${styles.resizeHandle} ${styles[`resize_${dir}`]}`}
-          onMouseDown={(e) => handleResizeMouseDown(dir, e)}
+    <>
+      <div
+        className={`${styles.window} ${isMaximized ? styles.maximized : ''} ${isDragging || isResizing ? styles.dragging : ''}`}
+        style={{
+          left: actualPos.x,
+          top: actualPos.y,
+          width: actualSize.width,
+          height: actualSize.height,
+          zIndex,
+          animation: 'windowOpen 0.2s ease-out',
+        }}
+        onMouseDown={handleFocus}
+      >
+        <WindowTitleBar
+          title={title}
+          icon={icon}
+          isMaximized={isMaximized}
+          onClose={() => closeWindow(id)}
+          onMinimize={() => minimizeWindow(id)}
+          onMaximize={() => toggleMaximize(id)}
+          onMouseDown={handleDragStart}
         />
-      ))}
-    </div>
+        <div className={styles.content}>
+          {children}
+        </div>
+        {!isMaximized && RESIZE_DIRECTIONS.map(dir => (
+          <div
+            key={dir}
+            className={`${styles.resizeHandle} ${styles[`resize_${dir}`]}`}
+            onMouseDown={(e) => handleResizeMouseDown(dir, e)}
+          />
+        ))}
+      </div>
+      {isDragging && <SnapPreview snapZone={snapZone} />}
+    </>
   )
 }

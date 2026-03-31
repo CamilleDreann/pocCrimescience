@@ -51,6 +51,11 @@ fastify.get('/api/search', {
   }
 })
 
+// Users list endpoint (for autocomplete)
+fastify.get('/api/users', async (_request, reply) => {
+  return reply.send([...emailIndex.keys()])
+})
+
 // Start
 const start = async () => {
   try {

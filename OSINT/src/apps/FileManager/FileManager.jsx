@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useOS } from '../../context/useOS'
 import { getChildren, getNode } from './fileSystemData'
 import Icon from '../../components/ui/Icon'
 import styles from './FileManager.module.css'
@@ -12,16 +13,24 @@ const sidebarItems = [
 ]
 
 export default function FileManager() {
+  const { filesystemVersion } = useOS()
   const [currentPath, setCurrentPath] = useState('/home')
   const [viewMode, setViewMode] = useState('grid')
 
-  const items = getChildren(currentPath)
+  // filesystemVersion triggers re-render when files are added (e.g. screenshots)
+  const items = getChildren(currentPath, filesystemVersion)
   const pathParts = currentPath.split('/').filter(Boolean)
+
+  const [previewFile, setPreviewFile] = useState(null)
+
+  const isHtmlContent = (content) => typeof content === 'string' && content.trimStart().startsWith('<!')
 
   const navigateTo = (path) => {
     const node = getNode(path)
     if (node && node.type === 'folder') {
       setCurrentPath(path)
+    } else if (node && node.type === 'file' && node.content) {
+      setPreviewFile(node)
     }
   }
 
@@ -85,7 +94,7 @@ export default function FileManager() {
             <div
               key={item.path}
               className={styles.fileItem}
-              onDoubleClick={() => item.type === 'folder' && navigateTo(item.path)}
+              onDoubleClick={() => navigateTo(item.path)}
             >
               <Icon
                 name={item.type === 'folder' ? 'folder' : 'file'}
@@ -103,6 +112,35 @@ export default function FileManager() {
           ))}
         </div>
       </div>
+      {previewFile && (
+        <div className={styles.previewOverlay} onClick={() => setPreviewFile(null)}>
+          <div
+            className={`${styles.previewModal} ${isHtmlContent(previewFile.content) ? styles.previewModalHtml : ''}`}
+            onClick={e => e.stopPropagation()}
+          >
+            <div className={styles.previewHeader}>
+              <span>{previewFile.name}</span>
+              <button className={styles.previewClose} onClick={() => setPreviewFile(null)}>
+                <Icon name="close" size={14} />
+              </button>
+            </div>
+            {isHtmlContent(previewFile.content) ? (
+              <iframe
+                srcDoc={previewFile.content}
+                className={styles.previewFrame}
+                sandbox="allow-same-origin"
+                title={previewFile.name}
+              />
+            ) : (
+              <img
+                src={previewFile.content}
+                alt={previewFile.name}
+                className={styles.previewImg}
+              />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

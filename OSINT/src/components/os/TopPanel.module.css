@@ -31,3 +31,18 @@
   display: flex;
   justify-content: center;
 }
+
+.screenshotBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px var(--space-2);
+  border-radius: 4px;
+  color: var(--color-text-primary);
+  transition: background var(--transition-fast);
+  margin-right: var(--space-2);
+}
+
+.screenshotBtn:hover {
+  background: var(--color-bg-hover);
+}

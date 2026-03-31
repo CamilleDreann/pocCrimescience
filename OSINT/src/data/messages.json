@@ -1,0 +1,35 @@
+[
+  {
+    "id": "msg-001",
+    "from": "Marie Dupont",
+    "role": "Secretaire de direction",
+    "avatar": "MD",
+    "subject": "Bienvenue dans l'equipe !",
+    "date": "2026-03-30T08:30:00",
+    "body": "Bonjour et bienvenue !\n\nJe suis Marie Dupont, secretaire de direction du service. Je tenais a vous souhaiter personnellement un chaleureux accueil parmi nous.\n\nVotre poste de travail a ete configure avec tous les outils necessaires a vos missions. Vous trouverez notamment l'application OSINT Search qui sera votre outil principal pour les investigations.\n\nN'hesitez pas a me contacter si vous avez la moindre question ou besoin d'assistance. Je suis disponible au bureau 204, 2eme etage.\n\nEncore bienvenue et bonne installation !\n\nCordialement,\nMarie Dupont\nSecretaire de direction",
+    "readed": false,
+    "render": true
+  },
+  {
+    "id": "msg-002",
+    "from": "Systeme",
+    "role": "Administration",
+    "avatar": "SY",
+    "subject": "Votre compte a ete active",
+    "date": "2026-03-30T08:00:00",
+    "body": "Votre compte utilisateur a ete active avec succes.\n\nVous pouvez maintenant acceder a l'ensemble des applications du systeme.",
+    "readed": true,
+    "render": true
+  },
+  {
+    "id": "msg-003",
+    "from": "Chef de service",
+    "role": "Direction",
+    "avatar": "CS",
+    "subject": "Message cache pour test",
+    "date": "2026-03-29T10:00:00",
+    "body": "Ce message ne devrait pas s'afficher car render est false.",
+    "readed": false,
+    "render": false
+  }
+]

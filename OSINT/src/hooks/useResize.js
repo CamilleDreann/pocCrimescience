@@ -15,7 +15,15 @@ export function useResize(initialSize, { minSize, onResizeEnd } = {}) {
     startPosX: 0,
     startPosY: 0,
     positionSetter: null,
+    lastPosition: null,
   })
+
+  // Sync with external size changes (e.g. snap)
+  useEffect(() => {
+    if (!isResizing) {
+      setSize(initialSize)
+    }
+  }, [initialSize.width, initialSize.height])
 
   const minW = minSize?.width || MIN_WIDTH
   const minH = minSize?.height || MIN_HEIGHT
@@ -62,6 +70,7 @@ export function useResize(initialSize, { minSize, onResizeEnd } = {}) {
       }
 
       setSize({ width: newWidth, height: newHeight })
+      resizeRef.current.lastPosition = { x: newX, y: newY }
       if (positionSetter && (direction.includes('n') || direction.includes('w'))) {
         positionSetter({ x: newX, y: newY })
       }
@@ -69,7 +78,7 @@ export function useResize(initialSize, { minSize, onResizeEnd } = {}) {
 
     const handleMouseUp = () => {
       setIsResizing(false)
-      if (onResizeEnd) onResizeEnd(size)
+      if (onResizeEnd) onResizeEnd(size, resizeRef.current.lastPosition)
     }
 
     document.addEventListener('mousemove', handleMouseMove)

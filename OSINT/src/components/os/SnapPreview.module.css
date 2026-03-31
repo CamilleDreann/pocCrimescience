@@ -1,0 +1,9 @@
+.preview {
+  position: fixed;
+  background: rgba(233, 84, 32, 0.12);
+  border: 2px solid rgba(233, 84, 32, 0.35);
+  border-radius: 10px;
+  z-index: 999999;
+  pointer-events: none;
+  transition: all 0.15s ease-out;
+}

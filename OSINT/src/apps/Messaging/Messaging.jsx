@@ -1,35 +1,32 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { useStore } from '@nanostores/react'
 import Icon from '../../components/ui/Icon'
+import { $messages, markAsRead } from '../../stores/messagesStore'
 import styles from './Messaging.module.css'
 
-const initialMessages = [
-  {
-    id: 'welcome-1',
-    from: 'Marie Dupont',
-    role: 'Secrétaire de direction',
-    avatar: 'MD',
-    subject: 'Bienvenue dans l\'équipe !',
-    date: new Date(Date.now() - 1000 * 60 * 2),
-    read: false,
-    body: `Bonjour et bienvenue !\n\nJe suis Marie Dupont, secrétaire de direction du service. Je tenais à vous souhaiter personnellement un chaleureux accueil parmi nous.\n\nVotre poste de travail a été configuré avec tous les outils nécessaires à vos missions. Vous trouverez notamment l'application OSINT Search qui sera votre outil principal pour les investigations.\n\nN'hésitez pas à me contacter si vous avez la moindre question ou besoin d'assistance. Je suis disponible au bureau 204, 2ème étage.\n\nEncore bienvenue et bonne installation !\n\nCordialement,\nMarie Dupont\nSecrétaire de direction`,
-  },
-]
-
 export default function Messaging() {
-  const [messages] = useState(initialMessages)
+  const allMessages = useStore($messages)
   const [selectedId, setSelectedId] = useState(null)
-  const [readMessages, setReadMessages] = useState(new Set())
+
+  const messages = useMemo(() => {
+    return allMessages
+      .filter(m => m.render)
+      .map(m => ({ ...m, date: new Date(m.date) }))
+      .sort((a, b) => b.date - a.date)
+  }, [allMessages])
 
   const selectedMessage = messages.find(m => m.id === selectedId)
 
   const handleSelect = (id) => {
     setSelectedId(id)
-    setReadMessages(prev => new Set([...prev, id]))
+    markAsRead(id)
   }
 
   const formatTime = (date) => {
     return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
   }
+
+  const unreadCount = messages.filter(m => !m.readed).length
 
   return (
     <div className={styles.container}>
@@ -37,13 +34,13 @@ export default function Messaging() {
         <div className={styles.sidebarHeader}>
           <Icon name="mail" size={16} />
           <span>Boîte de réception</span>
-          <span className={styles.count}>{messages.filter(m => !readMessages.has(m.id) && !m.read).length}</span>
+          <span className={styles.count}>{unreadCount}</span>
         </div>
         <div className={styles.messageList}>
           {messages.map(msg => (
             <div
               key={msg.id}
-              className={`${styles.messageItem} ${selectedId === msg.id ? styles.selected : ''} ${!readMessages.has(msg.id) && !msg.read ? styles.unread : ''}`}
+              className={`${styles.messageItem} ${selectedId === msg.id ? styles.selected : ''} ${!msg.readed ? styles.unread : ''}`}
               onClick={() => handleSelect(msg.id)}
             >
               <div className={styles.avatar}>{msg.avatar}</div>
@@ -53,7 +50,7 @@ export default function Messaging() {
                 <div className={styles.messageSnippet}>{msg.body.split('\n')[0]}</div>
               </div>
               <div className={styles.messageTime}>{formatTime(msg.date)}</div>
-              {!readMessages.has(msg.id) && !msg.read && <div className={styles.unreadDot} />}
+              {!msg.readed && <div className={styles.unreadDot} />}
             </div>
           ))}
         </div>

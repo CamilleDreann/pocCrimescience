@@ -7,6 +7,7 @@ const fs = {
   '/home/Documents/project': { type: 'folder', name: 'project' },
   '/home/Documents/project/index.html': { type: 'file', name: 'index.html', size: '4.1 KB', modified: '2026-03-10' },
   '/home/Documents/project/style.css': { type: 'file', name: 'style.css', size: '2.8 KB', modified: '2026-03-10' },
+  '/home/Documents/Rapports': { type: 'folder', name: 'Rapports' },
   '/home/Downloads': { type: 'folder', name: 'Downloads' },
   '/home/Downloads/image.png': { type: 'file', name: 'image.png', size: '512 KB', modified: '2026-03-19' },
   '/home/Downloads/archive.zip': { type: 'file', name: 'archive.zip', size: '15.3 MB', modified: '2026-03-17' },
@@ -20,6 +21,10 @@ const fs = {
 }
 
 export const fileSystem = fs
+
+export function addFile(path, fileData) {
+  fs[path] = fileData
+}
 
 export function getNode(path) {
   return fs[path] || null

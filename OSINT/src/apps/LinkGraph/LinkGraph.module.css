@@ -60,6 +60,27 @@
   border-color: rgba(229, 83, 75, 0.4);
 }
 
+.reportBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid rgba(63, 185, 80, 0.35);
+  border-radius: 6px;
+  background: rgba(63, 185, 80, 0.08);
+  color: #3fb950;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.reportBtn:hover {
+  background: rgba(63, 185, 80, 0.16);
+  border-color: rgba(63, 185, 80, 0.6);
+}
+
 .toolbarRight {
   display: flex;
   align-items: center;
@@ -388,6 +409,523 @@
   border-color: rgba(225, 48, 108, 0.5);
 }
 
+/* ── Add Node Button ("+") ── */
+.addNodeBtn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: rgba(20, 20, 30, 0.92);
+  color: #aaa;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  padding: 0;
+  font-family: var(--font-sans);
+}
+
+.addNodeBtn:hover {
+  border-color: #e95420;
+  color: #e95420;
+  background: rgba(233, 84, 32, 0.12);
+  transform: scale(1.15);
+}
+
+/* ── Add Node Panel ── */
+.addNodePanel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  max-height: 80%;
+  display: flex;
+  flex-direction: column;
+  background: #111118;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.addNodePanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+  font-weight: 600;
+  color: #ddd;
+  flex-shrink: 0;
+}
+
+.addNodePanelBody {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+.addNodePanelBody::-webkit-scrollbar {
+  width: 4px;
+}
+
+.addNodePanelBody::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.addNodePanelBody::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+}
+
+.addNodePanelFooter {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.addNodeField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.addNodeLabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.addNodeInput {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #ddd;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.addNodeInput:focus {
+  border-color: rgba(233, 84, 32, 0.4);
+}
+
+.addNodeTextarea {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #ddd;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.addNodeTextarea:focus {
+  border-color: rgba(233, 84, 32, 0.4);
+}
+
+/* ── Color Picker ── */
+.colorPicker {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.colorSwatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  padding: 0;
+}
+
+.colorSwatch:hover {
+  transform: scale(1.2);
+}
+
+.colorSwatchActive {
+  transform: scale(1.15);
+}
+
+/* ── Icon Grid ── */
+.iconGrid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+}
+
+.iconOption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: all 0.15s;
+  padding: 0;
+}
+
+.iconOption:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.iconOptionActive {
+  border-color: rgba(233, 84, 32, 0.4);
+}
+
+/* ── Content items ── */
+.contentList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contentItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.contentTypeBadge {
+  flex-shrink: 0;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.06);
+  color: #888;
+  margin-top: 8px;
+}
+
+.contentInputs {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.contentRemoveBtn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #555;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.15s;
+  padding: 0;
+}
+
+.contentRemoveBtn:hover {
+  background: rgba(229, 83, 75, 0.1);
+  color: #e5534b;
+}
+
+.imagePickerWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.imagePickerBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 8px 12px;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.imagePickerBtn:hover {
+  background: rgba(233, 84, 32, 0.08);
+  border-color: rgba(233, 84, 32, 0.4);
+  color: #e95420;
+}
+
+.imagePickerPreview {
+  border-radius: 6px;
+  max-height: 100px;
+  max-width: 100%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ── Virtual File Picker ── */
+.filePickerOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.filePickerModal {
+  background: #16161e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  width: 360px;
+  max-height: 420px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.filePickerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.filePickerTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ccc;
+}
+
+.filePickerClose {
+  background: transparent;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.filePickerClose:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #aaa;
+}
+
+.filePickerBreadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  flex-shrink: 0;
+}
+
+.filePickerBreadcrumbBtn {
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.filePickerBreadcrumbBtn:hover {
+  color: #e95420;
+  background: rgba(233, 84, 32, 0.08);
+}
+
+.filePickerSep {
+  color: #444;
+  font-size: 11px;
+}
+
+.filePickerGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.filePickerItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  cursor: pointer;
+  color: #ccc;
+  font-size: 11px;
+  text-align: center;
+  word-break: break-all;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.filePickerItem:hover {
+  background: rgba(233, 84, 32, 0.1);
+  border-color: rgba(233, 84, 32, 0.3);
+}
+
+.filePickerItemDim {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.filePickerItemDim:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.filePickerThumb {
+  width: 56px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filePickerEmpty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #444;
+  font-size: 12px;
+  padding: 20px;
+}
+
+.addContentWrap {
+  position: relative;
+}
+
+.addContentBtn {
+  padding: 6px 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 7px;
+  background: transparent;
+  color: #666;
+  font-size: 11px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.15s;
+}
+
+.addContentBtn:hover {
+  border-color: rgba(233, 84, 32, 0.3);
+  color: #e95420;
+  background: rgba(233, 84, 32, 0.04);
+}
+
+.contentTypeMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: #1a1a24;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.contentTypeMenu button {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.contentTypeMenu button:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ── Panel footer buttons ── */
+.cancelBtn {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: transparent;
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.cancelBtn:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #aaa;
+}
+
+.confirmBtn {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid rgba(233, 84, 32, 0.3);
+  border-radius: 8px;
+  background: rgba(233, 84, 32, 0.1);
+  color: #e95420;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.confirmBtn:hover:not(:disabled) {
+  filter: brightness(1.2);
+}
+
+.confirmBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
 /* ── Scrollbar ── */
 .sidebar::-webkit-scrollbar {
   width: 4px;
@@ -400,4 +938,92 @@
 .sidebar::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.08);
   border-radius: 2px;
+}
+
+/* ── Report Preview Modal ── */
+.reportPreviewOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.reportPreviewModal {
+  width: 90%;
+  height: 88%;
+  background: #111118;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.reportPreviewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: #0e0e16;
+  flex-shrink: 0;
+}
+
+.reportPreviewTitle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #888;
+  font-family: monospace;
+}
+
+.reportPreviewActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reportSaveBtn {
+  background: #e95420;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.reportSaveBtn:hover {
+  opacity: 0.85;
+}
+
+.reportCloseBtn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #aaa;
+  border-radius: 5px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.reportCloseBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.reportPreviewFrame {
+  flex: 1;
+  border: none;
+  width: 100%;
+  background: #0a0a10;
 }
