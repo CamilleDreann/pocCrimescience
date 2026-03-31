@@ -8,6 +8,7 @@ const OsintSearch = lazy(() => import('../apps/OsintSearch/OsintSearch'))
 const LinkGraph = lazy(() => import('../apps/LinkGraph/LinkGraph'))
 const Messaging = lazy(() => import('../apps/Messaging/Messaging'))
 const InstagramViewer = lazy(() => import('../apps/InstagramViewer/InstagramViewer'))
+const StravaViewer = lazy(() => import('../apps/StravaViewer/StravaViewer'))
 
 export const appRegistry = [
   {
@@ -65,5 +66,12 @@ export const appRegistry = [
     icon: 'platform-instagram',
     component: InstagramViewer,
     defaultSize: { width: 420, height: 650 },
+  },
+  {
+    id: 'strava-viewer',
+    title: 'Strava',
+    icon: 'platform-strava',
+    component: StravaViewer,
+    defaultSize: { width: 820, height: 580 },
   },
 ]
