@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import styles from './Terminal.module.css'
 
 const COMMANDS = {
-  help: () => `Available commands: help, clear, echo, ls, pwd, whoami, date, uname, cat, neofetch`,
+  help: () => `Available commands: help, clear, echo, ls, pwd, whoami, date, uname, cat, neofetch\n  cat /var/log/auth.log  — display SSH authentication logs`,
   clear: () => null,
   pwd: () => '/home/user',
   whoami: () => 'user',
@@ -75,8 +75,24 @@ export default function Terminal() {
     } else if (command === 'cat') {
       if (args.length === 0) {
         newLines.push({ type: 'error', text: 'cat: missing file operand' })
+      } else if (args[0] === '/var/log/auth.log' || args[0] === 'auth.log') {
+        newLines.push({ type: 'output', text: 'Loading /var/log/auth.log...' })
+        fetch('/auth.log')
+          .then(r => r.text())
+          .then(text => {
+            setLines(prev => [
+              ...prev,
+              { type: 'output', text: text },
+            ])
+          })
+          .catch(() => {
+            setLines(prev => [
+              ...prev,
+              { type: 'error', text: 'cat: /var/log/auth.log: Permission denied' },
+            ])
+          })
       } else {
-        newLines.push({ type: 'output', text: `cat: ${args[0]}: This is simulated content of ${args[0]}` })
+        newLines.push({ type: 'output', text: `cat: ${args[0]}: No such file or directory` })
       }
     } else if (COMMANDS[command]) {
       const result = COMMANDS[command](args)
