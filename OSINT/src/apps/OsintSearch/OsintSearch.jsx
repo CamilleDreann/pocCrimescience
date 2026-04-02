@@ -189,22 +189,6 @@ export default function OsintSearch() {
               <span className={styles.resultsCount}>
                 {results.platforms.length} plateforme{results.platforms.length > 1 ? 's' : ''} trouvee{results.platforms.length > 1 ? 's' : ''}
               </span>
-              <button
-                className={styles.exportBtn}
-                onClick={() => {
-                  const alreadyExported = $graph.get().nodes.some((n) => n.type === 'person' && n.data.email === results.email)
-                  if (alreadyExported) {
-                    addNotification({ title: 'OSINT Search', body: 'Deja exporte vers le graphe.', type: 'info' })
-                  } else {
-                    exportToGraph(results)
-                    addNotification({ title: 'OSINT Search', body: `${results.name} ajoute au graphe.`, type: 'success' })
-                  }
-                  openApp({ appId: 'link-graph', title: 'Link Graph', icon: 'link-graph', defaultSize: { width: 1000, height: 650 } })
-                }}
-              >
-                <Icon name="link-graph" size={14} />
-                <span>Exporter vers le graphe</span>
-              </button>
             </div>
 
             <div className={styles.platformGrid}>
@@ -240,6 +224,27 @@ export default function OsintSearch() {
                 )
               })}
             </div>
+
+            <button
+              className={styles.linkGraphCta}
+              onClick={() => {
+                const alreadyExported = $graph.get().nodes.some((n) => n.type === 'person' && n.data.email === results.email)
+                if (alreadyExported) {
+                  addNotification({ title: 'OSINT Search', body: 'Deja exporte vers le graphe.', type: 'info' })
+                } else {
+                  exportToGraph(results)
+                  addNotification({ title: 'OSINT Search', body: `${results.name} ajoute au graphe.`, type: 'success' })
+                }
+                openApp({ appId: 'link-graph', title: 'Link Graph', icon: 'link-graph', defaultSize: { width: 1000, height: 650 } })
+              }}
+            >
+              <Icon name="link-graph" size={20} />
+              <div className={styles.linkGraphCtaText}>
+                <span className={styles.linkGraphCtaTitle}>Analyser dans LinkGraph</span>
+                <span className={styles.linkGraphCtaDesc}>Visualise les connexions, détails de chaque plateforme, génère un rapport</span>
+              </div>
+              <span className={styles.linkGraphCtaArrow}>→</span>
+            </button>
           </div>
         )}
 

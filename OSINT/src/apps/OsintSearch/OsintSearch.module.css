@@ -252,34 +252,6 @@
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* ── Export button ── */
-.exportBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border: 1px solid rgba(88, 101, 242, 0.3);
-  border-radius: 8px;
-  background: rgba(88, 101, 242, 0.1);
-  color: #7c8aff;
-  font-size: 12px;
-  font-weight: 600;
-  font-family: var(--font-sans);
-  cursor: pointer;
-  transition: all 0.15s;
-  margin-left: 8px;
-}
-
-.exportBtn:hover {
-  background: rgba(88, 101, 242, 0.18);
-  border-color: rgba(88, 101, 242, 0.5);
-  color: #99a5ff;
-  transform: translateY(-1px);
-}
-
-.exportBtn:active {
-  transform: translateY(0);
-}
 
 /* ── Platform grid ── */
 .platformGrid {
@@ -478,4 +450,53 @@
 .suggestionItem:hover {
   background: var(--color-accent);
   color: #fff;
+}
+
+/* ── LinkGraph CTA ── */
+.linkGraphCta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #e95420, #c0392b);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  text-align: left;
+  font-family: var(--font-sans);
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.linkGraphCta:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.linkGraphCta:active {
+  transform: translateY(0);
+}
+
+.linkGraphCtaText {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+}
+
+.linkGraphCtaTitle {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.linkGraphCtaDesc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.linkGraphCtaArrow {
+  font-size: 18px;
+  opacity: 0.8;
 }
