@@ -9,6 +9,7 @@ const LinkGraph = lazy(() => import('../apps/LinkGraph/LinkGraph'))
 const Messaging = lazy(() => import('../apps/Messaging/Messaging'))
 const InstagramViewer = lazy(() => import('../apps/InstagramViewer/InstagramViewer'))
 const StravaViewer = lazy(() => import('../apps/StravaViewer/StravaViewer'))
+const CameraViewer = lazy(() => import('../apps/CameraViewer/CameraViewer'))
 
 export const appRegistry = [
   {
@@ -73,5 +74,12 @@ export const appRegistry = [
     icon: 'platform-strava',
     component: StravaViewer,
     defaultSize: { width: 820, height: 580 },
+  },
+  {
+    id: 'camera-viewer',
+    title: 'Camera Viewer',
+    icon: 'camera',
+    component: CameraViewer,
+    defaultSize: { width: 900, height: 600 },
   },
 ]
