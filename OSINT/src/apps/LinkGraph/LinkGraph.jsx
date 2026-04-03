@@ -6,6 +6,9 @@ import styles from './LinkGraph.module.css'
 import { getChildren, addFile } from '../FileManager/fileSystemData'
 import { generateReport } from './generateReport'
 import { $graph, addCustomNode, clearGraph, updateNodePosition, uid } from '../../stores/graphStore'
+import { $messages, addMessage } from '../../stores/messagesStore'
+import Popup from '../../components/ui/Popup'
+import { initFaceRecognition, checkGraphForTarget } from '../../services/faceRecognition'
 
 const PLATFORM_THEMES = {
   Instagram: { color: '#E1306C', bg: '#2a0f18' },
@@ -241,6 +244,21 @@ export default function LinkGraph() {
   const [filePicker, setFilePicker] = useState(null) // { onSelect: fn } | null
   const [filePickerPath, setFilePickerPath] = useState('/home')
   const [reportPreview, setReportPreview] = useState(null) // { html, filename, timestamp } | null
+  const [sendStep, setSendStep] = useState(null) // null | 'selectRecipient'
+  const [popupError, setPopupError] = useState(null) // null | string
+  const [faceCheckLoading, setFaceCheckLoading] = useState(false)
+  const [faceModelStatus, setFaceModelStatus] = useState('idle') // 'idle' | 'loading' | 'ready' | 'error'
+  const messages = useStore($messages)
+
+  useEffect(() => {
+    const id = requestIdleCallback(() => {
+      setFaceModelStatus('loading')
+      initFaceRecognition()
+        .then(() => setFaceModelStatus('ready'))
+        .catch(() => setFaceModelStatus('error'))
+    })
+    return () => cancelIdleCallback(id)
+  }, [])
   const panStart = useRef({ x: 0, y: 0, panX: 0, panY: 0 })
   const svgRef = useRef(null)
   const dragStart = useRef({ x: 0, y: 0, nodeX: 0, nodeY: 0 })
@@ -347,8 +365,45 @@ export default function LinkGraph() {
     setReportPreview({ html, filename, timestamp, dateStr })
   }, [graph])
 
-  const handleSaveReport = useCallback(() => {
+  const recipients = messages
+    .filter(m => m.render && m.from !== 'Systeme')
+    .reduce((acc, m) => {
+      if (!acc.find(r => r.from === m.from)) acc.push({ from: m.from, role: m.role, avatar: m.avatar })
+      return acc
+    }, [])
+
+  const handleSendReport = useCallback(() => {
+    setSendStep('selectRecipient')
+  }, [])
+
+  const handleSelectRecipient = useCallback(async (recipient) => {
+    if (recipient.from !== 'Capitaine Morel') {
+      setPopupError(`Vous avez sélectionné "${recipient.from}". Ce n'est pas le bon destinataire. C'est un travail sérieux, vous ne pouvez pas vous permettre une erreur comme celle-ci.`)
+      return
+    }
     if (!reportPreview) return
+
+    setFaceCheckLoading(true)
+    try {
+      await initFaceRecognition()
+      const faceResult = await checkGraphForTarget(graph.nodes)
+      if (!faceResult.found) {
+        const reasons = {
+          no_images: 'Votre graphe ne contient aucune image. Vous devez identifier visuellement le suspect avant d\'envoyer le rapport.',
+          no_face: 'Aucun visage n\'a été détecté dans les images de votre graphe. Assurez-vous d\'ajouter une image claire du suspect.',
+          no_match: 'Le suspect recherché n\'a pas été identifié dans votre graphe. Vérifiez vos éléments avant de soumettre le rapport.',
+        }
+        setPopupError(reasons[faceResult.reason] || 'Le rapport est incomplet.')
+        return
+      }
+    } catch (err) {
+      console.error('Analyse faciale échouée :', err)
+      setPopupError('Erreur lors de l\'analyse faciale. Veuillez réessayer.')
+      return
+    } finally {
+      setFaceCheckLoading(false)
+    }
+
     const { html, filename, timestamp, dateStr } = reportPreview
     const path = `/home/Documents/Rapports/${filename}`
     const sizeKB = (new Blob([html]).size / 1024).toFixed(1)
@@ -359,15 +414,27 @@ export default function LinkGraph() {
       modified: dateStr,
       content: html,
     })
+    addMessage({
+      id: `msg-report-${timestamp}`,
+      from: 'Capitaine Morel',
+      role: 'Brigade Criminelle',
+      avatar: 'CM',
+      subject: 'Re: Rapport reçu',
+      date: new Date().toISOString(),
+      body: `Agent,\n\nBien reçu. Je viens de parcourir votre rapport et je dois dire que c'est du bon travail. Les informations sont claires, bien structurées et exploitables.\n\nLe suspect a été formellement identifié grâce à votre travail. Continuez comme ça, c'est exactement ce dont l'équipe a besoin.\n\nCapitaine Morel\nBrigade Criminelle`,
+      readed: false,
+      render: true,
+    })
     addNotification({
       id: `report-${timestamp}`,
-      title: 'Rapport sauvegardé',
-      message: `${filename} sauvegardé dans Documents/Rapports`,
+      title: 'Rapport envoyé',
+      message: `Rapport envoyé au Capitaine Morel avec succès`,
       type: 'success',
       time: new Date(timestamp).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
     })
     setReportPreview(null)
-  }, [reportPreview, addNotification])
+    setSendStep(null)
+  }, [reportPreview, graph.nodes, addNotification])
 
   return (
     <div className={styles.container}>
@@ -393,9 +460,14 @@ export default function LinkGraph() {
                 <Icon name="close" size={12} />
                 <span>Vider</span>
               </button>
-              <button className={styles.reportBtn} onClick={handleGenerateReport}>
+              <button
+                className={styles.reportBtn}
+                onClick={handleGenerateReport}
+                disabled={faceModelStatus === 'idle' || faceModelStatus === 'loading'}
+                title={faceModelStatus === 'loading' ? 'Chargement des modèles...' : undefined}
+              >
                 <Icon name="file" size={12} />
-                <span>Rapport</span>
+                <span>{faceModelStatus === 'loading' ? 'Chargement...' : 'Rapport'}</span>
               </button>
             </>
           )}
@@ -995,30 +1067,62 @@ export default function LinkGraph() {
 
       {/* Report Preview modal */}
       {reportPreview && (
-        <div className={styles.reportPreviewOverlay} onClick={() => setReportPreview(null)}>
+        <div className={styles.reportPreviewOverlay} onClick={() => { setReportPreview(null); setSendStep(null) }}>
           <div className={styles.reportPreviewModal} onClick={e => e.stopPropagation()}>
             <div className={styles.reportPreviewHeader}>
               <span className={styles.reportPreviewTitle}>
                 <Icon name="file" size={13} />
-                {reportPreview.filename}
+                {sendStep === 'selectRecipient' ? 'Sélectionner un destinataire' : reportPreview.filename}
               </span>
               <div className={styles.reportPreviewActions}>
-                <button className={styles.reportSaveBtn} onClick={handleSaveReport}>
-                  Sauvegarder
-                </button>
-                <button className={styles.reportCloseBtn} onClick={() => setReportPreview(null)}>
+                {sendStep === 'selectRecipient' ? (
+                  <button className={styles.reportSaveBtn} onClick={() => setSendStep(null)}>
+                    Retour
+                  </button>
+                ) : (
+                  <button className={styles.reportSaveBtn} onClick={handleSendReport}>
+                    <Icon name="mail" size={12} />
+                    Envoyer le rapport
+                  </button>
+                )}
+                <button className={styles.reportCloseBtn} onClick={() => { setReportPreview(null); setSendStep(null) }}>
                   <Icon name="close" size={13} />
                 </button>
               </div>
             </div>
-            <iframe
-              className={styles.reportPreviewFrame}
-              srcDoc={reportPreview.html}
-              title="Aperçu du rapport"
-              sandbox="allow-same-origin"
-            />
+            {sendStep === 'selectRecipient' ? (
+              <div className={styles.recipientList}>
+                <p className={styles.recipientHint}>À qui souhaitez-vous envoyer ce rapport ?</p>
+                {recipients.map(r => (
+                  <button key={r.from} className={styles.recipientItem} onClick={() => handleSelectRecipient(r)}>
+                    <div className={styles.recipientAvatar}>{r.avatar}</div>
+                    <div className={styles.recipientInfo}>
+                      <span className={styles.recipientName}>{r.from}</span>
+                      <span className={styles.recipientRole}>{r.role}</span>
+                    </div>
+                    <Icon name="chevron-right" size={14} />
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <iframe
+                className={styles.reportPreviewFrame}
+                srcDoc={reportPreview.html}
+                title="Aperçu du rapport"
+                sandbox="allow-same-origin"
+              />
+            )}
           </div>
         </div>
+      )}
+
+      {popupError && (
+        <Popup
+          title="Mauvais destinataire"
+          message={popupError}
+          type="error"
+          onClose={() => setPopupError(null)}
+        />
       )}
     </div>
   )
