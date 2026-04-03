@@ -5,10 +5,10 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
 
 .grid {
-  position: relative;
   flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -29,12 +29,16 @@
   cursor: pointer;
   transition: var(--transition-base);
   overflow: hidden;
-  z-index: 1;
 }
 
-.card:hover:not(.dimmed) {
+.card:hover {
   border-color: var(--color-accent);
   background: var(--color-surface-active);
+}
+
+.dimmed {
+  opacity: 0.25;
+  pointer-events: none;
 }
 
 .badge {
@@ -58,25 +62,46 @@
   font-family: var(--font-mono);
 }
 
+/* Overlay backdrop */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  animation: fadeIn 250ms ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Expanded card */
 .expanded {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  width: 80% !important;
-  height: 80% !important;
-  transform: translate(-50%, -50%) !important;
-  z-index: 10 !important;
-  cursor: default;
-  border-color: var(--color-accent);
+  position: relative;
+  width: 80%;
+  height: 80%;
+  background: var(--color-input-bg);
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   box-shadow: var(--shadow-window);
+  animation: scaleIn 250ms ease forwards;
 }
 
-.dimmed {
-  opacity: 0.25;
-  pointer-events: none;
-  cursor: default;
+@keyframes scaleIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
 }
 
+/* Close button */
 .closeBtn {
   position: absolute;
   top: 10px;
