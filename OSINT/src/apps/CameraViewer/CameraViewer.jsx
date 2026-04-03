@@ -26,7 +26,7 @@ export default function CameraViewer() {
         {CAMERAS.map((cam) => (
           <div
             key={cam.id}
-            className={`${styles.card} ${selectedId ? styles.dimmed : ''}`}
+            className={`${styles.card} ${selectedId && cam.id !== selectedId ? styles.dimmed : ''}`}
             onClick={() => setSelectedId(cam.id)}
           >
             <span className={styles.badge}>● EN DIRECT</span>
