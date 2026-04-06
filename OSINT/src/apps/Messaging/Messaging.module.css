@@ -313,6 +313,30 @@
   color: white;
 }
 
+/* Gros bouton play central */
+.videoBigPlay {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.15s;
+  z-index: 2;
+}
+
+.videoBigPlay:hover {
+  background: var(--color-accent);
+  transform: scale(1.08);
+}
+
 /* Spinner buffering */
 .videoSpinner {
   position: absolute;
