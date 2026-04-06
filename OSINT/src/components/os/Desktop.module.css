@@ -1,7 +1,9 @@
 .desktop {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #2c001e 0%, #3d0530 30%, #2c001e 60%, #1a0011 100%);
+  background-color: var(--color-bg-desktop);
+  background-image: radial-gradient(circle, #d4cfc6 1px, transparent 1px);
+  background-size: 24px 24px;
   overflow: hidden;
 }
 
