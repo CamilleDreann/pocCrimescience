@@ -1,18 +1,20 @@
 :root {
-  /* GNOME/Ubuntu Dark Theme */
-  --color-bg-desktop: #2c001e;
-  --color-bg-panel: rgba(0, 0, 0, 0.65);
-  --color-bg-window: #2d2d2d;
-  --color-bg-window-header: #3c3c3c;
-  --color-bg-surface: #383838;
-  --color-bg-hover: rgba(255, 255, 255, 0.08);
-  --color-bg-active: rgba(255, 255, 255, 0.12);
-  --color-bg-input: #1e1e1e;
+  /* ── Backgrounds ── */
+  --color-bg-desktop: #f5f0e8;
+  --color-bg-panel: #ffffff;
+  --color-bg-window: #ffffff;
+  --color-bg-window-header: #ffffff;
+  --color-bg-surface: #fafaf7;
+  --color-bg-hover: rgba(0, 0, 0, 0.04);
+  --color-bg-active: rgba(0, 0, 0, 0.07);
+  --color-bg-input: #fafafa;
 
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #999999;
-  --color-text-muted: #666666;
+  /* ── Text ── */
+  --color-text-primary: #000000;
+  --color-text-secondary: #555555;
+  --color-text-muted: #aaaaaa;
 
+  /* ── Accent (inchangé) ── */
   --color-accent: #e95420;
   --color-accent-hover: #f07746;
   --color-accent-active: #c7431a;
@@ -20,19 +22,31 @@
   --color-warning: #f0ad4e;
   --color-danger: #e5534b;
 
-  --color-border: #444444;
-  --color-border-subtle: #333333;
+  /* ── Borders ── */
+  --color-border: #000000;
+  --color-border-subtle: #e0e0e0;
+  --color-border-disabled: #cccccc;
 
-  /* Typography */
-  --font-sans: 'Ubuntu', 'Cantarell', system-ui, sans-serif;
-  --font-mono: 'Ubuntu Mono', 'Fira Code', monospace;
+  /* ── Shadows (solides, sans blur) ── */
+  --shadow-window: 6px 6px 0 #000000;
+  --shadow-card: 3px 3px 0 #000000;
+  --shadow-card-disabled: 3px 3px 0 #cccccc;
+  --shadow-button: 3px 3px 0 #000000;
+  --shadow-button-sm: 2px 2px 0 #000000;
+  --shadow-menu: 4px 4px 0 #000000;
+  --shadow-panel: none;
+
+  /* ── Typography ── */
+  --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   --font-size-xs: 11px;
   --font-size-sm: 13px;
   --font-size-base: 14px;
   --font-size-lg: 16px;
   --font-size-xl: 20px;
 
-  /* Spacing */
+  /* ── Spacing ── */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -41,19 +55,14 @@
   --space-6: 24px;
   --space-8: 32px;
 
-  /* Layout */
-  --panel-height: 28px;
-  --window-header-height: 36px;
-  --window-border-radius: 10px;
+  /* ── Layout ── */
+  --panel-height: 40px;
+  --window-header-height: 42px;
+  --window-border-radius: 12px;
   --icon-size-desktop: 48px;
   --icon-size-panel: 16px;
 
-  /* Shadows */
-  --shadow-window: 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-menu: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-panel: 0 2px 8px rgba(0, 0, 0, 0.3);
-
-  /* Z-Index Scale */
+  /* ── Z-Index ── */
   --z-desktop: 0;
   --z-desktop-icons: 1;
   --z-windows: 10;
@@ -63,7 +72,7 @@
   --z-notification: 3000;
   --z-modal: 4000;
 
-  /* Transitions */
+  /* ── Transitions ── */
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
   --transition-slow: 400ms ease;
