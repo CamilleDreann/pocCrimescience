@@ -229,21 +229,25 @@
 .videoWrapper {
   padding: var(--space-4) var(--space-6);
   padding-top: 0;
+}
+
+.videoThumb {
   position: relative;
   display: inline-block;
   cursor: pointer;
+  border-radius: var(--radius-md);
+  overflow: hidden;
 }
 
 .videoPreview {
   width: 160px;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
-  cursor: pointer;
   display: block;
   background: #000;
 }
 
-.videoWrapper:hover .videoPreview {
+.videoThumb:hover .videoPreview {
   border-color: var(--color-accent);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
@@ -254,11 +258,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
-  color: white;
-  text-shadow: 0 0 8px rgba(0,0,0,0.8);
-  pointer-events: none;
+  background: rgba(0, 0, 0, 0.3);
   opacity: 0.85;
+  transition: opacity 0.15s;
+}
+
+.videoThumb:hover .videoPlayHint {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.45);
 }
 
 /* Fullscreen overlay */

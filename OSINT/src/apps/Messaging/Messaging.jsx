@@ -199,14 +199,18 @@ export default function Messaging() {
             <div className={styles.readerBody} dangerouslySetInnerHTML={{ __html: selectedMessage.body.replace(/\n/g, '<br/>') }} />
             {selectedMessage.video && (
               <div className={styles.videoWrapper}>
-                <video
-                  className={styles.videoPreview}
-                  src={`${selectedMessage.video}#t=0.1`}
-                  preload="metadata"
-                  onClick={openVideo}
-                  title="Cliquer pour ouvrir la vidéo"
-                />
-                <div className={styles.videoPlayHint} onClick={openVideo}>▶</div>
+                <div className={styles.videoThumb} onClick={openVideo}>
+                  <video
+                    className={styles.videoPreview}
+                    src={`${selectedMessage.video}#t=0.1`}
+                    preload="metadata"
+                  />
+                  <div className={styles.videoPlayHint}>
+                    <svg viewBox="0 0 24 24" fill="white" width="28" height="28">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
               </div>
             )}
             {videoOpen && selectedMessage?.video && (
