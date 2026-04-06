@@ -3,8 +3,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #0d0d0f;
-  color: #e0e0e0;
+  background: #ffffff;
+  color: var(--color-text-primary);
   font-family: var(--font-sans);
   overflow: hidden;
 }
@@ -13,19 +13,21 @@
 .header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 20px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+  gap: 14px;
+  padding: 18px 20px 14px;
+  border-bottom: 2px solid #000;
+  background: #ffffff;
 }
 
 .headerIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
+  border: 2px solid #000;
+  box-shadow: var(--shadow-card);
   background: linear-gradient(135deg, #e95420, #c7431a);
   color: white;
   flex-shrink: 0;
@@ -33,42 +35,45 @@
 
 .title {
   margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: #ffffff;
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 900;
+  color: #000;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
-  margin: 2px 0 0;
+  margin: 3px 0 0;
   font-size: 11px;
-  color: #666;
-  letter-spacing: 0.2px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
 }
 
 /* ── Search ── */
 .searchArea {
-  padding: 16px 20px;
+  padding: 14px 20px;
+  border-bottom: 1.5px solid var(--color-border-subtle);
 }
 
 .searchBar {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #161619;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  background: var(--color-bg-input);
+  border: 2px solid #000;
+  border-radius: 10px;
   padding: 4px 4px 4px 14px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
 .searchBar:focus-within {
-  border-color: #e95420;
-  box-shadow: 0 0 0 3px rgba(233, 84, 32, 0.15), 0 0 20px rgba(233, 84, 32, 0.05);
+  box-shadow: 4px 4px 0 #000;
+  transform: translate(-1px, -1px);
 }
 
 .searchIcon {
-  color: #555;
+  color: var(--color-text-muted);
   flex-shrink: 0;
 }
 
@@ -77,38 +82,42 @@
   background: none;
   border: none;
   outline: none;
-  color: #e0e0e0;
+  color: var(--color-text-primary);
   font-size: 14px;
   font-family: var(--font-mono);
+  font-weight: 500;
   padding: 8px 0;
   min-width: 0;
 }
 
 .searchInput::placeholder {
-  color: #444;
+  color: var(--color-text-muted);
 }
 
 .searchBtn {
   flex-shrink: 0;
   padding: 8px 18px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #e95420, #c7431a);
+  border: 2px solid #000;
+  border-radius: 7px;
+  background: var(--color-accent);
   color: white;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 800;
   font-family: var(--font-sans);
   cursor: pointer;
-  transition: opacity 0.15s, transform 0.1s;
+  box-shadow: var(--shadow-button-sm);
+  letter-spacing: -0.2px;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .searchBtn:hover:not(:disabled) {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-button);
 }
 
 .searchBtn:active:not(:disabled) {
-  transform: translateY(0);
+  transform: translate(0, 0);
+  box-shadow: var(--shadow-button-sm);
 }
 
 .searchBtn:disabled {
@@ -121,7 +130,7 @@
   display: inline-block;
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   border-top-color: white;
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
@@ -150,9 +159,9 @@
 
 .scanLine {
   width: 200px;
-  height: 2px;
+  height: 3px;
   background: linear-gradient(90deg, transparent, #e95420, transparent);
-  border-radius: 1px;
+  border-radius: 2px;
   animation: scanPulse 1.5s ease-in-out infinite;
 }
 
@@ -163,10 +172,10 @@
 
 .loadingText {
   font-size: 13px;
-  color: #888;
+  color: var(--color-text-secondary);
   letter-spacing: 1px;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .scanDots {
@@ -179,6 +188,7 @@
   height: 6px;
   border-radius: 50%;
   background: #e95420;
+  border: 1.5px solid #000;
   animation: dotBounce 1.2s ease-in-out infinite;
 }
 
@@ -201,13 +211,13 @@
 }
 
 .errorIcon {
-  color: #e5534b;
-  opacity: 0.7;
+  color: var(--color-danger);
 }
 
 .errorText {
   font-size: 14px;
-  color: #999;
+  font-weight: 600;
+  color: var(--color-text-secondary);
 }
 
 /* ── Results ── */
@@ -225,33 +235,35 @@
   align-items: baseline;
   gap: 12px;
   margin-bottom: 18px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 14px 0 12px;
+  border-bottom: 2px solid #000;
   flex-wrap: wrap;
 }
 
 .resultsTarget {
   font-size: 16px;
-  font-weight: 700;
-  color: #fff;
+  font-weight: 800;
+  color: #000;
+  font-family: var(--font-serif);
 }
 
 .resultsEmail {
   font-size: 13px;
   font-family: var(--font-mono);
   color: #e95420;
+  font-weight: 600;
 }
 
 .resultsCount {
   margin-left: auto;
-  font-size: 12px;
-  color: #666;
-  background: rgba(255, 255, 255, 0.04);
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: #000;
   padding: 3px 10px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1.5px solid #000;
 }
-
 
 /* ── Platform grid ── */
 .platformGrid {
@@ -263,35 +275,26 @@
 /* ── Platform card ── */
 .platformCard {
   position: relative;
-  background: #141417;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #ffffff;
+  border: 2px solid #000;
   border-radius: 12px;
   padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow: hidden;
-  transition: border-color 0.2s, transform 0.15s;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
 }
 
 .platformCard:hover {
-  border-color: var(--platform-color);
-  transform: translateY(-2px);
-}
-
-.platformCard:hover .cardGlow {
-  opacity: 1;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #000;
 }
 
 .cardGlow {
-  position: absolute;
-  inset: 0;
-  background: var(--platform-gradient);
-  opacity: 0;
-  transition: opacity 0.3s;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-  border-radius: 12px;
+  display: none;
 }
 
 .cardHeader {
@@ -304,9 +307,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
+  border: 2px solid #000;
   background: var(--platform-gradient);
   color: white;
   flex-shrink: 0;
@@ -314,8 +318,9 @@
 
 .cardPlatform {
   font-size: 14px;
-  font-weight: 600;
-  color: #fff;
+  font-weight: 800;
+  color: #000;
+  letter-spacing: -0.2px;
 }
 
 .cardBody {
@@ -328,13 +333,13 @@
   font-size: 13px;
   font-family: var(--font-mono);
   color: var(--platform-color);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .cardBio {
   margin: 0;
   font-size: 12px;
-  color: #777;
+  color: var(--color-text-secondary);
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -345,13 +350,13 @@
 .cardFooter {
   margin-top: auto;
   padding-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 1.5px solid var(--color-border-subtle);
 }
 
 .cardLink {
   font-size: 11px;
   font-family: var(--font-mono);
-  color: #555;
+  color: var(--color-text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -369,12 +374,13 @@
 }
 
 .emptyIcon {
-  color: #333;
+  color: var(--color-text-muted);
 }
 
 .emptyText {
   font-size: 14px;
-  color: #555;
+  font-weight: 600;
+  color: var(--color-text-secondary);
 }
 
 .emailHints {
@@ -387,20 +393,23 @@
 
 .hintChip {
   padding: 6px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid #000;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.03);
-  color: #888;
+  background: #ffffff;
+  color: var(--color-text-primary);
   font-size: 12px;
   font-family: var(--font-mono);
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s;
+  box-shadow: var(--shadow-button-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
 }
 
 .hintChip:hover {
-  border-color: #e95420;
-  color: #e95420;
-  background: rgba(233, 84, 32, 0.08);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-button);
+  background: var(--color-accent);
+  color: #fff;
 }
 
 /* Scrollbar */
@@ -413,12 +422,12 @@
 }
 
 .resultsArea::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 3px;
 }
 
 .resultsArea::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 /* ── Autocomplete dropdown ── */
@@ -430,10 +439,10 @@
   margin: 4px 0 0;
   padding: 4px 0;
   list-style: none;
-  background: #1a1a1e;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  background: #ffffff;
+  border: 2px solid #000;
+  border-radius: 8px;
+  box-shadow: var(--shadow-menu);
   z-index: 100;
   max-height: 240px;
   overflow-y: auto;
@@ -442,8 +451,9 @@
 .suggestionItem {
   padding: 8px 16px;
   cursor: pointer;
-  color: inherit;
+  color: var(--color-text-primary);
   font-size: 0.875rem;
+  font-weight: 500;
   transition: background 0.15s;
 }
 
@@ -460,23 +470,25 @@
   flex-shrink: 0;
   margin: 0 20px 16px;
   padding: 14px 18px;
-  background: linear-gradient(135deg, #e95420, #c0392b);
-  border: none;
+  background: #000;
+  border: 2px solid #000;
   border-radius: 10px;
+  box-shadow: var(--shadow-card);
   cursor: pointer;
   color: white;
   text-align: left;
   font-family: var(--font-sans);
-  transition: opacity 0.15s ease, transform 0.1s ease;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .linkGraphCta:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #e95420;
 }
 
 .linkGraphCta:active {
-  transform: translateY(0);
+  transform: translate(0, 0);
+  box-shadow: var(--shadow-card);
 }
 
 .linkGraphCtaText {
@@ -488,15 +500,17 @@
 
 .linkGraphCtaTitle {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.2px;
 }
 
 .linkGraphCtaDesc {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
 }
 
 .linkGraphCtaArrow {
   font-size: 18px;
-  opacity: 0.8;
+  color: var(--color-accent);
 }
