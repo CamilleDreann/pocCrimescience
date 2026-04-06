@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nanostores/react": "^1.1.0",
+    "face-api.js": "^0.22.2",
     "html2canvas": "^1.4.1",
     "leaflet": "^1.9.4",
     "nanostores": "^1.2.0",

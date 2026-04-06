@@ -11,25 +11,14 @@
     "render": true
   },
   {
-    "id": "msg-002",
-    "from": "Systeme",
-    "role": "Administration",
-    "avatar": "SY",
-    "subject": "Votre compte a ete active",
-    "date": "2026-03-30T08:00:00",
-    "body": "Votre compte utilisateur a ete active avec succes.\n\nVous pouvez maintenant acceder a l'ensemble des applications du systeme.",
-    "readed": true,
-    "render": true
-  },
-  {
     "id": "msg-003",
-    "from": "Chef de service",
-    "role": "Direction",
-    "avatar": "CS",
-    "subject": "Message cache pour test",
-    "date": "2026-03-29T10:00:00",
-    "body": "Ce message ne devrait pas s'afficher car render est false.",
+    "from": "Capitaine Morel",
+    "role": "Brigade Criminelle",
+    "avatar": "CM",
+    "subject": "Nouvelle affaire - Rapport attendu",
+    "date": "2026-03-30T09:15:00",
+    "body": "Agent,\n\nPas de temps pour les presentations, vous tombez bien car ici on ne chomme pas. Vous avez de la chance, a peine arrive et vous etes deja dans le bain.\n\nUne nouvelle affaire vient de nous tomber dessus et on a besoin de tout le monde sur le pont.\n\nJe vais etre tres clair sur ce que j'attends de vous :\n\n<div class=\"objective-box\">🎯 OBJECTIF : Fournir un rapport detaille et complet sur notre suspect.</div>\n\nJe veux tout savoir : identite, habitudes numeriques, comptes en ligne, traces laissees sur le web... Chaque detail compte. Utilisez tous les outils a votre disposition, notamment l'application <b>OSINT Search</b> sur votre poste.\n\nNe me decevez pas. L'equipe compte sur vous.\n\nCapitaine Morel\nBrigade Criminelle",
     "readed": false,
-    "render": false
+    "render": true
   }
 ]

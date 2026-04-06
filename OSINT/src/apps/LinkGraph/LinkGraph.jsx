@@ -424,6 +424,7 @@ export default function LinkGraph() {
       body: `Agent,\n\nBien reçu. Je viens de parcourir votre rapport et je dois dire que c'est du bon travail. Les informations sont claires, bien structurées et exploitables.\n\nLe suspect a été formellement identifié grâce à votre travail. Continuez comme ça, c'est exactement ce dont l'équipe a besoin.\n\nCapitaine Morel\nBrigade Criminelle`,
       readed: false,
       render: true,
+      video: '/Enregistrement_de_lecran_2026-03-27_a_21.47.36.mov',
     })
     addNotification({
       id: `report-${timestamp}`,

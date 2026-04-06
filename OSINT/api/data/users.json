@@ -14,15 +14,6 @@
         "postsCount": 214,
         "posts": [
           {
-            "id": 1,
-            "gradient": "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
-            "emoji": "🌿",
-            "caption": "Sortie nature au Parc de la Tete d'Or ce matin. La lumiere etait parfaite. #lyon #nature #photographie",
-            "likes": 312,
-            "comments": 18,
-            "date": "22 mars"
-          },
-          {
             "id": 2,
             "gradient": "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
             "emoji": "📸",
@@ -48,6 +39,14 @@
             "likes": 267,
             "comments": 14,
             "date": "1 mars"
+          },
+          {
+            "id": 5,
+            "image": "/fake-post/image.png",
+            "caption": "Petit moment de detente entre amis 🥂 #friends #goodvibes #weekend",
+            "likes": 389,
+            "comments": 22,
+            "date": "28 mars"
           }
         ]
       },
