@@ -1,8 +1,8 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(20px);
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(4px);
   z-index: var(--z-launcher);
   display: flex;
   align-items: center;
@@ -24,9 +24,10 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 24px;
+  background: #ffffff;
+  border: 2px solid #000;
+  border-radius: 12px;
+  box-shadow: var(--shadow-button);
   padding: var(--space-3) var(--space-5);
   width: 100%;
   max-width: 400px;
@@ -44,6 +45,8 @@
   outline: none;
   color: var(--color-text-primary);
   font-size: var(--font-size-lg);
+  font-family: var(--font-sans);
+  font-weight: 500;
 }
 
 .searchInput::placeholder {
@@ -64,11 +67,15 @@
   gap: var(--space-2);
   padding: var(--space-4);
   border-radius: 12px;
-  transition: background var(--transition-fast);
+  border: 2px solid transparent;
+  transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  cursor: pointer;
 }
 
 .appItem:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border-color: #000;
+  box-shadow: var(--shadow-card);
 }
 
 .appIcon {
@@ -77,12 +84,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-surface);
   border-radius: 16px;
+  border: 2px solid #000;
+  box-shadow: var(--shadow-card);
 }
 
 .appName {
   font-size: var(--font-size-sm);
+  font-weight: 700;
   color: var(--color-text-primary);
 }
 
