@@ -9,14 +9,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2px var(--space-1);
+  padding: 2px var(--space-2);
   border-radius: 4px;
-  transition: background var(--transition-fast);
+  border: 1.5px solid transparent;
   color: var(--color-text-primary);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
 }
 
 .trayBtn:hover {
   background: var(--color-bg-hover);
+  border-color: #000;
 }
 
 /* Popup */
@@ -25,7 +29,8 @@
   top: calc(var(--panel-height) + 4px);
   right: 0;
   width: 280px;
-  background: #2d2d2d;
+  background: #ffffff;
+  border: 2px solid #000;
   border-radius: 12px;
   box-shadow: var(--shadow-menu);
   padding: var(--space-3);
@@ -43,17 +48,20 @@
   padding: var(--space-2);
   border-radius: 8px;
   font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
 }
 
 .popupRow span {
   flex: 1;
+  font-weight: 600;
 }
 
 .toggleBtn {
   width: 36px;
   height: 20px;
   border-radius: 10px;
-  background: #555;
+  background: #ccc;
+  border: 1.5px solid #000;
   position: relative;
   transition: background var(--transition-fast);
   padding: 0;
@@ -64,10 +72,11 @@
 }
 
 .toggleThumb {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: white;
+  border: 1px solid rgba(0,0,0,0.2);
   position: absolute;
   top: 2px;
   left: 2px;
@@ -75,12 +84,12 @@
 }
 
 .toggleBtn.active .toggleThumb {
-  transform: translateX(16px);
+  transform: translateX(14px);
 }
 
 .divider {
-  height: 1px;
-  background: var(--color-border-subtle);
+  height: 2px;
+  background: #000;
   margin: var(--space-1) 0;
 }
 
@@ -96,8 +105,9 @@
   height: 4px;
   -webkit-appearance: none;
   appearance: none;
-  background: #555;
+  background: #ddd;
   border-radius: 2px;
+  border: 1px solid #000;
   outline: none;
 }
 
@@ -109,7 +119,7 @@
   border-radius: 50%;
   background: var(--color-accent);
   cursor: pointer;
-  border: 2px solid white;
+  border: 2px solid #000;
 }
 
 .popupAction {
@@ -119,6 +129,8 @@
   padding: var(--space-2);
   border-radius: 8px;
   font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
   transition: background var(--transition-fast);
   width: 100%;
   text-align: left;
