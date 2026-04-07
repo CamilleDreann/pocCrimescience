@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, Suspense } from 'react'
 import { useOS } from '../../context/useOS'
-import { useContextMenu } from '../../hooks/useContextMenu'
 import { appRegistry } from '../../data/appRegistry'
 import TopPanel from './TopPanel'
 import Window from './Window'
 import DesktopIcon from './DesktopIcon'
 import AppLauncher from './AppLauncher'
 import NotificationCenter from './NotificationCenter'
-import ContextMenu from '../ui/ContextMenu'
+import ObjectivesWidget from './ObjectivesWidget'
+import ObjectiveCompletionToast from './ObjectiveCompletionToast'
 import ScreenshotOverlay from './ScreenshotOverlay'
 import styles from './Desktop.module.css'
 
@@ -22,8 +22,7 @@ const desktopIcons = [
 ]
 
 export default function Desktop() {
-  const { windows, openApp, addNotification, system, toggleLauncher } = useOS()
-  const { menu, showMenu, hideMenu } = useContextMenu()
+  const { windows, openApp, addNotification, system } = useOS()
   const [unreadMail, setUnreadMail] = useState(1)
   const notifSent = useRef(false)
 
@@ -54,21 +53,12 @@ export default function Desktop() {
     }
   }
 
-  const desktopMenuItems = [
-    { label: 'Open Terminal', icon: 'terminal', onClick: () => handleOpenApp('terminal') },
-    { label: 'Open File Manager', icon: 'folder', onClick: () => handleOpenApp('file-manager') },
-    { divider: true },
-    { label: 'Settings', icon: 'settings', onClick: () => handleOpenApp('settings') },
-    { label: 'Show Applications', icon: 'grid', onClick: () => toggleLauncher() },
-  ]
-
   return (
     <div
       className={styles.desktop}
       style={{
         filter: `brightness(${system.brightness / 100})`,
       }}
-      onContextMenu={(e) => showMenu(e, desktopMenuItems)}
     >
       <TopPanel />
 
@@ -79,7 +69,7 @@ export default function Desktop() {
             name={item.name}
             icon={item.icon}
             badge={item.appId === 'messaging' ? unreadMail : 0}
-            onDoubleClick={() => handleOpenApp(item.appId)}
+            onClick={() => handleOpenApp(item.appId)}
           />
         ))}
       </div>
@@ -89,7 +79,17 @@ export default function Desktop() {
         const AppComponent = app?.component
         return (
           <Window key={win.id} windowData={win}>
-            {AppComponent ? <AppComponent windowId={win.id} {...(win.props || {})} /> : (
+            {AppComponent ? (
+              <Suspense
+                fallback={
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%', background: 'var(--color-bg-surface, #ffffff)', color: 'var(--color-text-primary, #000)' }}>
+                    Chargement...
+                  </div>
+                }
+              >
+                <AppComponent windowId={win.id} {...(win.props || {})} />
+              </Suspense>
+            ) : (
               <div style={{ padding: 20, color: '#999' }}>App: {win.appId}</div>
             )}
           </Window>
@@ -98,10 +98,9 @@ export default function Desktop() {
 
       <AppLauncher />
       <ScreenshotOverlay />
+      <ObjectivesWidget />
+      <ObjectiveCompletionToast />
       <NotificationCenter />
-      {menu.visible && (
-        <ContextMenu items={menu.items} x={menu.x} y={menu.y} onClose={hideMenu} />
-      )}
     </div>
   )
 }
