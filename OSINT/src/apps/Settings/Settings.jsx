@@ -1,15 +1,15 @@
-import { useState } from 'react'
-import { useOS } from '../../context/useOS'
-import Icon from '../../components/ui/Icon'
-import styles from './Settings.module.css'
+import { useState } from "react";
+import { useOS } from "../../context/useOS";
+import Icon from "../../components/ui/Icon";
+import styles from "./Settings.module.css";
 
 const panels = [
-  { id: 'network', label: 'Network', icon: 'wifi' },
-  { id: 'sound', label: 'Sound', icon: 'volume-high' },
-  { id: 'display', label: 'Display', icon: 'brightness' },
-  { id: 'bluetooth', label: 'Bluetooth', icon: 'bluetooth' },
-  { id: 'about', label: 'About', icon: 'info' },
-]
+  { id: "network", label: "Network", icon: "wifi" },
+  { id: "sound", label: "Sound", icon: "volume-high" },
+  { id: "display", label: "Display", icon: "brightness" },
+  { id: "bluetooth", label: "Bluetooth", icon: "bluetooth" },
+  { id: "about", label: "About", icon: "info" },
+];
 
 function NetworkPanel({ system, updateSystem }) {
   return (
@@ -18,25 +18,29 @@ function NetworkPanel({ system, updateSystem }) {
       <div className={styles.settingRow}>
         <span>Wi-Fi</span>
         <button
-          className={`${styles.toggle} ${system.wifi ? styles.active : ''}`}
-          onClick={() => updateSystem('wifi', !system.wifi)}
+          className={`${styles.toggle} ${system.wifi ? styles.active : ""}`}
+          onClick={() => updateSystem("wifi", !system.wifi)}
         >
           <div className={styles.toggleThumb} />
         </button>
       </div>
       {system.wifi && (
         <div className={styles.networkList}>
-          {['HomeNetwork', 'Office_5G', 'CafeWifi', 'Neighbor_Net'].map(name => (
-            <div key={name} className={styles.networkItem}>
-              <Icon name="wifi" size={16} />
-              <span>{name}</span>
-              {name === 'HomeNetwork' && <span className={styles.connected}>Connected</span>}
-            </div>
-          ))}
+          {["HomeNetwork", "Office_5G", "CafeWifi", "Neighbor_Net"].map(
+            (name) => (
+              <div key={name} className={styles.networkItem}>
+                <Icon name="wifi" size={16} />
+                <span>{name}</span>
+                {name === "HomeNetwork" && (
+                  <span className={styles.connected}>Connected</span>
+                )}
+              </div>
+            ),
+          )}
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function SoundPanel({ system, updateSystem }) {
@@ -44,19 +48,22 @@ function SoundPanel({ system, updateSystem }) {
     <div className={styles.panel}>
       <h3>Sound</h3>
       <div className={styles.settingRow}>
-        <Icon name={system.volume > 0 ? 'volume-high' : 'volume-mute'} size={18} />
+        <Icon
+          name={system.volume > 0 ? "volume-high" : "volume-mute"}
+          size={18}
+        />
         <input
           type="range"
           min="0"
           max="100"
           value={system.volume}
-          onChange={(e) => updateSystem('volume', Number(e.target.value))}
+          onChange={(e) => updateSystem("volume", Number(e.target.value))}
           className={styles.slider}
         />
         <span className={styles.value}>{system.volume}%</span>
       </div>
     </div>
-  )
+  );
 }
 
 function DisplayPanel({ system, updateSystem }) {
@@ -70,13 +77,13 @@ function DisplayPanel({ system, updateSystem }) {
           min="10"
           max="100"
           value={system.brightness}
-          onChange={(e) => updateSystem('brightness', Number(e.target.value))}
+          onChange={(e) => updateSystem("brightness", Number(e.target.value))}
           className={styles.slider}
         />
         <span className={styles.value}>{system.brightness}%</span>
       </div>
     </div>
-  )
+  );
 }
 
 function BluetoothPanel({ system, updateSystem }) {
@@ -86,14 +93,14 @@ function BluetoothPanel({ system, updateSystem }) {
       <div className={styles.settingRow}>
         <span>Bluetooth</span>
         <button
-          className={`${styles.toggle} ${system.bluetooth ? styles.active : ''}`}
-          onClick={() => updateSystem('bluetooth', !system.bluetooth)}
+          className={`${styles.toggle} ${system.bluetooth ? styles.active : ""}`}
+          onClick={() => updateSystem("bluetooth", !system.bluetooth)}
         >
           <div className={styles.toggleThumb} />
         </button>
       </div>
     </div>
-  )
+  );
 }
 
 function AboutPanel() {
@@ -131,32 +138,38 @@ function AboutPanel() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default function Settings() {
-  const [activePanel, setActivePanel] = useState('network')
-  const { system, updateSystem } = useOS()
+  const [activePanel, setActivePanel] = useState("network");
+  const { system, updateSystem } = useOS();
 
   const renderPanel = () => {
     switch (activePanel) {
-      case 'network': return <NetworkPanel system={system} updateSystem={updateSystem} />
-      case 'sound': return <SoundPanel system={system} updateSystem={updateSystem} />
-      case 'display': return <DisplayPanel system={system} updateSystem={updateSystem} />
-      case 'bluetooth': return <BluetoothPanel system={system} updateSystem={updateSystem} />
-      case 'about': return <AboutPanel />
-      default: return null
+      case "network":
+        return <NetworkPanel system={system} updateSystem={updateSystem} />;
+      case "sound":
+        return <SoundPanel system={system} updateSystem={updateSystem} />;
+      case "display":
+        return <DisplayPanel system={system} updateSystem={updateSystem} />;
+      case "bluetooth":
+        return <BluetoothPanel system={system} updateSystem={updateSystem} />;
+      case "about":
+        return <AboutPanel />;
+      default:
+        return null;
     }
-  }
+  };
 
   return (
     <div className={styles.settings}>
       <div className={styles.sidebar}>
         <div className={styles.sidebarTitle}>Settings</div>
-        {panels.map(p => (
+        {panels.map((p) => (
           <button
             key={p.id}
-            className={`${styles.sidebarItem} ${activePanel === p.id ? styles.active : ''}`}
+            className={`${styles.sidebarItem} ${activePanel === p.id ? styles.active : ""}`}
             onClick={() => setActivePanel(p.id)}
           >
             <Icon name={p.icon} size={16} />
@@ -164,9 +177,7 @@ export default function Settings() {
           </button>
         ))}
       </div>
-      <div className={styles.content}>
-        {renderPanel()}
-      </div>
+      <div className={styles.content}>{renderPanel()}</div>
     </div>
-  )
+  );
 }

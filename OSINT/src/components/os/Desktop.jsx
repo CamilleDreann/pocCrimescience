@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, Suspense } from 'react'
+import { useState, Suspense } from 'react'
 import { useOS } from '../../context/useOS'
 import { appRegistry } from '../../data/appRegistry'
 import TopPanel from './TopPanel'
@@ -22,23 +22,8 @@ const desktopIcons = [
 ]
 
 export default function Desktop() {
-  const { windows, openApp, addNotification, system } = useOS()
+  const { windows, openApp, system } = useOS()
   const [unreadMail, setUnreadMail] = useState(1)
-  const notifSent = useRef(false)
-
-  useEffect(() => {
-    if (notifSent.current) return
-    notifSent.current = true
-    const timer = setTimeout(() => {
-      addNotification({
-        title: 'Messagerie',
-        body: 'Nouveau message de Marie Dupont',
-        icon: 'mail',
-      })
-    }, 2000)
-    return () => clearTimeout(timer)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const handleOpenApp = (appId) => {
     if (appId === 'messaging') setUnreadMail(0)

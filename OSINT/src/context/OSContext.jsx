@@ -12,7 +12,7 @@ const initialState = {
   filesystemVersion: 0,
   system: {
     volume: 70,
-    brightness: 80,
+    brightness: 100,
     wifi: true,
     bluetooth: false,
     wallpaper: null,

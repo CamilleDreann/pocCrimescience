@@ -9,16 +9,17 @@ import { $graph, addCustomNode, clearGraph, updateNodePosition, uid } from '../.
 import { $messages, addMessage } from '../../stores/messagesStore'
 import Popup from '../../components/ui/Popup'
 import { initFaceRecognition, checkGraphForTarget } from '../../services/faceRecognition'
+import { completeObjective } from '../../stores/objectivesStore'
 
 const PLATFORM_THEMES = {
-  Instagram: { color: '#E1306C', bg: '#2a0f18' },
-  LinkedIn: { color: '#0A66C2', bg: '#0a1a2e' },
-  Twitter: { color: '#9CA0A5', bg: '#151618' },
-  Facebook: { color: '#1877F2', bg: '#0b1a30' },
-  GitHub: { color: '#8B5CF6', bg: '#1a1030' },
-  Discord: { color: '#5865F2', bg: '#141530' },
-  TikTok: { color: '#00F2EA', bg: '#0a2020' },
-  Snapchat: { color: '#FFFC00', bg: '#1e1e0a' },
+  Instagram: { color: '#E1306C', bg: '#ffffff' },
+  LinkedIn: { color: '#0A66C2', bg: '#ffffff' },
+  Twitter: { color: '#9CA0A5', bg: '#ffffff' },
+  Facebook: { color: '#1877F2', bg: '#ffffff' },
+  GitHub: { color: '#8B5CF6', bg: '#ffffff' },
+  Discord: { color: '#5865F2', bg: '#ffffff' },
+  TikTok: { color: '#00F2EA', bg: '#ffffff' },
+  Snapchat: { color: '#FFFC00', bg: '#ffffff' },
 }
 
 const PLATFORM_ICONS = {
@@ -234,7 +235,7 @@ function AddNodePanel({ onConfirm, onCancel, onOpenFilePicker }) {
 }
 
 export default function LinkGraph() {
-  const { openApp, addNotification } = useOS()
+  const { openApp } = useOS()
   const graph = useStore($graph)
   const [selectedNode, setSelectedNode] = useState(null)
   const [dragging, setDragging] = useState(null)
@@ -249,6 +250,23 @@ export default function LinkGraph() {
   const [faceCheckLoading, setFaceCheckLoading] = useState(false)
   const [faceModelStatus, setFaceModelStatus] = useState('idle') // 'idle' | 'loading' | 'ready' | 'error'
   const messages = useStore($messages)
+
+  useEffect(() => {
+    const hasJulien = graph.nodes.some(
+      (n) => n.type === 'person' && n.data?.email === 'julien.caron@gmail.com'
+    )
+    if (hasJulien) {
+      completeObjective('obj-morel-1')
+    }
+  }, [graph.nodes])
+
+  const getSelectedNodeColor = () => {
+    if (!selectedNode) return 'var(--color-border)'
+    if (selectedNode.type === 'person') return '#e95420'
+    if (selectedNode.type === 'custom') return selectedNode.data.color || '#3fb950'
+    if (selectedNode.type === 'platform') return (PLATFORM_THEMES[selectedNode.data.platform] || { color: '#888' }).color
+    return 'var(--color-border)'
+  }
 
   useEffect(() => {
     const id = requestIdleCallback(() => {
@@ -350,9 +368,14 @@ export default function LinkGraph() {
       }
       const newEdge = { id: `e${sourceNodeId}-${newId}`, from: sourceNodeId, to: newId }
       addCustomNode(newNode, newEdge)
+      const sourceNode = graph.nodes.find(n => n.id === sourceNodeId)
+      const hasImage = data.contents?.some(c => c.type === 'image')
+      if (hasImage && sourceNode?.data?.platform === 'Instagram') {
+        completeObjective('obj-morel-2')
+      }
       setAddNodeModal(null)
     },
-    [addNodeModal]
+    [addNodeModal, graph]
   )
 
   const isEmpty = graph.nodes.length === 0
@@ -426,16 +449,9 @@ export default function LinkGraph() {
       render: true,
       video: '/Enregistrement_de_lecran_2026-03-27_a_21.47.36.mov',
     })
-    addNotification({
-      id: `report-${timestamp}`,
-      title: 'Rapport envoyé',
-      message: `Rapport envoyé au Capitaine Morel avec succès`,
-      type: 'success',
-      time: new Date(timestamp).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
-    })
     setReportPreview(null)
     setSendStep(null)
-  }, [reportPreview, graph.nodes, addNotification])
+  }, [reportPreview, graph.nodes])
 
   return (
     <div className={styles.container}>
@@ -464,11 +480,9 @@ export default function LinkGraph() {
               <button
                 className={styles.reportBtn}
                 onClick={handleGenerateReport}
-                disabled={faceModelStatus === 'idle' || faceModelStatus === 'loading'}
-                title={faceModelStatus === 'loading' ? 'Chargement des modèles...' : undefined}
               >
                 <Icon name="file" size={12} />
-                <span>{faceModelStatus === 'loading' ? 'Chargement...' : 'Rapport'}</span>
+                <span>Rapport</span>
               </button>
             </>
           )}
@@ -522,14 +536,6 @@ export default function LinkGraph() {
               style={{ cursor: isPanning ? 'grabbing' : dragging ? 'grabbing' : 'grab' }}
             >
               <defs>
-                {Object.entries(PLATFORM_THEMES).map(([name, theme]) => (
-                  <filter key={name} id={`glow-${name}`} x="-50%" y="-50%" width="200%" height="200%">
-                    <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor={theme.color} floodOpacity="0.4" />
-                  </filter>
-                ))}
-                <filter id="glow-person" x="-50%" y="-50%" width="200%" height="200%">
-                  <feDropShadow dx="0" dy="0" stdDeviation="8" floodColor="#e95420" floodOpacity="0.5" />
-                </filter>
                 <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
                   <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
                 </pattern>
@@ -604,50 +610,47 @@ export default function LinkGraph() {
                         style={{ cursor: 'pointer' }}
                         className={styles.nodeGroup}
                       >
-                        {isSelected && (
-                          <rect
-                            x="-4" y="-4"
-                            width={PERSON_W + 8} height={PERSON_H + 8}
-                            rx="14" fill="none"
-                            stroke="#e95420" strokeWidth="2" opacity="0.6"
-                            className={styles.selectionRing}
-                          />
-                        )}
                         <rect
+                          x="4" y="4"
                           width={PERSON_W} height={PERSON_H} rx="10"
-                          fill="#1a1018"
-                          stroke={isSelected ? '#e95420' : 'rgba(233,84,32,0.4)'}
-                          strokeWidth={isSelected ? 2 : 1}
-                          filter="url(#glow-person)"
+                          fill="#e95420"
                         />
-                        <circle
-                          cx="26" cy={PERSON_H / 2} r="14"
-                          fill="rgba(233,84,32,0.15)"
-                          stroke="rgba(233,84,32,0.3)" strokeWidth="1"
-                        />
-                        <text
-                          x="26" y={PERSON_H / 2 + 1}
-                          textAnchor="middle" dominantBaseline="middle"
-                          fill="#e95420" fontSize="12" fontWeight="700"
-                          fontFamily="var(--font-sans)"
-                        >
-                          {node.data.name.split(' ').map((w) => w[0]).join('')}
-                        </text>
-                        <text
-                          x="48" y={PERSON_H / 2 - 5}
-                          fill="#fff" fontSize="13" fontWeight="600"
-                          fontFamily="var(--font-sans)"
-                        >
-                          {node.data.name}
-                        </text>
-                        <text
-                          x="48" y={PERSON_H / 2 + 10}
-                          fill="#888" fontSize="10" fontFamily="var(--font-mono)"
-                        >
-                          {node.data.email.length > 22
-                            ? node.data.email.slice(0, 22) + '...'
-                            : node.data.email}
-                        </text>
+                        <g style={{ transition: 'transform 0.15s ease', transform: isSelected ? 'translate(3px, 3px)' : 'translate(0px, 0px)' }}>
+                          <rect
+                            width={PERSON_W} height={PERSON_H} rx="10"
+                            fill="#ffffff"
+                            stroke="#e95420"
+                            strokeWidth={1.5}
+                          />
+                          <circle
+                            cx="26" cy={PERSON_H / 2} r="14"
+                            fill="rgba(233,84,32,0.15)"
+                            stroke="rgba(233,84,32,0.3)" strokeWidth="1"
+                          />
+                          <text
+                            x="26" y={PERSON_H / 2 + 1}
+                            textAnchor="middle" dominantBaseline="middle"
+                            fill="#e95420" fontSize="12" fontWeight="700"
+                            fontFamily="var(--font-sans)"
+                          >
+                            {node.data.name.split(' ').map((w) => w[0]).join('')}
+                          </text>
+                          <text
+                            x="48" y={PERSON_H / 2 - 5}
+                            fill="#111" fontSize="13" fontWeight="600"
+                            fontFamily="var(--font-sans)"
+                          >
+                            {node.data.name}
+                          </text>
+                          <text
+                            x="48" y={PERSON_H / 2 + 10}
+                            fill="#555" fontSize="10" fontFamily="var(--font-mono)"
+                          >
+                            {node.data.email.length > 22
+                              ? node.data.email.slice(0, 22) + '...'
+                              : node.data.email}
+                          </text>
+                        </g>
                       </g>
                     )
                   }
@@ -663,54 +666,51 @@ export default function LinkGraph() {
                         style={{ cursor: 'pointer' }}
                         className={styles.nodeGroup}
                       >
-                        {isSelected && (
-                          <rect
-                            x="-4" y="-4"
-                            width={CUSTOM_W + 8} height={CUSTOM_H + 8}
-                            rx="12" fill="none"
-                            stroke={col} strokeWidth="2" opacity="0.6"
-                            className={styles.selectionRing}
-                          />
-                        )}
                         <rect
+                          x="4" y="4"
                           width={CUSTOM_W} height={CUSTOM_H} rx="8"
-                          fill="#111118"
-                          stroke={isSelected ? col : `${col}55`}
-                          strokeWidth={isSelected ? 1.5 : 1}
-                          style={{ filter: `drop-shadow(0 0 6px ${col}44)` }}
+                          fill={col}
                         />
-                        <rect x="4" y="4" width="32" height="32" rx="7" fill={`${col}22`} />
-                        <foreignObject x="8" y="8" width="24" height="24">
-                          <div
-                            xmlns="http://www.w3.org/1999/xhtml"
-                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}
+                        <g style={{ transition: 'transform 0.15s ease', transform: isSelected ? 'translate(3px, 3px)' : 'translate(0px, 0px)' }}>
+                          <rect
+                            width={CUSTOM_W} height={CUSTOM_H} rx="8"
+                            fill="#ffffff"
+                            stroke={col}
+                            strokeWidth={1.5}
+                          />
+                          <rect x="4" y="4" width="32" height="32" rx="7" fill={`${col}22`} />
+                          <foreignObject x="8" y="8" width="24" height="24">
+                            <div
+                              xmlns="http://www.w3.org/1999/xhtml"
+                              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}
+                            >
+                              <Icon name={node.data.icon} size={16} color={col} />
+                            </div>
+                          </foreignObject>
+                          <text
+                            x="42" y={CUSTOM_H / 2 - 4}
+                            fill="#111" fontSize="12" fontWeight="600"
+                            fontFamily="var(--font-sans)"
                           >
-                            <Icon name={node.data.icon} size={16} color={col} />
-                          </div>
-                        </foreignObject>
-                        <text
-                          x="42" y={CUSTOM_H / 2 - 4}
-                          fill="#fff" fontSize="12" fontWeight="600"
-                          fontFamily="var(--font-sans)"
-                        >
-                          {node.data.title.length > 14
-                            ? node.data.title.slice(0, 14) + '…'
-                            : node.data.title}
-                        </text>
-                        <text
-                          x="42" y={CUSTOM_H / 2 + 10}
-                          fill={col} fontSize="10" fontFamily="var(--font-mono)" opacity="0.8"
-                        >
-                          {node.data.contents.length > 0
-                            ? `${node.data.contents.length} element${node.data.contents.length !== 1 ? 's' : ''}`
-                            : 'noeud'}
-                        </text>
+                            {node.data.title.length > 14
+                              ? node.data.title.slice(0, 14) + '…'
+                              : node.data.title}
+                          </text>
+                          <text
+                            x="42" y={CUSTOM_H / 2 + 10}
+                            fill={col} fontSize="10" fontFamily="var(--font-mono)" opacity="0.8"
+                          >
+                            {node.data.contents.length > 0
+                              ? `${node.data.contents.length} element${node.data.contents.length !== 1 ? 's' : ''}`
+                              : 'noeud'}
+                          </text>
+                        </g>
                       </g>
                     )
                   }
 
                   // Platform node
-                  const theme = PLATFORM_THEMES[node.data.platform] || { color: '#888', bg: '#1a1a1a' }
+                  const theme = PLATFORM_THEMES[node.data.platform] || { color: '#888', bg: '#ffffff' }
                   const iconName = PLATFORM_ICONS[node.data.platform] || 'search'
 
                   return (
@@ -721,47 +721,44 @@ export default function LinkGraph() {
                       style={{ cursor: 'pointer' }}
                       className={styles.nodeGroup}
                     >
-                      {isSelected && (
-                        <rect
-                          x="-4" y="-4"
-                          width={NODE_W + 8} height={NODE_H + 8}
-                          rx="12" fill="none"
-                          stroke={theme.color} strokeWidth="2" opacity="0.6"
-                          className={styles.selectionRing}
-                        />
-                      )}
                       <rect
+                        x="4" y="4"
                         width={NODE_W} height={NODE_H} rx="8"
-                        fill={theme.bg}
-                        stroke={isSelected ? theme.color : `${theme.color}55`}
-                        strokeWidth={isSelected ? 1.5 : 1}
-                        filter={`url(#glow-${node.data.platform})`}
+                        fill={theme.color}
                       />
-                      <rect x="4" y="4" width="32" height="32" rx="7" fill={`${theme.color}22`} />
-                      <foreignObject x="8" y="8" width="24" height="24">
-                        <div
-                          xmlns="http://www.w3.org/1999/xhtml"
-                          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}
+                      <g style={{ transition: 'transform 0.15s ease', transform: isSelected ? 'translate(3px, 3px)' : 'translate(0px, 0px)' }}>
+                        <rect
+                          width={NODE_W} height={NODE_H} rx="8"
+                          fill={theme.bg}
+                          stroke={theme.color}
+                          strokeWidth={1.5}
+                        />
+                        <rect x="4" y="4" width="32" height="32" rx="7" fill={`${theme.color}22`} />
+                        <foreignObject x="8" y="8" width="24" height="24">
+                          <div
+                            xmlns="http://www.w3.org/1999/xhtml"
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}
+                          >
+                            <Icon name={iconName} size={16} color={theme.color} />
+                          </div>
+                        </foreignObject>
+                        <text
+                          x="42" y={NODE_H / 2 - 4}
+                          fill="#111" fontSize="12" fontWeight="600"
+                          fontFamily="var(--font-sans)"
                         >
-                          <Icon name={iconName} size={16} color={theme.color} />
-                        </div>
-                      </foreignObject>
-                      <text
-                        x="42" y={NODE_H / 2 - 4}
-                        fill="#fff" fontSize="12" fontWeight="600"
-                        fontFamily="var(--font-sans)"
-                      >
-                        {node.data.platform}
-                      </text>
-                      <text
-                        x="42" y={NODE_H / 2 + 10}
-                        fill={theme.color} fontSize="10"
-                        fontFamily="var(--font-mono)" opacity="0.8"
-                      >
-                        {node.data.username.length > 16
-                          ? node.data.username.slice(0, 16) + '...'
-                          : node.data.username}
-                      </text>
+                          {node.data.platform}
+                        </text>
+                        <text
+                          x="42" y={NODE_H / 2 + 10}
+                          fill={theme.color} fontSize="10"
+                          fontFamily="var(--font-mono)" opacity="0.8"
+                        >
+                          {node.data.username.length > 16
+                            ? node.data.username.slice(0, 16) + '...'
+                            : node.data.username}
+                        </text>
+                      </g>
                     </g>
                   )
                 })}
@@ -769,8 +766,8 @@ export default function LinkGraph() {
                 {/* "+" button on hovered node */}
                 {selectedNode && !addNodeModal && (
                   <g transform={`translate(${selectedNode.x + getNodeDims(selectedNode).w + 8}, ${selectedNode.y + getNodeDims(selectedNode).h / 2 - 12})`}>
-                    <foreignObject x="0" y="0" width="24" height="24">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ width: '100%', height: '100%' }}>
+                    <foreignObject x="-12" y="-12" width="48" height="48">
+                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <button
                           className={styles.addNodeBtn}
                           onMouseDown={(e) => e.stopPropagation()}
@@ -811,7 +808,11 @@ export default function LinkGraph() {
           <div className={styles.sidebar}>
             <div className={styles.sidebarHeader}>
               <span className={styles.sidebarTitle}>Details</span>
-              <button className={styles.sidebarClose} onClick={() => setSelectedNode(null)}>
+              <button 
+                className={styles.sidebarClose} 
+                style={{ '--btn-color': getSelectedNodeColor() }}
+                onClick={() => setSelectedNode(null)}
+              >
                 <Icon name="close" size={14} />
               </button>
             </div>
@@ -1113,6 +1114,34 @@ export default function LinkGraph() {
                 sandbox="allow-same-origin"
               />
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Loading overlay for the whole app */}
+      {(faceModelStatus === 'idle' || faceModelStatus === 'loading' || faceCheckLoading) && (
+        <div className={styles.globalLoadingOverlay}>
+          <div className={styles.scannerLine}></div>
+          <div className={styles.loadingContent}>
+            <div className={styles.loadingIconWrap}>
+              <Icon name="settings" size={48} color="#e95420" />
+            </div>
+            <h2 className={styles.loadingTitle}>
+              {faceCheckLoading ? "Analyse en cours" : "Initialisation"}
+            </h2>
+            <p className={styles.loadingText}>
+              {faceCheckLoading
+                ? "Vérification des correspondances biométriques..."
+                : "Chargement du module d'intelligence artificielle..."}
+            </p>
+            <div className={styles.progressBar}>
+              <div className={styles.progressFill}></div>
+            </div>
+            <div className={styles.loadingLogs}>
+              <span>{'>'} model_weights: OK</span>
+              <span>{'>'} face_api: OK</span>
+              <span className={styles.blinkCursor}>_</span>
+            </div>
           </div>
         </div>
       )}

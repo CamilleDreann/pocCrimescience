@@ -1,7 +1,7 @@
 .window {
   position: absolute;
   background: var(--color-bg-window);
-  border: 2px solid #000;
+  border: 2px solid var(--color-border);
   border-radius: var(--window-border-radius);
   box-shadow: var(--shadow-window);
   display: flex;

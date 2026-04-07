@@ -5,13 +5,10 @@ import Icon from '../ui/Icon'
 import styles from './TopPanel.module.css'
 
 export default function TopPanel() {
-  const { toggleLauncher, startScreenshot } = useOS()
+  const { startScreenshot } = useOS()
 
   return (
     <div className={styles.panel}>
-      <button className={styles.activities} onClick={toggleLauncher}>
-        Activities
-      </button>
       <div className={styles.center}>
         <Clock />
       </div>

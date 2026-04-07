@@ -2,6 +2,7 @@ import { useMemo, useState, useRef, useEffect } from 'react'
 import { useStore } from '@nanostores/react'
 import Icon from '../../components/ui/Icon'
 import { $messages, markAsRead } from '../../stores/messagesStore'
+import { setObjectives } from '../../stores/objectivesStore'
 import styles from './Messaging.module.css'
 
 export default function Messaging() {
@@ -196,7 +197,30 @@ export default function Messaging() {
                 <div className={styles.readerDate}>{formatMsgTime(selectedMessage.date)}</div>
               </div>
             </div>
+            <div className={styles.readerContent}>
             <div className={styles.readerBody} dangerouslySetInnerHTML={{ __html: selectedMessage.body.replace(/\n/g, '<br/>') }} />
+            {selectedMessage.objectives?.length > 0 && (
+              <div className={styles.objectiveBox}>
+                <ul className={styles.objectiveBoxList}>
+                  {selectedMessage.objectives.map((obj, i) => (
+                    <li key={obj.id}><b>OBJECTIF {i + 1} :</b> {obj.label}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {selectedMessage.objectives?.length > 0 && (
+              <button
+                className={styles.activateObjectives}
+                onClick={() => setObjectives(selectedMessage.objectives)}
+              >
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
+                  <circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" strokeWidth="2" />
+                  <circle cx="12" cy="12" r="2" />
+                </svg>
+                Lancer la mission
+              </button>
+            )}
             {selectedMessage.video && (
               <div className={styles.videoWrapper}>
                 <div className={styles.videoThumb} onClick={openVideo}>
@@ -213,6 +237,7 @@ export default function Messaging() {
                 </div>
               </div>
             )}
+            </div>
             {videoOpen && selectedMessage?.video && (
               <div
                 className={styles.videoOverlay}

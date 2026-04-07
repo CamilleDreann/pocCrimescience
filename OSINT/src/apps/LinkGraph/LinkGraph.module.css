@@ -15,8 +15,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 14px;
-  background: #ffffff;
-  border-bottom: 2px solid #000;
+  background: var(--color-bg-window);
+  border-bottom: 2px solid var(--color-border);
   gap: 12px;
   flex-shrink: 0;
 }
@@ -28,7 +28,7 @@
 }
 
 .toolbarIcon {
-  color: #e95420;
+  color: var(--color-accent);
   flex-shrink: 0;
   display: flex;
 }
@@ -36,7 +36,7 @@
 .toolbarTitle {
   font-size: 13px;
   font-weight: 800;
-  color: #000;
+  color: var(--color-border);
   letter-spacing: -0.2px;
 }
 
@@ -47,19 +47,24 @@
   padding: 4px 10px;
   border: 2px solid var(--color-danger);
   border-radius: 6px;
-  background: #ffffff;
+  background: var(--color-bg-window);
   color: var(--color-danger);
   font-size: 11px;
   font-weight: 700;
   font-family: var(--font-sans);
   cursor: pointer;
   box-shadow: 2px 2px 0 var(--color-danger);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
 }
 
 .clearBtn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 var(--color-danger);
+  background: var(--color-danger);
+  color: var(--color-bg-window);
+}
+
+.clearBtn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--color-danger);
 }
 
 .reportBtn {
@@ -69,19 +74,24 @@
   padding: 4px 10px;
   border: 2px solid var(--color-success);
   border-radius: 6px;
-  background: #ffffff;
+  background: var(--color-bg-window);
   color: var(--color-success);
   font-size: 11px;
   font-weight: 700;
   font-family: var(--font-sans);
   cursor: pointer;
   box-shadow: 2px 2px 0 var(--color-success);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
 }
 
 .reportBtn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 var(--color-success);
+  background: var(--color-success);
+  color: var(--color-bg-window);
+}
+
+.reportBtn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--color-success);
 }
 
 .toolbarRight {
@@ -109,7 +119,7 @@
   width: 14px;
   height: 14px;
   border: 2px solid rgba(0, 0, 0, 0.2);
-  border-top-color: #000;
+  border-top-color: var(--color-border);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }
@@ -216,10 +226,10 @@
   gap: 8px;
   margin-top: 12px;
   padding: 8px 18px;
-  border: 2px solid #000;
+  border: 2px solid var(--color-border);
   border-radius: 8px;
-  background: #ffffff;
-  color: #e95420;
+  background: var(--color-bg-window);
+  color: var(--color-accent);
   font-size: 13px;
   font-weight: 700;
   font-family: var(--font-sans);
@@ -242,8 +252,8 @@
 .sidebar {
   width: 260px;
   flex-shrink: 0;
-  background: #ffffff;
-  border-left: 2px solid #000;
+  background: var(--color-bg-window);
+  border-left: 2px solid var(--color-border);
   display: flex;
   flex-direction: column;
   animation: slideIn 0.2s ease;
@@ -260,14 +270,14 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 14px;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid var(--color-border);
   flex-shrink: 0;
 }
 
 .sidebarTitle {
   font-size: 11px;
   font-weight: 900;
-  color: #000;
+  color: var(--color-border);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -278,18 +288,27 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  border: 1.5px solid #000;
+  border: 1.5px solid var(--btn-color, var(--color-border));
   border-radius: 6px;
   background: transparent;
-  color: #000;
+  color: var(--btn-color, var(--color-border));
   cursor: pointer;
-  box-shadow: var(--shadow-button-sm);
-  transition: transform var(--transition-fast);
+  box-shadow: 2px 2px 0 var(--btn-color, var(--color-border));
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
 }
 
 .sidebarClose:hover {
+  background-color: var(--btn-color, var(--color-border));
+  color: var(--color-bg-window) !important;
   transform: translate(-1px, -1px);
-  box-shadow: var(--shadow-button);
+  box-shadow: 3px 3px 0 var(--btn-color, var(--color-border));
+}
+
+.sidebarClose:active {
+  background-color: var(--btn-color, var(--color-border));
+  color: var(--color-bg-window) !important;
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--btn-color, var(--color-border));
 }
 
 .sidebarBody {
@@ -305,7 +324,7 @@
   height: 56px;
   border-radius: 50%;
   background: linear-gradient(135deg, rgba(233, 84, 32, 0.15), rgba(233, 84, 32, 0.05));
-  border: 2px solid #e95420;
+  border: 2px solid var(--color-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -316,7 +335,7 @@
 .detailAvatarText {
   font-size: 18px;
   font-weight: 700;
-  color: #e95420;
+  color: var(--color-accent);
   font-family: var(--font-sans);
 }
 
@@ -327,7 +346,7 @@
   height: 64px;
   border-radius: 10px;
   margin-bottom: 4px;
-  border: 2px solid #000;
+  border: 2px solid var(--color-border);
 }
 
 .detailSection {
@@ -339,7 +358,7 @@
 .detailLabel {
   font-size: 10px;
   font-weight: 900;
-  color: #000;
+  color: var(--color-border);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -364,7 +383,7 @@
 
 .detailDivider {
   height: 2px;
-  background: #000;
+  background: var(--color-border);
   margin: 2px 0;
 }
 
@@ -376,8 +395,8 @@
   font-size: 11px;
   font-weight: 700;
   background: rgba(233, 84, 32, 0.1);
-  color: #e95420;
-  border: 1.5px solid #e95420;
+  color: var(--color-accent);
+  border: 1.5px solid var(--color-accent);
 }
 
 .badgeSuccess {
@@ -394,8 +413,8 @@
   margin-top: 12px;
   padding: 10px 14px;
   border-radius: 8px;
-  border: 2px solid #000;
-  background: #ffffff;
+  border: 2px solid var(--color-border);
+  background: var(--color-bg-window);
   color: var(--color-text-primary);
   font-size: 12px;
   font-weight: 700;
@@ -415,25 +434,31 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 2px solid #000;
-  background: #ffffff;
-  color: #000;
+  border: 2px solid var(--color-border);
+  background: var(--color-bg-window);
+  color: var(--color-border);
   font-size: 16px;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: var(--shadow-button-sm);
-  transition: transform var(--transition-fast), color var(--transition-fast);
+  box-shadow: 2px 2px 0 var(--color-border);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
   padding: 0;
   font-family: var(--font-sans);
 }
 
 .addNodeBtn:hover {
-  border-color: #e95420;
-  color: #e95420;
-  transform: scale(1.15);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--color-accent);
+}
+
+.addNodeBtn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--color-accent);
 }
 
 /* ── Add Node Panel ── */
@@ -446,8 +471,8 @@
   max-height: 80%;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
-  border: 2px solid #000;
+  background: var(--color-bg-window);
+  border: 2px solid var(--color-border);
   border-radius: 12px;
   box-shadow: var(--shadow-menu);
   z-index: 100;
@@ -459,10 +484,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 14px;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid var(--color-border);
   font-size: 13px;
   font-weight: 800;
-  color: #000;
+  color: var(--color-border);
   flex-shrink: 0;
 }
 
@@ -482,7 +507,7 @@
   display: flex;
   gap: 8px;
   padding: 12px 14px;
-  border-top: 2px solid #000;
+  border-top: 2px solid var(--color-border);
   flex-shrink: 0;
 }
 
@@ -495,7 +520,7 @@
 .addNodeLabel {
   font-size: 10px;
   font-weight: 900;
-  color: #000;
+  color: var(--color-border);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -503,7 +528,7 @@
 .addNodeInput {
   width: 100%;
   padding: 7px 10px;
-  border: 2px solid #000;
+  border: 2px solid var(--color-border);
   border-radius: 7px;
   background: var(--color-bg-input);
   color: var(--color-text-primary);
@@ -520,7 +545,7 @@
 .addNodeTextarea {
   width: 100%;
   padding: 7px 10px;
-  border: 2px solid #000;
+  border: 2px solid var(--color-border);
   border-radius: 7px;
   background: var(--color-bg-input);
   color: var(--color-text-primary);
@@ -556,7 +581,7 @@
 
 .colorSwatchActive {
   transform: scale(1.15);
-  border-color: #000;
+  border-color: var(--color-border);
   box-shadow: var(--shadow-button-sm);
 }
 
@@ -581,10 +606,10 @@
   padding: 0;
 }
 
-.iconOption:hover { border-color: #000; background: #ffffff; }
+.iconOption:hover { border-color: var(--color-border); background: var(--color-bg-window); }
 
 .iconOptionActive {
-  border-color: #e95420;
+  border-color: var(--color-accent);
   border-width: 2px;
   background: rgba(233, 84, 32, 0.08);
 }
@@ -609,7 +634,7 @@
   font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
-  background: #000;
+  background: var(--color-border);
   color: #fff;
   margin-top: 8px;
 }
@@ -654,7 +679,7 @@
 
 .imagePickerBtn {
   background: var(--color-bg-surface);
-  border: 2px dashed #000;
+  border: 2px dashed var(--color-border);
   border-radius: 6px;
   color: var(--color-text-secondary);
   cursor: pointer;
@@ -665,14 +690,14 @@
   transition: border-color 0.15s, color 0.15s;
 }
 
-.imagePickerBtn:hover { border-color: #e95420; color: #e95420; }
+.imagePickerBtn:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 .imagePickerPreview {
   border-radius: 6px;
   max-height: 100px;
   max-width: 100%;
   object-fit: cover;
-  border: 2px solid #000;
+  border: 2px solid var(--color-border);
 }
 
 /* ── Virtual File Picker ── */
@@ -687,8 +712,8 @@
 }
 
 .filePickerModal {
-  background: #ffffff;
-  border: 2px solid #000;
+  background: var(--color-bg-window);
+  border: 2px solid var(--color-border);
   border-radius: 12px;
   box-shadow: var(--shadow-menu);
   width: 360px;
@@ -703,20 +728,20 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 14px;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid var(--color-border);
   flex-shrink: 0;
 }
 
 .filePickerTitle {
   font-size: 13px;
   font-weight: 800;
-  color: #000;
+  color: var(--color-border);
 }
 
 .filePickerClose {
   background: transparent;
-  border: 1.5px solid #000;
-  color: #000;
+  border: 1.5px solid var(--color-border);
+  color: var(--color-border);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -750,7 +775,7 @@
   transition: color 0.15s;
 }
 
-.filePickerBreadcrumbBtn:hover { color: #e95420; }
+.filePickerBreadcrumbBtn:hover { color: var(--color-accent); }
 
 .filePickerSep {
   color: var(--color-text-muted);
@@ -783,7 +808,7 @@
   transition: background 0.15s, border-color 0.15s;
 }
 
-.filePickerItem:hover { background: rgba(233,84,32,0.07); border-color: #e95420; }
+.filePickerItem:hover { background: rgba(233,84,32,0.07); border-color: var(--color-accent); }
 
 .filePickerItemDim { opacity: 0.4; cursor: default; }
 .filePickerItemDim:hover { background: transparent; border-color: transparent; }
@@ -793,7 +818,7 @@
   height: 42px;
   object-fit: cover;
   border-radius: 4px;
-  border: 1.5px solid #000;
+  border: 1.5px solid var(--color-border);
 }
 
 .filePickerEmpty {
@@ -808,7 +833,7 @@
 
 .addContentBtn {
   padding: 6px 12px;
-  border: 2px dashed #000;
+  border: 2px dashed var(--color-border);
   border-radius: 7px;
   background: transparent;
   color: var(--color-text-secondary);
@@ -820,14 +845,14 @@
   transition: all 0.15s;
 }
 
-.addContentBtn:hover { border-color: #e95420; color: #e95420; }
+.addContentBtn:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 .contentTypeMenu {
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
-  background: #ffffff;
-  border: 2px solid #000;
+  background: var(--color-bg-window);
+  border: 2px solid var(--color-border);
   border-radius: 8px;
   overflow: hidden;
   z-index: 10;
@@ -855,9 +880,9 @@
 .cancelBtn {
   flex: 1;
   padding: 8px;
-  border: 2px solid #000;
+  border: 2px solid var(--color-border);
   border-radius: 8px;
-  background: #ffffff;
+  background: var(--color-bg-window);
   color: var(--color-text-primary);
   font-size: 12px;
   font-weight: 700;
@@ -872,9 +897,9 @@
 .confirmBtn {
   flex: 1;
   padding: 8px;
-  border: 2px solid #000;
+  border: 2px solid var(--color-border);
   border-radius: 8px;
-  background: #e95420;
+  background: var(--color-accent);
   color: #fff;
   font-size: 12px;
   font-weight: 800;
@@ -906,8 +931,8 @@
 .reportPreviewModal {
   width: 90%;
   height: 88%;
-  background: #ffffff;
-  border: 2px solid #000;
+  background: var(--color-bg-window);
+  border: 2px solid var(--color-border);
   border-radius: 12px;
   box-shadow: var(--shadow-menu);
   display: flex;
@@ -920,8 +945,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 14px;
-  border-bottom: 2px solid #000;
-  background: #ffffff;
+  border-bottom: 2px solid var(--color-border);
+  background: var(--color-bg-window);
   flex-shrink: 0;
 }
 
@@ -931,7 +956,7 @@
   gap: 7px;
   font-size: 12px;
   font-weight: 800;
-  color: #000;
+  color: var(--color-border);
   font-family: var(--font-mono);
 }
 
@@ -942,9 +967,9 @@
 }
 
 .reportSaveBtn {
-  background: #e95420;
+  background: var(--color-accent);
   color: #fff;
-  border: 2px solid #000;
+  border: 2px solid var(--color-border);
   border-radius: 5px;
   padding: 5px 14px;
   font-size: 12px;
@@ -957,9 +982,9 @@
 .reportSaveBtn:hover { transform: translate(-1px,-1px); box-shadow: var(--shadow-button); }
 
 .reportCloseBtn {
-  background: #ffffff;
-  border: 2px solid #000;
-  color: #000;
+  background: var(--color-bg-window);
+  border: 2px solid var(--color-border);
+  color: var(--color-border);
   border-radius: 5px;
   width: 28px;
   height: 28px;
@@ -1002,8 +1027,8 @@
   align-items: center;
   gap: 12px;
   padding: 12px 14px;
-  background: #ffffff;
-  border: 2px solid #000;
+  background: var(--color-bg-window);
+  border: 2px solid var(--color-border);
   border-radius: 8px;
   cursor: pointer;
   color: var(--color-text-primary);
@@ -1019,7 +1044,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #e95420;
+  background: var(--color-accent);
   color: #fff;
   display: flex;
   align-items: center;
@@ -1027,7 +1052,7 @@
   font-size: 12px;
   font-weight: 700;
   flex-shrink: 0;
-  border: 2px solid #000;
+  border: 2px solid var(--color-border);
 }
 
 .recipientInfo {
@@ -1052,4 +1077,151 @@
 .reportSaveBtn svg {
   margin-right: 4px;
   vertical-align: middle;
+}
+
+/* ── Global Loading Overlay ── */
+.globalLoadingOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 16, 24, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  overflow: hidden;
+}
+
+.scannerLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--color-accent);
+  box-shadow: 0 0 20px 5px rgba(233, 84, 32, 0.5);
+  animation: scan 2s linear infinite;
+  z-index: 1000;
+  opacity: 0.8;
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.loadingContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 400px;
+  text-align: center;
+  padding: 32px;
+  background: #111118;
+  border: 2px solid var(--color-accent);
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(233, 84, 32, 0.15);
+  position: relative;
+  z-index: 1001;
+}
+
+.loadingIconWrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(233, 84, 32, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(233, 84, 32, 0.3);
+  animation: pulseIcon 2s ease-in-out infinite;
+  position: relative;
+}
+
+.loadingIconWrap::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 2px dashed rgba(233, 84, 32, 0.5);
+  border-radius: 50%;
+  animation: spinIcon 8s linear infinite;
+}
+
+@keyframes pulseIcon {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(233, 84, 32, 0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(233, 84, 32, 0); }
+}
+
+@keyframes spinIcon {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.loadingText {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 8px;
+}
+
+.progressFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
+  animation: fillProgress 3s ease-in-out infinite;
+}
+
+@keyframes fillProgress {
+  0% { width: 0%; left: 0; }
+  50% { width: 40%; left: 30%; }
+  100% { width: 100%; left: 100%; }
+}
+
+.loadingLogs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #3fb950;
+  text-align: left;
+}
+
+.blinkCursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }

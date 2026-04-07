@@ -4,7 +4,7 @@
   height: var(--window-header-height);
   padding: 0 var(--space-3);
   background: var(--color-bg-window-header);
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid var(--color-border);
   border-radius: var(--window-border-radius) var(--window-border-radius) 0 0;
   cursor: default;
   flex-shrink: 0;
@@ -20,7 +20,7 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 1.5px solid #000;
+  border: 1.5px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;

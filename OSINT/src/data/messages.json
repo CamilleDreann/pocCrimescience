@@ -2,23 +2,28 @@
   {
     "id": "msg-001",
     "from": "Marie Dupont",
-    "role": "Secretaire de direction",
+    "role": "Ressources Humaines",
     "avatar": "MD",
-    "subject": "Bienvenue dans l'equipe !",
+    "subject": "Onboarding - Accès Systèmes",
     "date": "2026-03-30T08:30:00",
-    "body": "Bonjour et bienvenue !\n\nJe suis Marie Dupont, secretaire de direction du service. Je tenais a vous souhaiter personnellement un chaleureux accueil parmi nous.\n\nVotre poste de travail a ete configure avec tous les outils necessaires a vos missions. Vous trouverez notamment l'application OSINT Search qui sera votre outil principal pour les investigations.\n\nN'hesitez pas a me contacter si vous avez la moindre question ou besoin d'assistance. Je suis disponible au bureau 204, 2eme etage.\n\nEncore bienvenue et bonne installation !\n\nCordialement,\nMarie Dupont\nSecretaire de direction",
+    "body": "Bonjour et bienvenue !\n\nJe suis Marie Dupont, des Ressources Humaines. Votre poste informatique a été configuré avec le niveau d'habilitation \"Niveau 3 - Osint\".\n\nVous avez désormais accès à l'application <b>Link Graph</b> pour la modélisation des entités et <b>OSINT Search</b> pour la collecte de données en sources ouvertes.\n\n<u>Règle de sécurité :</u> Ne partagez jamais vos clés d'accès en dehors de ce terminal sécurisé.\n\nBonne première journée.",
     "readed": false,
     "render": true
   },
   {
     "id": "msg-003",
     "from": "Capitaine Morel",
-    "role": "Brigade Criminelle",
+    "role": "Brigade Criminelle - Opérations",
     "avatar": "CM",
-    "subject": "Nouvelle affaire - Rapport attendu",
+    "subject": "URGENT : Disparition Signalée",
     "date": "2026-03-30T09:15:00",
-    "body": "Agent,\n\nPas de temps pour les presentations, vous tombez bien car ici on ne chomme pas. Vous avez de la chance, a peine arrive et vous etes deja dans le bain.\n\nUne nouvelle affaire vient de nous tomber dessus et on a besoin de tout le monde sur le pont.\n\nJe vais etre tres clair sur ce que j'attends de vous :\n\n<div class=\"objective-box\">🎯 OBJECTIF : Fournir un rapport detaille et complet sur notre suspect.</div>\n\nJe veux tout savoir : identite, habitudes numeriques, comptes en ligne, traces laissees sur le web... Chaque detail compte. Utilisez tous les outils a votre disposition, notamment l'application <b>OSINT Search</b> sur votre poste.\n\nNe me decevez pas. L'equipe compte sur vous.\n\nCapitaine Morel\nBrigade Criminelle",
+    "body": "Agent,\n\nPas de temps pour les présentations, vous tombez dans le grand bain.\n\nUne disparition inquiétante vient de nous être signalée ce matin. La personne ciblée a laissé très peu de traces physiques, nous misons tout sur son empreinte numérique.\n\nLe temps presse. Remontez la piste numérique, trouvez tout ce qui est publiquement accessible (OSINT).\n\nJ'attends des résultats rapides.\n\nCapitaine Morel\nCommandant des Opérations",
     "readed": false,
-    "render": true
+    "render": true,
+    "objectives": [
+      { "id": "obj-morel-1", "label": "Trouver les comptes en ligne de la personne disparue via l'outil OSINT Search." },
+      { "id": "obj-morel-2", "label": "Créer un nœud personnalisé du suspect avec sa photo sur l'outil Link Graph." },
+      { "id": "obj-morel-3", "label": "Faire le rapport au capitaine Morel de vos trouvailles." }
+    ]
   }
 ]

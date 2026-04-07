@@ -28,7 +28,7 @@ const PLATFORM_ICONS = {
 }
 
 export default function OsintSearch() {
-  const { exportToGraph, openApp, addNotification } = useOS()
+  const { exportToGraph, openApp } = useOS()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -252,11 +252,8 @@ export default function OsintSearch() {
           className={styles.linkGraphCta}
           onClick={() => {
             const alreadyExported = $graph.get().nodes.some((n) => n.type === 'person' && n.data.email === results.email)
-            if (alreadyExported) {
-              addNotification({ title: 'OSINT Search', body: 'Deja exporte vers le graphe.', type: 'info' })
-            } else {
+            if (!alreadyExported) {
               exportToGraph(results)
-              addNotification({ title: 'OSINT Search', body: `${results.name} ajoute au graphe.`, type: 'success' })
             }
             openApp({ appId: 'link-graph', title: 'Link Graph', icon: 'link-graph', defaultSize: { width: 1000, height: 650 } })
           }}

@@ -5,29 +5,12 @@
   right: 0;
   height: var(--panel-height);
   background: var(--color-bg-panel);
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid var(--color-border);
   display: flex;
   align-items: center;
   padding: 0 var(--space-4);
   z-index: var(--z-panel);
   box-shadow: var(--shadow-panel);
-}
-
-.activities {
-  font-size: var(--font-size-sm);
-  font-weight: 700;
-  padding: 3px var(--space-3);
-  border-radius: 6px;
-  border: 1.5px solid #000;
-  box-shadow: var(--shadow-button-sm);
-  color: var(--color-text-primary);
-  background: #fff;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.activities:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 #000;
 }
 
 .center {

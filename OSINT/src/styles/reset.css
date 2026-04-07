@@ -31,6 +31,22 @@ button {
   border: none;
   cursor: pointer;
   outline: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.1s ease, color 0.1s ease !important;
+}
+
+button:hover {
+  background-color: var(--color-accent);
+  color: var(--color-bg-window);
+}
+
+button:disabled:hover {
+  background-color: transparent;
+  color: inherit;
+  box-shadow: none;
+}
+
+button:active:not(:disabled) {
+  transform: translate(2px, 2px) !important;
 }
 
 input, textarea, select {
