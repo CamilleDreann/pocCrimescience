@@ -14,6 +14,7 @@ export default function ObjectiveCompletionToast() {
   useEffect(() => {
     if (!event) return
     let cancelled = false
+    let t2, t3, raf1, raf2
     setPhase('pop')
     setFlyStyle({})
 
@@ -21,11 +22,10 @@ export default function ObjectiveCompletionToast() {
       if (cancelled) return
       setPhase('float')
 
-      setTimeout(() => {
+      t2 = setTimeout(() => {
         if (cancelled) return
-        // Remove animFloat first, then on next frame compute position and apply transition
         setPhase('fly')
-        requestAnimationFrame(() => {
+        raf1 = requestAnimationFrame(() => {
           if (cancelled) return
           const card = cardRef.current
           const badgeEl = document.querySelector('[data-objectives-badge]')
@@ -34,23 +34,22 @@ export default function ObjectiveCompletionToast() {
             const badgeRect = badgeEl.getBoundingClientRect()
             const dx = (badgeRect.left + badgeRect.width / 2) - (cardRect.left + cardRect.width / 2)
             const dy = (badgeRect.top + badgeRect.height / 2) - (cardRect.top + cardRect.height / 2)
-            requestAnimationFrame(() => {
+            raf2 = requestAnimationFrame(() => {
               if (cancelled) return
               setFlyStyle({
                 transition: 'transform 0.4s cubic-bezier(0.4, 0, 1, 1), opacity 0.4s ease-in',
                 transform: `translate(${dx}px, ${dy}px) scale(0.15)`,
                 opacity: 0,
               })
+              t3 = setTimeout(() => {
+                if (cancelled) return
+                $widgetPulse.set(true)
+                $completionEvent.set(null)
+                setPhase(null)
+                setFlyStyle({})
+              }, 400)
             })
           }
-
-          setTimeout(() => {
-            if (cancelled) return
-            $widgetPulse.set(true)
-            $completionEvent.set(null)
-            setPhase(null)
-            setFlyStyle({})
-          }, 400)
         })
       }, 1300)
     }, 500)
@@ -58,6 +57,10 @@ export default function ObjectiveCompletionToast() {
     return () => {
       cancelled = true
       clearTimeout(t1)
+      clearTimeout(t2)
+      clearTimeout(t3)
+      cancelAnimationFrame(raf1)
+      cancelAnimationFrame(raf2)
     }
   }, [event])
 

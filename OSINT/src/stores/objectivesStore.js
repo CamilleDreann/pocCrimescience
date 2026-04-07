@@ -22,4 +22,6 @@ export function completeObjective(id) {
 
 export function clearObjectives() {
   $objectives.set([])
+  $completionEvent.set(null)
+  $widgetPulse.set(false)
 }
