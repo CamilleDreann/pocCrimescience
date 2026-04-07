@@ -9,46 +9,56 @@ export default function ObjectiveCompletionToast() {
   const [phase, setPhase] = useState(null)
   const [flyStyle, setFlyStyle] = useState({})
   const cardRef = useRef(null)
-  const timerRef = useRef(null)
 
   // Start animation when a new event arrives
   useEffect(() => {
     if (!event) return
+    let cancelled = false
     setPhase('pop')
     setFlyStyle({})
 
-    // pop → float after 500ms
-    timerRef.current = setTimeout(() => {
+    const t1 = setTimeout(() => {
+      if (cancelled) return
       setPhase('float')
 
-      // float → fly after 1300ms (total 1800ms from pop start)
-      timerRef.current = setTimeout(() => {
-        const card = cardRef.current
-        const badgeEl = document.querySelector('[data-objectives-badge]')
-        if (card && badgeEl) {
-          const cardRect = card.getBoundingClientRect()
-          const badgeRect = badgeEl.getBoundingClientRect()
-          const dx = (badgeRect.left + badgeRect.width / 2) - (cardRect.left + cardRect.width / 2)
-          const dy = (badgeRect.top + badgeRect.height / 2) - (cardRect.top + cardRect.height / 2)
-          setFlyStyle({
-            transition: 'transform 0.4s cubic-bezier(0.4, 0, 1, 1), opacity 0.4s ease-in',
-            transform: `translate(${dx}px, ${dy}px) scale(0.15)`,
-            opacity: 0,
-          })
-        }
+      setTimeout(() => {
+        if (cancelled) return
+        // Remove animFloat first, then on next frame compute position and apply transition
         setPhase('fly')
+        requestAnimationFrame(() => {
+          if (cancelled) return
+          const card = cardRef.current
+          const badgeEl = document.querySelector('[data-objectives-badge]')
+          if (card && badgeEl) {
+            const cardRect = card.getBoundingClientRect()
+            const badgeRect = badgeEl.getBoundingClientRect()
+            const dx = (badgeRect.left + badgeRect.width / 2) - (cardRect.left + cardRect.width / 2)
+            const dy = (badgeRect.top + badgeRect.height / 2) - (cardRect.top + cardRect.height / 2)
+            requestAnimationFrame(() => {
+              if (cancelled) return
+              setFlyStyle({
+                transition: 'transform 0.4s cubic-bezier(0.4, 0, 1, 1), opacity 0.4s ease-in',
+                transform: `translate(${dx}px, ${dy}px) scale(0.15)`,
+                opacity: 0,
+              })
+            })
+          }
 
-        // fly end after 400ms → reset
-        timerRef.current = setTimeout(() => {
-          $widgetPulse.set(true)
-          $completionEvent.set(null)
-          setPhase(null)
-          setFlyStyle({})
-        }, 400)
+          setTimeout(() => {
+            if (cancelled) return
+            $widgetPulse.set(true)
+            $completionEvent.set(null)
+            setPhase(null)
+            setFlyStyle({})
+          }, 400)
+        })
       }, 1300)
     }, 500)
 
-    return () => clearTimeout(timerRef.current)
+    return () => {
+      cancelled = true
+      clearTimeout(t1)
+    }
   }, [event])
 
   if (!phase || !event) return null

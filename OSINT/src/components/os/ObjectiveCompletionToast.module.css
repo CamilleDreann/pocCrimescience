@@ -32,10 +32,6 @@
   animation: float 1.2s ease-in-out infinite;
 }
 
-.card.animFly {
-  animation: none;
-}
-
 .header {
   font-size: var(--font-size-xs);
   font-weight: 800;
@@ -60,8 +56,8 @@
   fill: none;
   stroke: var(--color-accent);
   stroke-width: 2.5;
-  stroke-dasharray: 113;
-  stroke-dashoffset: 113;
+  stroke-dasharray: 101;
+  stroke-dashoffset: 101;
   animation: drawCircle 0.35s ease-out 0.1s forwards;
 }
 
@@ -71,8 +67,8 @@
   stroke-width: 2.5;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 30;
-  stroke-dashoffset: 30;
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
   animation: drawCheck 0.25s ease-out 0.4s forwards;
 }
 
