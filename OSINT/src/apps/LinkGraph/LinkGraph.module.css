@@ -64,7 +64,7 @@
 
 .clearBtn:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--color-danger);
+  box-shadow: 0 0 0 var(--color-danger);
 }
 
 .reportBtn {
@@ -91,7 +91,7 @@
 
 .reportBtn:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--color-success);
+  box-shadow: 0 0 0 var(--color-success);
 }
 
 .toolbarRight {
@@ -244,8 +244,8 @@
 }
 
 .openSearchBtn:active {
-  transform: translate(0, 0);
-  box-shadow: var(--shadow-button-sm);
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--color-border);
 }
 
 /* ── Sidebar ── */
@@ -450,15 +450,15 @@
 }
 
 .addNodeBtn:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 var(--color-accent);
+  border-color: black;
+  color: #fff;
+  background: black;
+  box-shadow: 3px 3px 0 black;
 }
 
 .addNodeBtn:active {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 var(--color-accent);
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--color-border);
 }
 
 /* ── Add Node Panel ── */
@@ -492,11 +492,12 @@
 }
 
 .addNodePanelBody {
-  padding: 14px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   overflow-y: auto;
+  flex: 1;
 }
 
 .addNodePanelBody::-webkit-scrollbar { width: 4px; }
@@ -505,10 +506,11 @@
 
 .addNodePanelFooter {
   display: flex;
-  gap: 8px;
-  padding: 12px 14px;
+  gap: 12px;
+  padding: 16px;
   border-top: 2px solid var(--color-border);
   flex-shrink: 0;
+  background: var(--color-bg-surface);
 }
 
 .addNodeField {
@@ -635,7 +637,7 @@
   font-weight: 700;
   text-transform: uppercase;
   background: var(--color-border);
-  color: #fff;
+  color: var(--color-bg-window);
   margin-top: 8px;
 }
 
@@ -690,7 +692,7 @@
   transition: border-color 0.15s, color 0.15s;
 }
 
-.imagePickerBtn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.imagePickerBtn:hover { border-color: var(--color-accent); color: var(--color-accent); background: rgba(233, 84, 32, 0.08); }
 
 .imagePickerPreview {
   border-radius: 6px;
@@ -698,6 +700,134 @@
   max-width: 100%;
   object-fit: cover;
   border: 2px solid var(--color-border);
+}
+
+/* ── Content Dropdown ── */
+.addContentWrap {
+  position: relative;
+  margin-top: 8px;
+}
+
+.addContentBtn {
+  width: 100%;
+  padding: 8px;
+  background: var(--color-bg-surface);
+  border: 2px dashed var(--color-border);
+  border-radius: 6px;
+  color: var(--color-border);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.addContentBtn:hover {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+  border-style: solid;
+}
+
+.contentTypeMenu {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  top: auto;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  background: var(--color-bg-window);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 3px 3px 0 var(--color-border);
+  z-index: 20;
+}
+
+.contentTypeMenu button {
+  flex: 1;
+  padding: 8px 0;
+  background: var(--color-bg-surface);
+  border: none;
+  border-right: 2px solid var(--color-border);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--color-border);
+  cursor: pointer;
+  text-align: center;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.contentTypeMenu button:last-child {
+  border-right: none;
+}
+
+.contentTypeMenu button:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.addContentBtnOpen {
+  border-style: solid;
+  background: var(--color-bg-hover);
+}
+
+/* ── Add Node Panel Footer Buttons ── */
+.cancelBtn {
+  flex: 1;
+  padding: 10px 0;
+  background: var(--color-bg-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-border);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s, background 0.1s;
+  box-shadow: 3px 3px 0 var(--color-border);
+}
+
+.cancelBtn:hover {
+  background: var(--color-bg-hover);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--color-border);
+}
+
+.cancelBtn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--color-border);
+}
+
+.confirmBtn {
+  flex: 1;
+  padding: 10px 0;
+  background: var(--color-success);
+  border: 2px solid var(--color-success);
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--color-bg-window);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 3px 3px 0 var(--color-success);
+}
+
+.confirmBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 2px 2px 0 black;
+}
+
+
+.confirmBtn:not(:disabled):active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--color-success);
 }
 
 /* ── Virtual File Picker ── */
@@ -845,36 +975,7 @@
   transition: all 0.15s;
 }
 
-.addContentBtn:hover { border-color: var(--color-accent); color: var(--color-accent); }
-
-.contentTypeMenu {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  background: var(--color-bg-window);
-  border: 2px solid var(--color-border);
-  border-radius: 8px;
-  overflow: hidden;
-  z-index: 10;
-  box-shadow: var(--shadow-menu);
-}
-
-.contentTypeMenu button {
-  display: block;
-  width: 100%;
-  padding: 8px 16px;
-  text-align: left;
-  background: transparent;
-  border: none;
-  color: var(--color-text-primary);
-  font-size: 12px;
-  font-weight: 600;
-  font-family: var(--font-sans);
-  cursor: pointer;
-  transition: background 0.1s;
-}
-
-.contentTypeMenu button:hover { background: var(--color-bg-hover); }
+.addContentBtn:hover { border-color: var(--color-accent); color: var(--color-accent); background: rgba(233, 84, 32, 0.08); }
 
 /* ── Panel footer buttons ── */
 .cancelBtn {

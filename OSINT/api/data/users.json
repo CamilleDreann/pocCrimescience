@@ -11864,49 +11864,48 @@
     "platforms": [
       {
         "name": "Instagram",
-        "username": "@julien.caron",
-        "url": "https://instagram.com/julien.caron",
-        "bio": "Photographe urbain | Lille\nStreet art & architecture 📷",
+        "username": "@jcaron_photo",
+        "url": "https://instagram.com/jcaron_photo",
+        "bio": "Photographe urbain | Lille | Direction artistique 📷",
         "found": true,
-        "followers": "2,4k",
-        "following": 843,
-        "postsCount": 127,
+        "followers": "1,8k",
+        "following": 412,
+        "postsCount": 137,
         "posts": [
           {
             "id": 1,
-            "gradient": "linear-gradient(135deg, #373b44 0%, #4286f4 100%)",
-            "emoji": "🌅",
-            "caption": "Lumiere du matin sur les toits de Lille 🌅 #streetphotography #lille #urbanphoto",
-            "likes": 284,
-            "comments": 12,
-            "date": "14 mars"
+            "gradient": "linear-gradient(135deg, #232526 0%, #414345 100%)",
+            "emoji": "🏙️",
+            "caption": "Lille by night. J'adore ces ruelles du Vieux-Lille apres la pluie. #lille #urbain #nuit #streetphotography",
+            "likes": 312,
+            "comments": 18,
+            "date": "2 avril"
           },
           {
             "id": 2,
-            "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-            "emoji": "🏗️",
-            "caption": "Nouveau projet en cours — serie sur le patrimoine industriel du Nord. Stay tuned! #architecture #patrimoine #nord",
-            "likes": 197,
-            "comments": 8,
-            "date": "9 mars"
+            "gradient": "linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%)",
+            "emoji": "🎞️",
+            "caption": "Nouveau projet : serie en noir et blanc sur les marches du Nord. Stay tuned. #bnw #documentaire #nordpasdecalais",
+            "likes": 487,
+            "comments": 34,
+            "date": "25 mars"
           },
           {
             "id": 3,
-            "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-            "emoji": "🎨",
-            "caption": "Expo 'Regards Urbains' a la Gare Saint-Sauveur — merci a tous ceux qui sont venus ! #expo #art #lille",
-            "likes": 342,
-            "comments": 24,
-            "date": "2 mars"
+            "image": "/fake-post/image.png",
+            "caption": "Soiree avec la crew 🍻 Ces moments valent plus que tout. #amis #lille #weekend",
+            "likes": 256,
+            "comments": 41,
+            "date": "18 mars"
           },
           {
             "id": 4,
-            "gradient": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-            "emoji": "📸",
-            "caption": "Le reflet parfait existe. Canal de la Deule au petit matin. #reflection #canal #photography",
-            "likes": 156,
-            "comments": 6,
-            "date": "25 fev"
+            "gradient": "linear-gradient(135deg, #f7f8f8 0%, #acbb78 100%)",
+            "emoji": "🌫️",
+            "caption": "Brouillard matinal sur la Grand-Place. Le genre de lumiere qui ne pardonne pas. #grandplace #lille #brume #matin",
+            "likes": 631,
+            "comments": 52,
+            "date": "10 mars"
           }
         ]
       },

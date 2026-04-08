@@ -260,8 +260,8 @@ export default function OsintSearch() {
         >
           <Icon name="link-graph" size={20} />
           <div className={styles.linkGraphCtaText}>
-            <span className={styles.linkGraphCtaTitle}>Analyser dans LinkGraph</span>
-            <span className={styles.linkGraphCtaDesc}>Visualise les connexions, détails de chaque plateforme, génère un rapport</span>
+            <span className={styles.linkGraphCtaTitle}>EXPORTER VERS LE GRAPHE</span>
+            <span className={styles.linkGraphCtaDesc}>Analyser et extraire les relations visuelles</span>
           </div>
           <span className={styles.linkGraphCtaArrow}>→</span>
         </button>

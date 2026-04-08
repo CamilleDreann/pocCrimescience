@@ -1,6 +1,8 @@
-import { useState, Suspense } from 'react'
+import { Suspense } from 'react'
+import { useStore } from '@nanostores/react'
 import { useOS } from '../../context/useOS'
 import { appRegistry } from '../../data/appRegistry'
+import { $messages } from '../../stores/messagesStore'
 import TopPanel from './TopPanel'
 import Window from './Window'
 import DesktopIcon from './DesktopIcon'
@@ -23,10 +25,10 @@ const desktopIcons = [
 
 export default function Desktop() {
   const { windows, openApp, system } = useOS()
-  const [unreadMail, setUnreadMail] = useState(1)
+  const messages = useStore($messages)
+  const unreadMail = messages.filter(m => !m.readed).length
 
   const handleOpenApp = (appId) => {
-    if (appId === 'messaging') setUnreadMail(0)
     const app = appRegistry.find(a => a.id === appId)
     if (app) {
       openApp({

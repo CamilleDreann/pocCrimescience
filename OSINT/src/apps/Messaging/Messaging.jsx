@@ -1,6 +1,7 @@
 import { useMemo, useState, useRef, useEffect } from 'react'
 import { useStore } from '@nanostores/react'
 import Icon from '../../components/ui/Icon'
+import Popup from '../../components/ui/Popup'
 import { $messages, markAsRead } from '../../stores/messagesStore'
 import { setObjectives } from '../../stores/objectivesStore'
 import styles from './Messaging.module.css'
@@ -9,6 +10,7 @@ export default function Messaging() {
   const allMessages = useStore($messages)
   const [selectedId, setSelectedId] = useState(null)
   const [videoOpen, setVideoOpen] = useState(false)
+  const [showVideoPopup, setShowVideoPopup] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
@@ -208,36 +210,31 @@ export default function Messaging() {
                 </ul>
               </div>
             )}
-            {selectedMessage.objectives?.length > 0 && (
-              <button
-                className={styles.activateObjectives}
-                onClick={() => setObjectives(selectedMessage.objectives)}
-              >
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
-                  <circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" strokeWidth="2" />
-                  <circle cx="12" cy="12" r="2" />
-                </svg>
-                Lancer la mission
-              </button>
-            )}
-            {selectedMessage.video && (
-              <div className={styles.videoWrapper}>
-                <div className={styles.videoThumb} onClick={openVideo}>
-                  <video
-                    className={styles.videoPreview}
-                    src={`${selectedMessage.video}#t=0.1`}
-                    preload="metadata"
-                  />
-                  <div className={styles.videoPlayHint}>
-                    <svg viewBox="0 0 24 24" fill="white" width="28" height="28">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div>
-                </div>
+            </div>
+            {(selectedMessage.objectives?.length > 0 || selectedMessage.video) && (
+              <div className={styles.readerFooter}>
+                <button
+                  className={styles.activateObjectives}
+                  onClick={() => {
+                    if (selectedMessage.objectives?.length > 0) setObjectives(selectedMessage.objectives)
+                    if (selectedMessage.video) setShowVideoPopup(true)
+                  }}
+                >
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                    {selectedMessage.video && !selectedMessage.objectives?.length ? (
+                      <path d="M8 5v14l11-7z" />
+                    ) : (
+                      <>
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
+                        <circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" strokeWidth="2" />
+                        <circle cx="12" cy="12" r="2" />
+                      </>
+                    )}
+                  </svg>
+                  Lancer la mission
+                </button>
               </div>
             )}
-            </div>
             {videoOpen && selectedMessage?.video && (
               <div
                 className={styles.videoOverlay}
@@ -319,6 +316,27 @@ export default function Messaging() {
           </div>
         )}
       </div>
+
+      {showVideoPopup && (
+        <Popup
+          title="Sensibilisation OSINT"
+          message="L'appel à témoins a bien été lancé. En attendant les retours de la Brigade, le commandement vous invite à visionner cette courte vidéo.
+
+L'OSINT est une méthode d'investigation redoutable pour retrouver des cibles, mais ne sous-estimez jamais ses dérives : doxing, fuites de données privées et cyberharcèlement sont des menaces réelles liées à la surexposition numérique."
+          type="info"
+          actions={[
+            {
+              label: "Lancer la vidéo",
+              primary: true,
+              onClick: () => {
+                setShowVideoPopup(false)
+                openVideo()
+              }
+            }
+          ]}
+          onClose={() => setShowVideoPopup(false)}
+        />
+      )}
     </div>
   )
 }
