@@ -81,7 +81,7 @@ function buildSVG(nodes, edges) {
         <g transform="translate(${node.x}, ${node.y})">
           <rect width="${PERSON_W}" height="${PERSON_H}" rx="10" fill="#1a1018" stroke="rgba(233,84,32,0.4)" stroke-width="1"/>
           <circle cx="26" cy="${PERSON_H / 2}" r="14" fill="rgba(233,84,32,0.15)" stroke="rgba(233,84,32,0.3)" stroke-width="1"/>
-          <text x="26" y="${PERSON_H / 2 + 1}" text-anchor="middle" dominant-baseline="middle" fill="#e95420" font-size="12" font-weight="700" font-family="monospace">${initials}</text>
+          <text x="26" y="${PERSON_H / 2 + 1}" text-anchor="middle" dominant-baseline="middle" fill="#d85E33" font-size="12" font-weight="700" font-family="monospace">${initials}</text>
           <text x="48" y="${PERSON_H / 2 - 5}" fill="#fff" font-size="13" font-weight="600" font-family="sans-serif">${node.data.name}</text>
           <text x="48" y="${PERSON_H / 2 + 10}" fill="#888" font-size="10" font-family="monospace">${emailShort}</text>
         </g>
@@ -240,10 +240,10 @@ export function generateReport(graph, timestamp) {
     body { background: #0a0a10; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 40px 24px; max-width: 960px; margin: 0 auto; }
     h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 4px; }
     .meta { color: #666; font-size: 13px; margin-bottom: 32px; font-family: monospace; }
-    .accent { color: #e95420; }
+    .accent { color: #d85E33; }
     .stats { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
     .stat { background: #111118; border: 1px solid #222; border-radius: 8px; padding: 12px 20px; }
-    .stat-n { font-size: 24px; font-weight: 700; color: #e95420; }
+    .stat-n { font-size: 24px; font-weight: 700; color: #d85E33; }
     .stat-l { font-size: 12px; color: #666; margin-top: 2px; }
     h2 { font-size: 16px; font-weight: 600; color: #aaa; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid #1e1e28; padding-bottom: 8px; }
     .section { margin-bottom: 40px; }
@@ -259,11 +259,11 @@ export function generateReport(graph, timestamp) {
     .label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.05em; }
     .value { font-size: 13px; color: #ccc; }
     .mono { font-family: monospace; }
-    .avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(233,84,32,0.15); border: 1px solid rgba(233,84,32,0.3); display: flex; align-items: center; justify-content: center; color: #e95420; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+    .avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(233,84,32,0.15); border: 1px solid rgba(233,84,32,0.3); display: flex; align-items: center; justify-content: center; color: #d85E33; font-weight: 700; font-size: 13px; flex-shrink: 0; }
     .platform-dot { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; }
     .custom-icon { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; }
     .badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 1px solid; white-space: nowrap; margin-left: auto; flex-shrink: 0; }
-    .badge-person { background: rgba(233,84,32,0.15); color: #e95420; border-color: rgba(233,84,32,0.3); }
+    .badge-person { background: rgba(233,84,32,0.15); color: #d85E33; border-color: rgba(233,84,32,0.3); }
     .badge-found { background: rgba(63,185,80,0.15); color: #3fb950; border-color: rgba(63,185,80,0.3); }
     a { text-decoration: none; }
     a:hover { text-decoration: underline; }

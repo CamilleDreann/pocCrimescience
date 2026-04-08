@@ -42,7 +42,7 @@
           },
           {
             "id": 5,
-            "image": "/fake-post/image.png",
+            "image": "/fake-post/Instagram/image.png",
             "caption": "Petit moment de detente entre amis 🥂 #friends #goodvibes #weekend",
             "likes": 389,
             "comments": 22,
@@ -11870,38 +11870,27 @@
         "found": true,
         "followers": "1,8k",
         "following": 412,
-        "postsCount": 137,
+        "postsCount": 3,
         "posts": [
           {
             "id": 1,
-            "gradient": "linear-gradient(135deg, #232526 0%, #414345 100%)",
-            "emoji": "🏙️",
-            "caption": "Lille by night. J'adore ces ruelles du Vieux-Lille apres la pluie. #lille #urbain #nuit #streetphotography",
-            "likes": 312,
-            "comments": 18,
-            "date": "2 avril"
-          },
-          {
-            "id": 2,
-            "gradient": "linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%)",
-            "emoji": "🎞️",
+            "image": "/fake-post/Instagram/post2.webp",
             "caption": "Nouveau projet : serie en noir et blanc sur les marches du Nord. Stay tuned. #bnw #documentaire #nordpasdecalais",
             "likes": 487,
             "comments": 34,
             "date": "25 mars"
           },
           {
-            "id": 3,
-            "image": "/fake-post/image.png",
+            "id": 2,
+            "image": "/fake-post/Instagram/image.png",
             "caption": "Soiree avec la crew 🍻 Ces moments valent plus que tout. #amis #lille #weekend",
             "likes": 256,
             "comments": 41,
             "date": "18 mars"
           },
           {
-            "id": 4,
-            "gradient": "linear-gradient(135deg, #f7f8f8 0%, #acbb78 100%)",
-            "emoji": "🌫️",
+            "id": 3,
+            "image": "/fake-post/Instagram/post1.jpg",
             "caption": "Brouillard matinal sur la Grand-Place. Le genre de lumiere qui ne pardonne pas. #grandplace #lille #brume #matin",
             "likes": 631,
             "comments": 52,
@@ -11913,15 +11902,84 @@
         "name": "LinkedIn",
         "username": "Julien Caron",
         "url": "https://linkedin.com/in/julien-caron-photo",
-        "bio": "Photographe freelance | Direction artistique",
-        "found": true
+        "bio": "Developpeur web | Circullstone | Green IT & performance",
+        "found": true,
+        "company": "Circullstone",
+        "title": "Developpeur web",
+        "connections": "312",
+        "postsCount": 4,
+        "posts": [
+          {
+            "id": 1,
+            "image": "/fake-post/Linkedin/post1.png",
+            "title": "Retour sur une semaine intense chez Circullstone",
+            "content": "Entre reunions clients, phases de test et deploiement en production, l'equipe n'a pas chome !\n\nOn vient notamment de finaliser un projet pour une structure locale, avec :\n- une refonte complete du site\n- une amelioration des performances mobile\n- une accessibilite renforcee\n\nToujours motive a creer des solutions utiles et durables.",
+            "hashtags": ["#AgenceWeb", "#ProjetDigital", "#Accessibilite", "#Dev"],
+            "likes": 64,
+            "comments": 9,
+            "shares": 3,
+            "date": "3 avril"
+          },
+          {
+            "id": 2,
+            "title": "Je rejoins Circullstone en tant que developpeur web !",
+            "content": "Tres enthousiaste a l'idee d'integrer une equipe dynamique et de participer a des projets innovants autour du developpement web et du numerique responsable.\n\nAu programme :\n- Developpement front & back\n- Optimisation des performances\n- Approche orientee Green IT\n\nMerci a toute l'equipe pour leur accueil. Hate de commencer cette nouvelle aventure !",
+            "hashtags": ["#NouveauPoste", "#DeveloppementWeb", "#GreenIT", "#Tech"],
+            "likes": 76,
+            "comments": 21,
+            "shares": 4,
+            "date": "15 mars"
+          },
+          {
+            "id": 3,
+            "title": "Chez Circullstone, on croit en la sobriete numerique",
+            "content": "Aujourd'hui, trop de sites sont surcharges, peu optimises, et energivores.\nNotre mission : creer des solutions performantes, mais aussi responsables.\n\nQuelques resultats recents :\n- -35% de temps de chargement moyen\n- -28% d'emissions estimees\n- +22% de conversion client\n\nOn continue d'explorer de nouvelles facons de coder plus intelligemment.\n\nEt vous, vous en etes ou sur ces enjeux ?",
+            "hashtags": ["#NumeriqueResponsable", "#UX", "#DevWeb", "#Tech"],
+            "likes": 89,
+            "comments": 14,
+            "shares": 6,
+            "date": "28 mars"
+          },
+          {
+            "id": 4,
+            "image": "/fake-post/Linkedin/post2.png",
+            "title": "Lancement de notre nouveau projet chez Circullstone !",
+            "content": "Apres plusieurs mois de developpement, notre equipe a concu une plateforme web eco-concue permettant aux entreprises de reduire leur empreinte numerique tout en ameliorant leurs performances.\n\nObjectifs :\n- Optimisation des ressources serveur\n- Reduction du poids des pages\n- Experience utilisateur fluide\n\nUn grand merci a toute l'equipe pour son implication.",
+            "hashtags": ["#WebDevelopment", "#GreenIT", "#Innovation", "#Startup"],
+            "likes": 143,
+            "comments": 27,
+            "shares": 12,
+            "date": "8 avril"
+          }
+        ]
       },
       {
         "name": "Twitter",
-        "username": "@jcaron_photo",
-        "url": "https://x.com/jcaron_photo",
-        "bio": "Photo urbaine | Lille & ailleurs",
-        "found": true
+        "username": "@juliencaron",
+        "url": "https://x.com/juliencaron",
+        "bio": "Photo urbaine | Lille & ailleurs | dev @Circullstone",
+        "found": true,
+        "followers": "847",
+        "following": 312,
+        "tweetsCount": 1,
+        "tweets": [
+          {
+            "id": 1,
+            "content": "j'ai vu que des scientifiques ont confirme que 90% des problemes de la vie se reglent avec :\n\n\"j'ai la flemme on verra demain\"\n\npas mal ahha",
+            "likes": 74,
+            "reposts": 21,
+            "replies": 6,
+            "date": "5 avril",
+            "comments": [
+              { "username": "@max_bzh", "text": "source : mon experience quotidienne" },
+              { "username": "@lena.jpg", "text": "les 10% restants c'est les factures" },
+              { "username": "@thomas_dev", "text": "je valide la recherche est solide" },
+              { "username": "@juliencaron", "text": "je suis expert certifie en \"on verra demain\"" },
+              { "username": "@claire_29", "text": "et pourtant je dis ca tous les jours et ca s'accumule" },
+              { "username": "@leo_rn", "text": "les scientifiques = ton cerveau a 3h du matin" }
+            ]
+          }
+        ]
       },
       {
         "name": "Facebook",

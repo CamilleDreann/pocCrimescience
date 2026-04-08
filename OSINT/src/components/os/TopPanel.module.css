@@ -25,7 +25,7 @@
   justify-content: center;
   padding: 2px var(--space-2);
   border-radius: 4px;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary) !important;
   transition: background var(--transition-fast);
   margin-right: var(--space-2);
 }

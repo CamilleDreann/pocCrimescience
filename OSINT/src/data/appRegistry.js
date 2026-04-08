@@ -10,6 +10,8 @@ const Messaging = lazy(() => import('../apps/Messaging/Messaging'))
 const InstagramViewer = lazy(() => import('../apps/InstagramViewer/InstagramViewer'))
 const StravaViewer = lazy(() => import('../apps/StravaViewer/StravaViewer'))
 const CameraViewer = lazy(() => import('../apps/CameraViewer/CameraViewer'))
+const LinkedInViewer = lazy(() => import('../apps/LinkedInViewer/LinkedInViewer'))
+const TwitterViewer = lazy(() => import('../apps/TwitterViewer/TwitterViewer'))
 
 export const appRegistry = [
   {
@@ -81,5 +83,19 @@ export const appRegistry = [
     icon: 'camera',
     component: CameraViewer,
     defaultSize: { width: 900, height: 600 },
+  },
+  {
+    id: 'linkedin-viewer',
+    title: 'LinkedIn',
+    icon: 'platform-linkedin',
+    component: LinkedInViewer,
+    defaultSize: { width: 480, height: 680 },
+  },
+  {
+    id: 'twitter-viewer',
+    title: 'Twitter / X',
+    icon: 'platform-twitter',
+    component: TwitterViewer,
+    defaultSize: { width: 480, height: 580 },
   },
 ]

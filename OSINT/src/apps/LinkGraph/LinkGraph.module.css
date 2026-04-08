@@ -282,6 +282,70 @@
   letter-spacing: 1px;
 }
 
+.sidebarHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebarDelete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--btn-color, #e74c3c);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--btn-color, #e74c3c);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--btn-color, #e74c3c);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.sidebarDelete:hover {
+  background-color: inherit;
+  color: var(--btn-color, #e74c3c);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--btn-color, #e74c3c);
+}
+
+.sidebarDelete:active {
+  background-color: inherit;
+  color: var(--btn-color, #e74c3c) !important;
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--btn-color, #e74c3c);
+}
+
+.sidebarEdit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--btn-color, var(--color-border));
+  border-radius: 6px;
+  background: transparent;
+  color: var(--btn-color, var(--color-border));
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--btn-color, var(--color-border));
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.sidebarEdit:hover {
+  background-color: inherit;
+  color: var(--btn-color, var(--color-border));
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--btn-color, var(--color-border));
+}
+
+.sidebarEdit:active {
+  background-color: inherit;
+  color: var(--btn-color, var(--color-border));
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--btn-color, var(--color-border));
+}
+
 .sidebarClose {
   display: flex;
   align-items: center;
@@ -298,15 +362,14 @@
 }
 
 .sidebarClose:hover {
-  background-color: var(--btn-color, var(--color-border));
-  color: var(--color-bg-window) !important;
+  color: black;
+  background-color: inherit !important;
   transform: translate(-1px, -1px);
   box-shadow: 3px 3px 0 var(--btn-color, var(--color-border));
 }
 
 .sidebarClose:active {
-  background-color: var(--btn-color, var(--color-border));
-  color: var(--color-bg-window) !important;
+  background-color: inherit !important;
   transform: translate(2px, 2px);
   box-shadow: 0 0 0 var(--btn-color, var(--color-border));
 }
@@ -316,6 +379,8 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  flex: 1;
+  overflow-y: auto;
 }
 
 /* ── Detail sections ── */
@@ -420,13 +485,46 @@
   font-weight: 700;
   cursor: pointer;
   box-shadow: var(--shadow-button-sm);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), background var(--transition-fast);
   font-family: var(--font-sans);
 }
 
 .viewProfileBtn:hover {
   transform: translate(-1px, -1px);
   box-shadow: var(--shadow-button);
+}
+
+.viewProfileBtn:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+
+.viewProfileBtn[data-platform="instagram"]:hover {
+  border-color: #E1306C;
+  color: #E1306C;
+  background: rgba(225, 48, 108, 0.08);
+  box-shadow: 3px 3px 0 #E1306C;
+}
+
+.viewProfileBtn[data-platform="instagram"]:active {
+  border-color: #E1306C;
+  color: #E1306C;
+  background: rgba(225, 48, 108, 0.12);
+  box-shadow: none;
+}
+
+.viewProfileBtn[data-platform="strava"]:hover {
+  border-color: #FC4C02;
+  color: #FC4C02;
+  background: rgba(252, 76, 2, 0.08);
+  box-shadow: 3px 3px 0 #FC4C02;
+}
+
+.viewProfileBtn[data-platform="strava"]:active {
+  border-color: #FC4C02;
+  color: #FC4C02;
+  background: rgba(252, 76, 2, 0.12);
+  box-shadow: none;
 }
 
 /* ── Add Node Button ── */

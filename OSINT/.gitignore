@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 
+CLAUDE.md
+
 # Superpowers
 docs/superpowers/
 .superpowers/

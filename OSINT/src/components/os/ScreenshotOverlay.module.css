@@ -3,27 +3,29 @@
   inset: 0;
   z-index: 5000;
   cursor: crosshair;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.15);
 }
 
 .selection {
   position: absolute;
-  border: 2px dashed var(--color-accent);
-  background: rgba(233, 84, 32, 0.15);
+  border: 2px solid var(--color-accent);
+  background: rgba(216, 94, 51, 0.12);
   pointer-events: none;
 }
 
 .hint {
   position: fixed;
-  top: 40px;
+  top: calc(var(--panel-height) + var(--space-3));
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--color-bg-window);
   color: var(--color-text-primary);
   font-size: var(--font-size-sm);
   font-family: var(--font-sans);
+  font-weight: 500;
   padding: var(--space-2) var(--space-4);
-  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-menu);
   pointer-events: none;
   white-space: nowrap;
 }

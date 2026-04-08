@@ -56,6 +56,11 @@ function buildFromApiEntry(apiData, current) {
         activities: p.activities,
         totalActivities: p.totalActivities,
         totalKm: p.totalKm,
+        tweets: p.tweets,
+        tweetsCount: p.tweetsCount,
+        company: p.company,
+        title: p.title,
+        connections: p.connections,
       },
     })
     edges.push({ id: `e${personId}-${platId}`, from: personId, to: platId })
@@ -150,6 +155,27 @@ export function clearGraph() {
   apiEntries = []
   idCounter = 0
   $graph.set({ nodes: [], edges: [] })
+}
+
+export function updateNode(nodeId, data) {
+  const prev = $graph.get()
+  $graph.set({
+    ...prev,
+    nodes: prev.nodes.map((n) => (n.id === nodeId ? { ...n, data: { ...n.data, ...data } } : n)),
+  })
+}
+
+export function removeNode(nodeId) {
+  const prev = $graph.get()
+  // Also remove from apiEntries if it's a person node
+  const node = prev.nodes.find((n) => n.id === nodeId)
+  if (node?.type === 'person') {
+    apiEntries = apiEntries.filter((e) => e.email !== node.data.email)
+  }
+  $graph.set({
+    nodes: prev.nodes.filter((n) => n.id !== nodeId),
+    edges: prev.edges.filter((e) => e.from !== nodeId && e.to !== nodeId),
+  })
 }
 
 export function updateNodePosition(nodeId, x, y) {

@@ -10,6 +10,8 @@ import {
   addCustomNode,
   clearGraph,
   updateNodePosition,
+  removeNode,
+  updateNode,
   uid,
 } from "../../stores/graphStore";
 import { $messages, addMessage } from "../../stores/messagesStore";
@@ -61,7 +63,7 @@ const ICON_OPTIONS = [
 ];
 
 const COLOR_OPTIONS = [
-  "#e95420",
+  "#d85E33",
   "#3fb950",
   "#58a6ff",
   "#E1306C",
@@ -78,18 +80,21 @@ const PERSON_H = 48;
 const CUSTOM_W = 160;
 const CUSTOM_H = 40;
 
-function AddNodePanel({ onConfirm, onCancel, onOpenFilePicker }) {
-  const [icon, setIcon] = useState("search");
-  const [title, setTitle] = useState("");
-  const [color, setColor] = useState("#3fb950");
-  const [contents, setContents] = useState([]);
+function AddNodePanel({ onConfirm, onCancel, onOpenFilePicker, initialValues, isEdit }) {
+  const [icon, setIcon] = useState(initialValues?.icon ?? "search");
+  const [title, setTitle] = useState(initialValues?.title ?? "");
+  const [color, setColor] = useState(initialValues?.color ?? "#3fb950");
+  const [contents, setContents] = useState(initialValues?.contents ?? []);
   const [showContentMenu, setShowContentMenu] = useState(false);
   const contentMenuRef = useRef(null);
 
   useEffect(() => {
     if (!showContentMenu) return;
     const handleClickOutside = (e) => {
-      if (contentMenuRef.current && !contentMenuRef.current.contains(e.target)) {
+      if (
+        contentMenuRef.current &&
+        !contentMenuRef.current.contains(e.target)
+      ) {
         setShowContentMenu(false);
       }
     };
@@ -128,7 +133,7 @@ function AddNodePanel({ onConfirm, onCancel, onOpenFilePicker }) {
       onMouseDown={(e) => e.stopPropagation()}
     >
       <div className={styles.addNodePanelHeader}>
-        <span>Nouveau noeud</span>
+        <span>{isEdit ? "Modifier le nœud" : "Nouveau noeud"}</span>
         <button className={styles.sidebarClose} onClick={onCancel}>
           <Icon name="close" size={14} />
         </button>
@@ -293,7 +298,7 @@ function AddNodePanel({ onConfirm, onCancel, onOpenFilePicker }) {
           onClick={handleConfirm}
           disabled={!title.trim()}
         >
-          Ajouter
+          {isEdit ? "Modifier" : "Ajouter"}
         </button>
       </div>
     </div>
@@ -308,6 +313,7 @@ export default function LinkGraph() {
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const [addNodeModal, setAddNodeModal] = useState(null); // { sourceNodeId, sourceX, sourceY }
+  const [editingNode, setEditingNode] = useState(null); // node being edited
   const [filePicker, setFilePicker] = useState(null); // { onSelect: fn } | null
   const [filePickerPath, setFilePickerPath] = useState("/home");
   const [reportPreview, setReportPreview] = useState(null); // { html, filename, timestamp } | null
@@ -328,7 +334,7 @@ export default function LinkGraph() {
 
   const getSelectedNodeColor = () => {
     if (!selectedNode) return "var(--color-border)";
-    if (selectedNode.type === "person") return "#e95420";
+    if (selectedNode.type === "person") return "#d85E33";
     if (selectedNode.type === "custom")
       return selectedNode.data.color || "#3fb950";
     if (selectedNode.type === "platform")
@@ -532,23 +538,54 @@ export default function LinkGraph() {
         modified: dateStr,
         content: html,
       });
+      const missionMsgId = `msg-report-${timestamp}`;
       addMessage({
-        id: `msg-report-${timestamp}`,
+        id: missionMsgId,
+        from: "Capitaine Morel",
+        role: "Brigade Criminelle",
+        avatar: "CM",
+        subject: "Re: Rapport reçu — Nouvelles instructions",
+        date: new Date(Date.now() + 1000).toISOString(),
+        body: `Agent,
+
+L’appel à témoins est en cours de diffusion. Les premiers retours ne tarderont pas.
+
+En attendant, j’ai besoin de vous sur une nouvelle piste. Regardez attentivement le reportage ci-joint : il contient des éléments visuels qui pourraient nous permettre de localiser le fugitif.
+
+Vos nouveaux objectifs sont ci-dessous. Restez concentré.
+
+Capitaine Morel`,
+        readed: false,
+        render: false,
+        video: "/REPORTAGE.mp4",
+        videoObjectives: [
+          { "id": "obj-video-1", "label": "Regarder la vidéo et trouver un élément permettant de situer le fugitif." },
+          { "id": "obj-video-2", "label": "Rajouter un noeud au Link Graph avec votre trouvaille." },
+          { "id": "obj-video-3", "label": "Faire un rapport au capitaine Morel." }
+        ],
+      });
+      addMessage({
+        id: `msg-felicitations-${timestamp}`,
         from: "Capitaine Morel",
         role: "Brigade Criminelle",
         avatar: "CM",
         subject: "Re: Rapport reçu",
         date: new Date().toISOString(),
-        body: `Je tenais à te féliciter pour ton efficacité sur cette phase de l'enquête. Ton analyse a payé : on a enfin un portrait identifié qui tient la route. C’est du solide.
+        body: `Excellent travail, agent.
+
+Je tenais à vous féliciter pour votre efficacité sur cette phase de l’enquête. Votre analyse a payé : on a enfin un portrait identifié qui tient la route. C’est du solide.
 
 Grâce à ça, je lance l’appel à témoins dès maintenant. On va diffuser le visuel à grande échelle pour forcer le destin et voir qui sort du bois.
 
-On reste sur le coup, on n'a jamais été aussi proches du but.
+Pendant que la Brigade traite les retours, prenez le temps de visionner cette vidéo de sensibilisation — elle fait partie de votre formation et ne devrait pas vous prendre longtemps.
+
+On reste sur le coup, on n’a jamais été aussi proches du but.
 
 Capitaine Morel`,
         readed: false,
         render: true,
-        video: "/Enregistrement_de_lecran_2026-03-27_a_21.47.36.mov",
+        video: "/REPORTAGE.mp4",
+        onVideoEnd: missionMsgId,
       });
       completeObjective("obj-morel-3");
       setReportPreview(null);
@@ -612,7 +649,7 @@ Capitaine Morel`,
                       cx="14"
                       cy="14"
                       r="6"
-                      stroke="#e95420"
+                      stroke="#d85E33"
                       strokeWidth="1.5"
                       opacity="0.6"
                     />
@@ -789,7 +826,7 @@ Capitaine Morel`,
                           width={PERSON_W}
                           height={PERSON_H}
                           rx="10"
-                          fill="#e95420"
+                          fill="#d85E33"
                         />
                         <g
                           style={{
@@ -804,7 +841,7 @@ Capitaine Morel`,
                             height={PERSON_H}
                             rx="10"
                             fill="#ffffff"
-                            stroke="#e95420"
+                            stroke="#d85E33"
                             strokeWidth={1.5}
                           />
                           <circle
@@ -820,7 +857,7 @@ Capitaine Morel`,
                             y={PERSON_H / 2 + 1}
                             textAnchor="middle"
                             dominantBaseline="middle"
-                            fill="#e95420"
+                            fill="#d85E33"
                             fontSize="12"
                             fontWeight="700"
                             fontFamily="var(--font-sans)"
@@ -1087,6 +1124,26 @@ Capitaine Morel`,
               }}
             />
           )}
+          {editingNode && (
+            <AddNodePanel
+              isEdit
+              initialValues={editingNode.data}
+              onConfirm={(data) => {
+                updateNode(editingNode.id, data);
+                setSelectedNode((prev) =>
+                  prev?.id === editingNode.id
+                    ? { ...prev, data: { ...prev.data, ...data } }
+                    : prev,
+                );
+                setEditingNode(null);
+              }}
+              onCancel={() => setEditingNode(null)}
+              onOpenFilePicker={(onSelect) => {
+                setFilePickerPath("/home");
+                setFilePicker({ onSelect });
+              }}
+            />
+          )}
         </div>
 
         {/* Detail sidebar */}
@@ -1094,13 +1151,35 @@ Capitaine Morel`,
           <div className={styles.sidebar}>
             <div className={styles.sidebarHeader}>
               <span className={styles.sidebarTitle}>Details</span>
-              <button
-                className={styles.sidebarClose}
-                style={{ "--btn-color": getSelectedNodeColor() }}
-                onClick={() => setSelectedNode(null)}
-              >
-                <Icon name="close" size={14} />
-              </button>
+              <div className={styles.sidebarHeaderActions}>
+                <button
+                  className={styles.sidebarDelete}
+                  style={{ "--btn-color": "#e74c3c" }}
+                  onClick={() => {
+                    removeNode(selectedNode.id);
+                    setSelectedNode(null);
+                  }}
+                  title="Supprimer le nœud"
+                >
+                  <Icon name="trash" size={14} />
+                </button>
+                {selectedNode.type === "custom" && (
+                  <button
+                    className={styles.sidebarEdit}
+                    style={{ "--btn-color": getSelectedNodeColor() }}
+                    onClick={() => setEditingNode(selectedNode)}
+                    title="Modifier le nœud"
+                  >
+                    <Icon name="edit" size={14} />
+                  </button>
+                )}
+                <button
+                  className={styles.sidebarClose}
+                  onClick={() => setSelectedNode(null)}
+                >
+                  <Icon name="close" size={14} />
+                </button>
+              </div>
             </div>
 
             {selectedNode.type === "person" ? (
@@ -1284,6 +1363,7 @@ Capitaine Morel`,
                   selectedNode.data.posts && (
                     <button
                       className={styles.viewProfileBtn}
+                      data-platform="instagram"
                       onClick={() => {
                         openApp({
                           appId: "instagram-viewer",
@@ -1308,6 +1388,7 @@ Capitaine Morel`,
                   selectedNode.data.activities && (
                     <button
                       className={styles.viewProfileBtn}
+                      data-platform="strava"
                       onClick={() => {
                         openApp({
                           appId: "strava-viewer",
@@ -1320,6 +1401,46 @@ Capitaine Morel`,
                       }}
                     >
                       <span>🚴</span>
+                      <span>Consulter le profil</span>
+                    </button>
+                  )}
+                {selectedNode.data.platform === "LinkedIn" &&
+                  selectedNode.data.found && (
+                    <button
+                      className={styles.viewProfileBtn}
+                      data-platform="linkedin"
+                      onClick={() => {
+                        openApp({
+                          appId: "linkedin-viewer",
+                          title: `LinkedIn — ${selectedNode.data.username}`,
+                          icon: "platform-linkedin",
+                          defaultSize: { width: 480, height: 680 },
+                          props: { profile: selectedNode.data },
+                          multiInstance: true,
+                        });
+                      }}
+                    >
+                      <Icon name="platform-linkedin" size={16} color="#0A66C2" />
+                      <span>Consulter le profil</span>
+                    </button>
+                  )}
+                {selectedNode.data.platform === "Twitter" &&
+                  selectedNode.data.found && (
+                    <button
+                      className={styles.viewProfileBtn}
+                      data-platform="twitter"
+                      onClick={() => {
+                        openApp({
+                          appId: "twitter-viewer",
+                          title: `Twitter — ${selectedNode.data.username}`,
+                          icon: "platform-twitter",
+                          defaultSize: { width: 480, height: 580 },
+                          props: { profile: selectedNode.data },
+                          multiInstance: true,
+                        });
+                      }}
+                    >
+                      <Icon name="platform-twitter" size={16} color="#9CA0A5" />
                       <span>Consulter le profil</span>
                     </button>
                   )}
@@ -1379,7 +1500,7 @@ Capitaine Morel`,
                     )
                   }
                 >
-                  <Icon name="folder" size={28} color="#e95420" />
+                  <Icon name="folder" size={28} color="#d85E33" />
                   <span>..</span>
                 </button>
               )}
@@ -1416,7 +1537,7 @@ Capitaine Morel`,
                       <Icon
                         name={item.type === "folder" ? "folder" : "file"}
                         size={28}
-                        color={item.type === "folder" ? "#e95420" : undefined}
+                        color={item.type === "folder" ? "#d85E33" : undefined}
                       />
                     )}
                     <span>{item.name}</span>
@@ -1519,7 +1640,7 @@ Capitaine Morel`,
           <div className={styles.scannerLine}></div>
           <div className={styles.loadingContent}>
             <div className={styles.loadingIconWrap}>
-              <Icon name="settings" size={48} color="#e95420" />
+              <Icon name="settings" size={48} color="#d85E33" />
             </div>
             <h2 className={styles.loadingTitle}>
               {faceCheckLoading ? "Analyse en cours" : "Initialisation"}

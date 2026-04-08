@@ -114,17 +114,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: background var(--transition-fast), border-color var(--transition-fast);
-}
-
-.checkbox:hover:not(:disabled) {
-  border-color: var(--color-accent);
-}
-
-.checkbox:disabled {
-  background: var(--color-bg-hover);
   cursor: default;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
 }
 
 .completed .checkbox {
@@ -133,10 +124,67 @@
   color: white;
 }
 
+.labelCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
 .label {
   font-size: var(--font-size-sm);
   line-height: 1.4;
   color: var(--color-text-primary);
+}
+
+.screenshotBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 5px var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-panel);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  box-shadow: var(--shadow-button);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
+}
+
+.screenshotBtn:hover {
+  color: var(--color-text-primary);
+  background-color: inherit;
+}
+
+.screenshotBtn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--color-border);
+}
+
+.newObjective {
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-1);
+  padding-top: var(--space-3);
+}
+
+.newObjectiveDot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
 }
 
 @keyframes slideDown {

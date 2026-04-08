@@ -20,6 +20,12 @@ export function completeObjective(id) {
   $completionEvent.set({ id: objective.id, label: objective.label })
 }
 
+export function addObjectives(newObjectives) {
+  $objectives.set(newObjectives.map(o => ({ ...o, completed: false })))
+  $widgetPulse.set(true)
+  setTimeout(() => $widgetPulse.set(false), 1000)
+}
+
 export function clearObjectives() {
   $objectives.set([])
   $completionEvent.set(null)

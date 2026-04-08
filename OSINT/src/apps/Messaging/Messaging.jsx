@@ -2,7 +2,7 @@ import { useMemo, useState, useRef, useEffect } from 'react'
 import { useStore } from '@nanostores/react'
 import Icon from '../../components/ui/Icon'
 import Popup from '../../components/ui/Popup'
-import { $messages, markAsRead } from '../../stores/messagesStore'
+import { $messages, markAsRead, setRender } from '../../stores/messagesStore'
 import { setObjectives } from '../../stores/objectivesStore'
 import styles from './Messaging.module.css'
 
@@ -11,6 +11,7 @@ export default function Messaging() {
   const [selectedId, setSelectedId] = useState(null)
   const [videoOpen, setVideoOpen] = useState(false)
   const [showVideoPopup, setShowVideoPopup] = useState(false)
+  const [videoWatched, setVideoWatched] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
@@ -36,6 +37,7 @@ export default function Messaging() {
     setVideoOpen(false)
     setPlaying(false)
     setCurrentTime(0)
+    setVideoWatched(true)
     clearTimeout(controlsTimerRef.current)
   }
 
@@ -59,6 +61,7 @@ export default function Messaging() {
   }
 
   const handleVideoEnded = () => {
+    if (selectedMessage?.onVideoEnd) setRender(selectedMessage.onVideoEnd, true)
     closeVideo()
   }
 
@@ -142,6 +145,7 @@ export default function Messaging() {
   const handleSelect = (id) => {
     setSelectedId(id)
     markAsRead(id)
+    setVideoWatched(false)
   }
 
   const formatMsgTime = (date) => {
@@ -233,6 +237,17 @@ export default function Messaging() {
                   </svg>
                   Lancer la mission
                 </button>
+                {videoWatched && selectedMessage.video && (
+                  <button
+                    className={styles.replayVideo}
+                    onClick={openVideo}
+                  >
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                      <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                    </svg>
+                    Relancer la vidéo
+                  </button>
+                )}
               </div>
             )}
             {videoOpen && selectedMessage?.video && (
@@ -330,6 +345,7 @@ L'OSINT est une méthode d'investigation redoutable pour retrouver des cibles, m
               primary: true,
               onClick: () => {
                 setShowVideoPopup(false)
+                if (selectedMessage?.videoObjectives?.length > 0) setObjectives(selectedMessage.videoObjectives)
                 openVideo()
               }
             }
