@@ -12,11 +12,12 @@ const StravaViewer = lazy(() => import('../apps/StravaViewer/StravaViewer'))
 const CameraViewer = lazy(() => import('../apps/CameraViewer/CameraViewer'))
 const LinkedInViewer = lazy(() => import('../apps/LinkedInViewer/LinkedInViewer'))
 const TwitterViewer = lazy(() => import('../apps/TwitterViewer/TwitterViewer'))
+const HotelMap = lazy(() => import('../apps/HotelMap/HotelMap'))
 
 export const appRegistry = [
   {
     id: 'file-manager',
-    title: 'Files',
+    title: 'Fichiers',
     icon: 'folder',
     component: FileManager,
     defaultSize: { width: 850, height: 550 },
@@ -30,14 +31,14 @@ export const appRegistry = [
   },
   {
     id: 'settings',
-    title: 'Settings',
+    title: 'Paramètres',
     icon: 'settings',
     component: Settings,
     defaultSize: { width: 750, height: 500 },
   },
   {
     id: 'text-editor',
-    title: 'Text Editor',
+    title: 'Éditeur de texte',
     icon: 'text-file',
     component: TextEditor,
     defaultSize: { width: 700, height: 500 },
@@ -68,7 +69,7 @@ export const appRegistry = [
     title: 'Instagram',
     icon: 'platform-instagram',
     component: InstagramViewer,
-    defaultSize: { width: 420, height: 650 },
+    defaultSize: { width: 600, height: 720 },
   },
   {
     id: 'strava-viewer',
@@ -79,7 +80,7 @@ export const appRegistry = [
   },
   {
     id: 'camera-viewer',
-    title: 'Camera Viewer',
+    title: 'Caméras',
     icon: 'camera',
     component: CameraViewer,
     defaultSize: { width: 900, height: 600 },
@@ -97,5 +98,12 @@ export const appRegistry = [
     icon: 'platform-twitter',
     component: TwitterViewer,
     defaultSize: { width: 480, height: 580 },
+  },
+  {
+    id: 'hotel-map',
+    title: 'Localisation — Hôtels de Lannion',
+    icon: 'map',
+    component: HotelMap,
+    defaultSize: { width: 900, height: 620 },
   },
 ]
