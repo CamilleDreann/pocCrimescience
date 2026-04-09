@@ -14,13 +14,14 @@ import ScreenshotOverlay from './ScreenshotOverlay'
 import styles from './Desktop.module.css'
 
 const desktopIcons = [
-  { appId: 'file-manager', name: 'Files', icon: 'folder' },
+  { appId: 'file-manager', name: 'Fichiers', icon: 'folder' },
   { appId: 'terminal', name: 'Terminal', icon: 'terminal' },
-  { appId: 'text-editor', name: 'Text Editor', icon: 'text-file' },
+  { appId: 'text-editor', name: 'Éditeur de texte', icon: 'text-file' },
   { appId: 'osint-search', name: 'OSINT Search', icon: 'osint-search' },
   { appId: 'link-graph', name: 'Link Graph', icon: 'link-graph' },
   { appId: 'messaging', name: 'Messagerie', icon: 'mail' },
-  { appId: 'settings', name: 'Settings', icon: 'settings' },
+  { appId: 'settings', name: 'Paramètres', icon: 'settings' },
+  { appId: 'hotel-map', name: 'Hôtels [DEBUG]', icon: 'map' },
 ]
 
 export default function Desktop() {
