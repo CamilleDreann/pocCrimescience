@@ -31,3 +31,9 @@ export function clearObjectives() {
   $completionEvent.set(null)
   $widgetPulse.set(false)
 }
+
+export const $resetToMenu = atom(false)
+
+export function triggerResetToMenu() {
+  $resetToMenu.set(true)
+}

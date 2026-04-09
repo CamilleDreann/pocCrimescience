@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useOS } from '../../context/useOS'
 import { addCustomNode, uid } from '../../stores/graphStore'
+import Popup from '../../components/ui/Popup'
 import styles from './TwitterViewer.module.css'
 
 function getInitials(username) {
@@ -13,6 +14,7 @@ function getInitials(username) {
 export default function TwitterViewer({ profile }) {
   const { addNotification } = useOS()
   const [selectedTweet, setSelectedTweet] = useState(null)
+  const [warningPopup, setWarningPopup] = useState(null)
 
   const initials = getInitials(profile.username)
   const tweets = profile.tweets ?? []
@@ -75,9 +77,9 @@ export default function TwitterViewer({ profile }) {
             </div>
           </div>
           <div className={styles.profileActions}>
-            <button className={styles.followBtn}>Suivre</button>
-            <button className={styles.messageBtn}>Message</button>
-            <button className={styles.addGraphBtn} onClick={handleAddToGraph}>
+            <button className={styles.followBtn} onClick={() => setWarningPopup('follow')}>Suivre</button>
+            <button className={styles.messageBtn} onClick={() => setWarningPopup('message')}>Message</button>
+            <button className={styles.addGraphBtn} onClick={() => setWarningPopup('graph')}>
               + Ajouter le profil
             </button>
           </div>
@@ -96,9 +98,9 @@ export default function TwitterViewer({ profile }) {
               </div>
               <div className={styles.tweetContent}>{tweet.content}</div>
               <div className={styles.tweetStats}>
-                <span>❤️ {tweet.likes}</span>
-                <span>🔁 {tweet.reposts}</span>
-                <span>💬 {tweet.replies}</span>
+                <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> {tweet.likes}</span>
+                <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg> {tweet.reposts}</span>
+                <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> {tweet.replies}</span>
               </div>
               {tweet.comments && tweet.comments.length > 0 && (
                 <div className={styles.repliesPreview}>
@@ -134,9 +136,9 @@ export default function TwitterViewer({ profile }) {
             </div>
             <div className={styles.modalBody}>{selectedTweet.content}</div>
             <div className={styles.modalStats}>
-              <span>❤️ {selectedTweet.likes}</span>
-              <span>🔁 {selectedTweet.reposts}</span>
-              <span>💬 {selectedTweet.replies}</span>
+              <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> {selectedTweet.likes}</span>
+              <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg> {selectedTweet.reposts}</span>
+              <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> {selectedTweet.replies}</span>
             </div>
             {selectedTweet.comments && selectedTweet.comments.length > 0 && (
               <div className={styles.modalReplies}>
@@ -151,6 +153,25 @@ export default function TwitterViewer({ profile }) {
             )}
           </div>
         </div>
+      )}
+
+      {warningPopup && (
+        <Popup
+          type={warningPopup === 'graph' ? 'warning' : 'error'}
+          title="Action interdite en enquête"
+          message={
+            warningPopup === 'follow'
+              ? "Suivre ce profil alerterait la cible qu'elle est observée. Dans le cadre d'une enquête OSINT, vous devez rester passif."
+              : warningPopup === 'message'
+              ? "Envoyer un message alerterait la cible qu'elle est recherchée. Dans le cadre d'une enquête OSINT, vous devez rester passif."
+              : "Ajouter ce profil au graphe est une action locale, mais assurez-vous de ne pas interagir directement avec la cible."
+          }
+          onClose={() => setWarningPopup(null)}
+          actions={warningPopup === 'graph' ? [
+            { label: 'Annuler', onClick: () => setWarningPopup(null) },
+            { label: 'Ajouter quand même', primary: true, onClick: () => { handleAddToGraph(); setWarningPopup(null) } },
+          ] : undefined}
+        />
       )}
     </div>
   )

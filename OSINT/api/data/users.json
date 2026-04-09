@@ -11863,42 +11863,6 @@
     "name": "Julien Caron",
     "platforms": [
       {
-        "name": "Instagram",
-        "username": "@jcaron_photo",
-        "url": "https://instagram.com/jcaron_photo",
-        "bio": "Photographe urbain | Lille | Direction artistique 📷",
-        "found": true,
-        "followers": "1,8k",
-        "following": 412,
-        "postsCount": 3,
-        "posts": [
-          {
-            "id": 1,
-            "image": "/fake-post/Instagram/post2.webp",
-            "caption": "Nouveau projet : serie en noir et blanc sur les marches du Nord. Stay tuned. #bnw #documentaire #nordpasdecalais",
-            "likes": 487,
-            "comments": 34,
-            "date": "25 mars"
-          },
-          {
-            "id": 2,
-            "image": "/fake-post/Instagram/image.png",
-            "caption": "Soiree avec la crew 🍻 Ces moments valent plus que tout. #amis #lille #weekend",
-            "likes": 256,
-            "comments": 41,
-            "date": "18 mars"
-          },
-          {
-            "id": 3,
-            "image": "/fake-post/Instagram/post1.jpg",
-            "caption": "Brouillard matinal sur la Grand-Place. Le genre de lumiere qui ne pardonne pas. #grandplace #lille #brume #matin",
-            "likes": 631,
-            "comments": 52,
-            "date": "10 mars"
-          }
-        ]
-      },
-      {
         "name": "LinkedIn",
         "username": "Julien Caron",
         "url": "https://linkedin.com/in/julien-caron-photo",
@@ -11995,6 +11959,42 @@
         "bio": "Portfolio & side projects",
         "found": true
       },
+       {
+        "name": "Instagram",
+        "username": "@jcaron_photo",
+        "url": "https://instagram.com/jcaron_photo",
+        "bio": "Photographe urbain | Lille | Direction artistique 📷",
+        "found": true,
+        "followers": "1,8k",
+        "following": 412,
+        "postsCount": 3,
+        "posts": [
+          {
+            "id": 1,
+            "image": "/fake-post/Instagram/post2.webp",
+            "caption": "Nouveau projet : serie en noir et blanc sur les marches du Nord. Stay tuned. #bnw #documentaire #nordpasdecalais",
+            "likes": 487,
+            "comments": 34,
+            "date": "25 mars"
+          },
+          {
+            "id": 2,
+            "image": "/fake-post/Instagram/image.png",
+            "caption": "Soiree avec la crew 🍻 Ces moments valent plus que tout. #amis #lille #weekend",
+            "likes": 256,
+            "comments": 41,
+            "date": "18 mars"
+          },
+          {
+            "id": 3,
+            "image": "/fake-post/Instagram/post1.jpg",
+            "caption": "Brouillard matinal sur la Grand-Place. Le genre de lumiere qui ne pardonne pas. #grandplace #lille #brume #matin",
+            "likes": 631,
+            "comments": 52,
+            "date": "10 mars"
+          }
+        ]
+      },
       {
         "name": "TikTok",
         "username": "@julien.caron",
@@ -12007,13 +12007,6 @@
         "username": "JulienC#3456",
         "url": null,
         "bio": "Photo & creative community",
-        "found": true
-      },
-      {
-        "name": "Snapchat",
-        "username": "julien.caron59",
-        "url": null,
-        "bio": null,
         "found": true
       }
     ]

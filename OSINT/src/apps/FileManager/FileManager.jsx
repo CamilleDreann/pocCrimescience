@@ -5,11 +5,11 @@ import Icon from "../../components/ui/Icon";
 import styles from "./FileManager.module.css";
 
 const sidebarItems = [
-  { id: "/home", label: "Home", icon: "home" },
+  { id: "/home", label: "Accueil", icon: "home" },
   { id: "/home/Documents", label: "Documents", icon: "folder" },
-  { id: "/home/Downloads", label: "Downloads", icon: "download" },
-  { id: "/home/Pictures", label: "Pictures", icon: "image" },
-  { id: "/home/Desktop", label: "Desktop", icon: "folder" },
+  { id: "/home/Downloads", label: "Téléchargements", icon: "download" },
+  { id: "/home/Pictures", label: "Images", icon: "image" },
+  { id: "/home/Desktop", label: "Bureau", icon: "folder" },
 ];
 
 export default function FileManager() {
@@ -97,7 +97,7 @@ export default function FileManager() {
         </div>
         <div className={`${styles.content} ${styles[viewMode]}`}>
           {items.length === 0 && (
-            <div className={styles.empty}>Folder is empty</div>
+            <div className={styles.empty}>Dossier vide</div>
           )}
           {items.map((item) => (
             <div

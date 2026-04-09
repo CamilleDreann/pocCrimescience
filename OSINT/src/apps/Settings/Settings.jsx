@@ -4,11 +4,11 @@ import Icon from "../../components/ui/Icon";
 import styles from "./Settings.module.css";
 
 const panels = [
-  { id: "network", label: "Network", icon: "wifi" },
-  { id: "sound", label: "Sound", icon: "volume-high" },
-  { id: "display", label: "Display", icon: "brightness" },
+  { id: "network", label: "Réseau", icon: "wifi" },
+  { id: "sound", label: "Son", icon: "volume-high" },
+  { id: "display", label: "Affichage", icon: "brightness" },
   { id: "bluetooth", label: "Bluetooth", icon: "bluetooth" },
-  { id: "about", label: "About", icon: "info" },
+  { id: "about", label: "À propos", icon: "info" },
 ];
 
 function NetworkPanel({ system, updateSystem }) {
@@ -32,7 +32,7 @@ function NetworkPanel({ system, updateSystem }) {
                 <Icon name="wifi" size={16} />
                 <span>{name}</span>
                 {name === "HomeNetwork" && (
-                  <span className={styles.connected}>Connected</span>
+                  <span className={styles.connected}>Connecté</span>
                 )}
               </div>
             ),
@@ -46,7 +46,7 @@ function NetworkPanel({ system, updateSystem }) {
 function SoundPanel({ system, updateSystem }) {
   return (
     <div className={styles.panel}>
-      <h3>Sound</h3>
+      <h3>Son</h3>
       <div className={styles.settingRow}>
         <Icon
           name={system.volume > 0 ? "volume-high" : "volume-mute"}
@@ -69,7 +69,7 @@ function SoundPanel({ system, updateSystem }) {
 function DisplayPanel({ system, updateSystem }) {
   return (
     <div className={styles.panel}>
-      <h3>Display</h3>
+      <h3>Affichage</h3>
       <div className={styles.settingRow}>
         <Icon name="brightness" size={18} />
         <input
@@ -106,34 +106,34 @@ function BluetoothPanel({ system, updateSystem }) {
 function AboutPanel() {
   return (
     <div className={styles.panel}>
-      <h3>About</h3>
+      <h3>À propos</h3>
       <div className={styles.aboutGrid}>
         <div className={styles.aboutRow}>
-          <span className={styles.aboutLabel}>Device Name</span>
+          <span className={styles.aboutLabel}>Nom de l'appareil</span>
           <span>osint-desktop</span>
         </div>
         <div className={styles.aboutRow}>
-          <span className={styles.aboutLabel}>OS</span>
+          <span className={styles.aboutLabel}>Système</span>
           <span>Ubuntu 24.04 LTS</span>
         </div>
         <div className={styles.aboutRow}>
-          <span className={styles.aboutLabel}>Kernel</span>
+          <span className={styles.aboutLabel}>Noyau</span>
           <span>Linux 6.5.0-generic</span>
         </div>
         <div className={styles.aboutRow}>
-          <span className={styles.aboutLabel}>CPU</span>
+          <span className={styles.aboutLabel}>Processeur</span>
           <span>Intel Core i7-12700H</span>
         </div>
         <div className={styles.aboutRow}>
-          <span className={styles.aboutLabel}>Memory</span>
-          <span>16 GB</span>
+          <span className={styles.aboutLabel}>Mémoire</span>
+          <span>16 Go</span>
         </div>
         <div className={styles.aboutRow}>
-          <span className={styles.aboutLabel}>Disk</span>
-          <span>512 GB SSD</span>
+          <span className={styles.aboutLabel}>Disque</span>
+          <span>512 Go SSD</span>
         </div>
         <div className={styles.aboutRow}>
-          <span className={styles.aboutLabel}>Graphics</span>
+          <span className={styles.aboutLabel}>Carte graphique</span>
           <span>NVIDIA RTX 3060</span>
         </div>
       </div>
@@ -165,7 +165,7 @@ export default function Settings() {
   return (
     <div className={styles.settings}>
       <div className={styles.sidebar}>
-        <div className={styles.sidebarTitle}>Settings</div>
+        <div className={styles.sidebarTitle}>Paramètres</div>
         {panels.map((p) => (
           <button
             key={p.id}

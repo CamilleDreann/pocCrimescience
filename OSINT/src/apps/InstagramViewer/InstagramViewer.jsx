@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Popup from '../../components/ui/Popup'
 import styles from './InstagramViewer.module.css'
 
 function getInitials(username) {
@@ -14,6 +15,7 @@ function getInitials(username) {
 export default function InstagramViewer({ profile }) {
   const [selectedPost, setSelectedPost] = useState(null)
   const [likedPosts, setLikedPosts] = useState(new Set())
+  const [warningPopup, setWarningPopup] = useState(null)
 
   const initials = getInitials(profile.username)
   const posts = profile.posts ?? []
@@ -71,8 +73,8 @@ export default function InstagramViewer({ profile }) {
         </div>
 
         <div className={styles.profileActions}>
-          <button className={styles.followBtn}>Suivre</button>
-          <button className={styles.messageBtn}>Message</button>
+          <button className={styles.followBtn} onClick={() => setWarningPopup('follow')}>Suivre</button>
+          <button className={styles.messageBtn} onClick={() => setWarningPopup('message')}>Message</button>
         </div>
 
         {/* Posts grid */}
@@ -104,8 +106,8 @@ export default function InstagramViewer({ profile }) {
                   </div>
                 )}
                 <div className={styles.postThumbOverlay}>
-                  <span>❤️ {post.likes}</span>
-                  <span>💬 {post.comments}</span>
+                  <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> {post.likes}</span>
+                  <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> {post.comments}</span>
                 </div>
               </div>
             ))}
@@ -147,16 +149,29 @@ export default function InstagramViewer({ profile }) {
                   className={`${styles.actionBtn} ${likedPosts.has(selectedPost.id) ? styles.liked : ''}`}
                   onClick={() => toggleLike(selectedPost.id)}
                 >
-                  {likedPosts.has(selectedPost.id) ? '❤️' : '🤍'}{' '}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill={likedPosts.has(selectedPost.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" style={{display:'inline',verticalAlign:'middle',marginRight:4}}><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>{' '}
                   {selectedPost.likes + (likedPosts.has(selectedPost.id) ? 1 : 0)}
                 </button>
                 <button className={styles.actionBtn}>
-                  💬 {selectedPost.comments}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:4}}><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> {selectedPost.comments}
                 </button>
               </div>
             </div>
           </div>
         </div>
+      )}
+
+      {warningPopup && (
+        <Popup
+          type="error"
+          title="Action interdite en enquête"
+          message={
+            warningPopup === 'follow'
+              ? "Suivre ce profil alerterait la cible qu'elle est observée. Dans le cadre d'une enquête OSINT, vous devez rester passif."
+              : "Envoyer un message alerterait la cible qu'elle est recherchée. Dans le cadre d'une enquête OSINT, vous devez rester passif."
+          }
+          onClose={() => setWarningPopup(null)}
+        />
       )}
     </div>
   )

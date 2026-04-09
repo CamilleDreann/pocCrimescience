@@ -21,7 +21,6 @@ const desktopIcons = [
   { appId: 'link-graph', name: 'Link Graph', icon: 'link-graph' },
   { appId: 'messaging', name: 'Messagerie', icon: 'mail' },
   { appId: 'settings', name: 'Paramètres', icon: 'settings' },
-  { appId: 'hotel-map', name: 'Hôtels [DEBUG]', icon: 'map' },
 ]
 
 export default function Desktop() {

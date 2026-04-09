@@ -26,6 +26,14 @@ export function addFile(path, fileData) {
   fs[path] = fileData
 }
 
+export function clearScreenshots() {
+  for (const path in fs) {
+    if (path.startsWith('/home/Pictures/screenshot-')) {
+      delete fs[path]
+    }
+  }
+}
+
 export function getNode(path) {
   return fs[path] || null
 }

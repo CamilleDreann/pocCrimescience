@@ -10,8 +10,10 @@ export default function Notification({ notification, onDismiss }) {
     return () => clearTimeout(timer)
   }, [notification.id, onDismiss])
 
+  const typeClass = notification.type ? styles[notification.type] : ''
+
   return (
-    <div className={styles.notification}>
+    <div className={`${styles.notification} ${typeClass}`}>
       <div className={styles.header}>
         <span className={styles.title}>{notification.title}</span>
         <button className={styles.closeBtn} onClick={() => onDismiss(notification.id)}>

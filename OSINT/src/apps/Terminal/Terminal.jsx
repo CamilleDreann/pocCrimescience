@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import styles from './Terminal.module.css'
 
 const COMMANDS = {
-  help: () => `Available commands: help, clear, echo, ls, pwd, whoami, date, uname, cat, neofetch\n  cat /var/log/auth.log  — display SSH authentication logs`,
+  help: () => `Commandes disponibles : help, clear, echo, ls, pwd, whoami, date, uname, cat, neofetch\n  cat /var/log/auth.log  — afficher les journaux d'authentification SSH`,
   clear: () => null,
   pwd: () => '/home/user',
   whoami: () => 'user',
@@ -31,8 +31,8 @@ const COMMANDS = {
 
 export default function Terminal() {
   const [lines, setLines] = useState([
-    { type: 'output', text: 'Welcome to OSINT Terminal v1.0' },
-    { type: 'output', text: 'Type "help" for available commands.\n' },
+    { type: 'output', text: 'Bienvenue dans OSINT Terminal v1.0' },
+    { type: 'output', text: 'Tapez "help" pour afficher les commandes disponibles.\n' },
   ])
   const [input, setInput] = useState('')
   const [history, setHistory] = useState([])
@@ -74,9 +74,9 @@ export default function Terminal() {
       newLines.push({ type: 'output', text: args.join(' ') })
     } else if (command === 'cat') {
       if (args.length === 0) {
-        newLines.push({ type: 'error', text: 'cat: missing file operand' })
+        newLines.push({ type: 'error', text: 'cat: opérande de fichier manquant' })
       } else if (args[0] === '/var/log/auth.log' || args[0] === 'auth.log') {
-        newLines.push({ type: 'output', text: 'Loading /var/log/auth.log...' })
+        newLines.push({ type: 'output', text: 'Chargement de /var/log/auth.log...' })
         fetch('/auth.log')
           .then(r => r.text())
           .then(text => {
@@ -88,11 +88,11 @@ export default function Terminal() {
           .catch(() => {
             setLines(prev => [
               ...prev,
-              { type: 'error', text: 'cat: /var/log/auth.log: Permission denied' },
+              { type: 'error', text: 'cat: /var/log/auth.log: Permission refusée' },
             ])
           })
       } else {
-        newLines.push({ type: 'output', text: `cat: ${args[0]}: No such file or directory` })
+        newLines.push({ type: 'output', text: `cat: ${args[0]}: Aucun fichier ou dossier de ce type` })
       }
     } else if (COMMANDS[command]) {
       const result = COMMANDS[command](args)
@@ -100,7 +100,7 @@ export default function Terminal() {
         newLines.push({ type: 'output', text: result })
       }
     } else {
-      newLines.push({ type: 'error', text: `bash: ${command}: command not found` })
+      newLines.push({ type: 'error', text: `bash: ${command}: commande introuvable` })
     }
 
     setLines(newLines)

@@ -80,7 +80,13 @@ const PERSON_H = 48;
 const CUSTOM_W = 160;
 const CUSTOM_H = 40;
 
-function AddNodePanel({ onConfirm, onCancel, onOpenFilePicker, initialValues, isEdit }) {
+function AddNodePanel({
+  onConfirm,
+  onCancel,
+  onOpenFilePicker,
+  initialValues,
+  isEdit,
+}) {
   const [icon, setIcon] = useState(initialValues?.icon ?? "search");
   const [title, setTitle] = useState(initialValues?.title ?? "");
   const [color, setColor] = useState(initialValues?.color ?? "#3fb950");
@@ -544,8 +550,37 @@ export default function LinkGraph() {
         from: "Capitaine Morel",
         role: "Brigade Criminelle",
         avatar: "CM",
-        subject: "Re: Rapport reçu — Nouvelles instructions",
+        subject: "URGENT : Nouveau témoignage - Localisation", // Nouveau sujet
         date: new Date(Date.now() + 1000).toISOString(),
+        body: `Agent,
+
+L'appel à témoins vient de porter ses fruits. Un individu nous a transmis un extrait vidéo datant d'il y a seulement quelques heures.
+
+C’est notre meilleure chance de le coincer. Votre mission est claire : analysez l'extrait ci-joint pour identifier la localisation précise du fugitif. Nous devons agir vite avant qu'il ne change de secteur.
+
+J'attends votre rapport de localisation immédiatement pour ordonner l’interpellation par les unités de terrain.
+
+Soyez minutieux, on ne peut pas se louper.
+
+Capitaine Morel`, // Nouveau body
+        readed: false,
+        render: false,
+        video: "/REPORTAGE.mp4",
+        skipVideoPopup: true,
+        videoObjectives: [
+          {
+            id: "obj-video-2",
+            label: "Localiser l'hôtel où se trouve le fugitif.",
+          },
+        ],
+      });
+      addMessage({
+        id: `msg-temoignage-${timestamp}`,
+        from: "Capitaine Morel",
+        role: "Brigade Criminelle",
+        avatar: "CM",
+        subject: "Re: Rapport reçu — Nouvelles instructions", // Nouveau sujet
+        date: new Date().toISOString(),
         body: `Agent,
 
 L’appel à témoins est en cours de diffusion. Les premiers retours ne tarderont pas.
@@ -554,34 +589,7 @@ En attendant, j’ai besoin de vous sur une nouvelle piste. Regardez attentiveme
 
 Vos nouveaux objectifs sont ci-dessous. Restez concentré.
 
-Capitaine Morel`,
-        readed: false,
-        render: false,
-        video: "/REPORTAGE.mp4",
-        videoObjectives: [
-          { "id": "obj-video-1", "label": "Regarder la vidéo et trouver un élément permettant de situer le fugitif." },
-          { "id": "obj-video-2", "label": "Rajouter un noeud au Link Graph avec votre trouvaille." },
-          { "id": "obj-video-3", "label": "Faire un rapport au capitaine Morel." }
-        ],
-      });
-      addMessage({
-        id: `msg-felicitations-${timestamp}`,
-        from: "Capitaine Morel",
-        role: "Brigade Criminelle",
-        avatar: "CM",
-        subject: "Re: Rapport reçu",
-        date: new Date().toISOString(),
-        body: `Excellent travail, agent.
-
-Je tenais à vous féliciter pour votre efficacité sur cette phase de l’enquête. Votre analyse a payé : on a enfin un portrait identifié qui tient la route. C’est du solide.
-
-Grâce à ça, je lance l’appel à témoins dès maintenant. On va diffuser le visuel à grande échelle pour forcer le destin et voir qui sort du bois.
-
-Pendant que la Brigade traite les retours, prenez le temps de visionner cette vidéo de sensibilisation — elle fait partie de votre formation et ne devrait pas vous prendre longtemps.
-
-On reste sur le coup, on n’a jamais été aussi proches du but.
-
-Capitaine Morel`,
+Capitaine Morel`, // Nouveau body
         readed: false,
         render: true,
         video: "/REPORTAGE.mp4",
@@ -734,7 +742,7 @@ Capitaine Morel`,
                   <path
                     d="M 40 0 L 0 0 0 40"
                     fill="none"
-                    stroke="rgba(255,255,255,0.03)"
+                    stroke="rgba(0,0,0,0.07)"
                     strokeWidth="0.5"
                   />
                 </pattern>
@@ -935,24 +943,16 @@ Capitaine Morel`,
                             rx="7"
                             fill={`${col}22`}
                           />
-                          <foreignObject x="8" y="8" width="24" height="24">
-                            <div
-                              xmlns="http://www.w3.org/1999/xhtml"
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                width: "100%",
-                                height: "100%",
-                              }}
-                            >
-                              <Icon
-                                name={node.data.icon}
-                                size={16}
-                                color={col}
-                              />
-                            </div>
-                          </foreignObject>
+                          <svg
+                            x="12"
+                            y="12"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            style={{ color: col }}
+                          >
+                            <use href={`/icons.svg#${node.data.icon}`} />
+                          </svg>
                           <text
                             x="42"
                             y={CUSTOM_H / 2 - 4}
@@ -1030,24 +1030,16 @@ Capitaine Morel`,
                           rx="7"
                           fill={`${theme.color}22`}
                         />
-                        <foreignObject x="8" y="8" width="24" height="24">
-                          <div
-                            xmlns="http://www.w3.org/1999/xhtml"
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              width: "100%",
-                              height: "100%",
-                            }}
-                          >
-                            <Icon
-                              name={iconName}
-                              size={16}
-                              color={theme.color}
-                            />
-                          </div>
-                        </foreignObject>
+                        <svg
+                          x="12"
+                          y="12"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          style={{ color: theme.color }}
+                        >
+                          <use href={`/icons.svg#${iconName}`} />
+                        </svg>
                         <text
                           x="42"
                           y={NODE_H / 2 - 4}
@@ -1420,7 +1412,11 @@ Capitaine Morel`,
                         });
                       }}
                     >
-                      <Icon name="platform-linkedin" size={16} color="#0A66C2" />
+                      <Icon
+                        name="platform-linkedin"
+                        size={16}
+                        color="#0A66C2"
+                      />
                       <span>Consulter le profil</span>
                     </button>
                   )}

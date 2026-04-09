@@ -18,3 +18,7 @@ export function setRender(id, render) {
     $messages.get().map(m => m.id === id ? { ...m, render } : m)
   )
 }
+
+export function resetMessages() {
+  $messages.set(initialMessages)
+}

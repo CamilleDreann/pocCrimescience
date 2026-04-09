@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useOS } from '../../context/useOS'
 import { addCustomNode, uid } from '../../stores/graphStore'
+import Popup from '../../components/ui/Popup'
 import styles from './LinkedInViewer.module.css'
 
 function getInitials(name) {
@@ -13,6 +14,7 @@ export default function LinkedInViewer({ profile }) {
   const { addNotification } = useOS()
   const [selectedPost, setSelectedPost] = useState(null)
   const [expanded, setExpanded] = useState(new Set())
+  const [warningPopup, setWarningPopup] = useState(null)
 
   const initials = getInitials(profile.username)
   const posts = profile.posts ?? []
@@ -88,9 +90,9 @@ export default function LinkedInViewer({ profile }) {
             </div>
           </div>
           <div className={styles.profileActions}>
-            <button className={styles.connectBtn}>Se connecter</button>
-            <button className={styles.messageBtn}>Message</button>
-            <button className={styles.addGraphBtn} onClick={handleAddToGraph}>
+            <button className={styles.connectBtn} onClick={() => setWarningPopup('connect')}>Se connecter</button>
+            <button className={styles.messageBtn} onClick={() => setWarningPopup('message')}>Message</button>
+            <button className={styles.addGraphBtn} onClick={() => setWarningPopup('graph')}>
               + Ajouter le profil
             </button>
           </div>
@@ -136,9 +138,9 @@ export default function LinkedInViewer({ profile }) {
                   </div>
                 )}
                 <div className={styles.postStats}>
-                  <span>👍 {post.likes}</span>
-                  <span>💬 {post.comments}</span>
-                  <span>↗️ {post.shares}</span>
+                  <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg> {post.likes}</span>
+                  <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> {post.comments}</span>
+                  <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg> {post.shares}</span>
                 </div>
               </div>
             )
@@ -172,12 +174,31 @@ export default function LinkedInViewer({ profile }) {
               </div>
             )}
             <div className={styles.modalStats}>
-              <span>👍 {selectedPost.likes} j'aime</span>
-              <span>💬 {selectedPost.comments} commentaires</span>
-              <span>↗️ {selectedPost.shares} partages</span>
+              <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg> {selectedPost.likes} j'aime</span>
+              <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> {selectedPost.comments} commentaires</span>
+              <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{display:'inline',verticalAlign:'middle',marginRight:3}}><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg> {selectedPost.shares} partages</span>
             </div>
           </div>
         </div>
+      )}
+
+      {warningPopup && (
+        <Popup
+          type={warningPopup === 'graph' ? 'warning' : 'error'}
+          title="Action interdite en enquête"
+          message={
+            warningPopup === 'connect'
+              ? "Se connecter à ce profil alerterait la cible qu'elle est observée. Dans le cadre d'une enquête OSINT, vous devez rester passif."
+              : warningPopup === 'message'
+              ? "Envoyer un message alerterait la cible qu'elle est recherchée. Dans le cadre d'une enquête OSINT, vous devez rester passif."
+              : "Ajouter ce profil au graphe est une action locale, mais assurez-vous de ne pas interagir directement avec la cible."
+          }
+          onClose={() => setWarningPopup(null)}
+          actions={warningPopup === 'graph' ? [
+            { label: 'Annuler', onClick: () => setWarningPopup(null) },
+            { label: 'Ajouter quand même', primary: true, onClick: () => { handleAddToGraph(); setWarningPopup(null) } },
+          ] : undefined}
+        />
       )}
     </div>
   )

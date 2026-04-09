@@ -1,12 +1,12 @@
 [
-  {
+    {
     "id": "msg-001",
-    "from": "Marie Dupont",
-    "role": "Ressources Humaines",
-    "avatar": "MD",
+    "from": "Marine Keret",
+    "role": "Responsable des Ressources Humaines",
+    "avatar": "MK",
     "subject": "Onboarding - Accès Systèmes",
     "date": "2026-03-30T08:30:00",
-    "body": "Bonjour et bienvenue !\n\nJe suis Marie Dupont, des Ressources Humaines. Votre poste informatique a été configuré avec le niveau d'habilitation \"Niveau 3 - Osint\".\n\nVous avez désormais accès à l'application <b>Link Graph</b> pour la modélisation des entités et <b>OSINT Search</b> pour la collecte de données en sources ouvertes.\n\n<u>Règle de sécurité :</u> Ne partagez jamais vos clés d'accès en dehors de ce terminal sécurisé.\n\nBonne première journée.",
+    "body": "Bonjour,\n\nJe me présente, Marine Keret, responsable des ressources humaines.\n\nSuite à votre intégration au sein de la cellule d’analyse, nous vous confirmons que votre poste informatique dédié aux investigations OSINT est désormais configuré et opérationnel.\n\nSur votre poste, vous trouverez deux outils importants :\n\nLink Graph : il sert à relier les informations entre elles (personnes, lieux, objets) pour mieux comprendre l’enquête\nOSINT Cherche : il sert à trouver des informations sur internet\n\nCes applications constituent la base de votre environnement de travail et vous permettront de mener vos investigations de manière progressive et méthodique.\n\nNous vous rappelons que vous serez amené à manipuler des informations sensibles. À ce titre, il est impératif de respecter strictement les protocoles de sécurité en vigueur.\n\nMarine Keret\nResponsable des ressources humaines",
     "readed": false,
     "render": true
   },
@@ -17,13 +17,22 @@
     "avatar": "CM",
     "subject": "URGENT : Disparition Signalée",
     "date": "2026-03-30T09:15:00",
-    "body": "Agent,\n\nPas de temps pour les présentations, vous tombez dans le grand bain.\n\nUne disparition inquiétante vient de nous être signalée ce matin. La personne ciblée a laissé très peu de traces physiques, nous misons tout sur son empreinte numérique.\n\nLe temps presse. Remontez la piste numérique, trouvez tout ce qui est publiquement accessible (OSINT).\n\nJ'attends des résultats rapides.\n\nCapitaine Morel\nCommandant des Opérations",
+    "body": "Bonjour,\n\nNous vous confions votre première enquête.\n\nUn homme nommé Julien Caron a disparu suite à sa convocation au tribunal pour suspicion de vol à main armée. Depuis cet événement, il est introuvable et nous pensons qu’il est en fuite.\n\nLa particularité de cette affaire est que l’individu laisse très peu de traces physiques.\nVotre mission va donc se concentrer sur son empreinte numérique, c’est-à-dire tout ce qu’il a laissé sur internet.\n\nLe temps est compté. Vous devez remonter sa piste numérique et trouver des indices permettant de localiser le suspect.\n\nTravaillez avec méthode et attention. Chaque détail peut être important.\n\nJ’attends vos premiers résultats rapidement.\n\nCapitaine Morel\nCommandant des opérations",
     "readed": false,
     "render": true,
     "objectives": [
-      { "id": "obj-morel-1", "label": "Trouver les comptes en ligne de la personne disparue via l'outil OSINT Search." },
-      { "id": "obj-morel-2", "label": "Créer un nœud personnalisé du suspect avec sa photo sur l'outil Link Graph." },
-      { "id": "obj-morel-3", "label": "Faire le rapport au capitaine Morel de vos trouvailles." }
+      {
+        "id": "obj-morel-1",
+        "label": "Trouver les comptes en ligne de Julien Caron via l'outil OSINT Cherche."
+      },
+      {
+        "id": "obj-morel-2",
+        "label": "Créer un nœud personnalisé pour Julien Caron avec sa photo sur l'outil Link Graph."
+      },
+      {
+        "id": "obj-morel-3",
+        "label": "Faire le rapport au capitaine Morel de vos trouvailles."
+      }
     ]
   }
 ]

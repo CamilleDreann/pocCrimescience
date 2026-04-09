@@ -32,8 +32,16 @@ function buildFromApiEntry(apiData, current) {
     },
   })
 
-  const count = apiData.platforms.length
-  apiData.platforms.forEach((p, i) => {
+  // Reorder platforms so Instagram lands at the bottom of the circle (index ≈ count/2 → angle ≈ π/2)
+  const platforms = [...apiData.platforms]
+  const instaIdx = platforms.findIndex((p) => p.name === 'Instagram')
+  if (instaIdx !== -1) {
+    const [insta] = platforms.splice(instaIdx, 1)
+    platforms.splice(Math.floor(platforms.length / 2), 0, insta)
+  }
+
+  const count = platforms.length
+  platforms.forEach((p, i) => {
     const angle = (2 * Math.PI * i) / count - Math.PI / 2
     const rx = 200 + Math.random() * 40
     const ry = 150 + Math.random() * 30

@@ -43,3 +43,11 @@
   line-height: 1.4;
   font-weight: 500;
 }
+
+.notification.error {
+  border-color: #e53e3e;
+}
+
+.notification.error .title {
+  color: #e53e3e;
+}

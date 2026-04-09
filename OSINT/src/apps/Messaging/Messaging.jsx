@@ -198,7 +198,14 @@ export default function Messaging() {
                   className={styles.activateObjectives}
                   onClick={() => {
                     if (selectedMessage.objectives?.length > 0) setObjectives(selectedMessage.objectives)
-                    if (selectedMessage.video) setShowVideoPopup(true)
+                    if (selectedMessage.video) {
+                      if (selectedMessage.skipVideoPopup) {
+                        if (selectedMessage.videoObjectives?.length > 0) setObjectives(selectedMessage.videoObjectives)
+                        openVideo()
+                      } else {
+                        setShowVideoPopup(true)
+                      }
+                    }
                   }}
                 >
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
@@ -233,10 +240,6 @@ export default function Messaging() {
 
                   {/* Barre de titre */}
                   <div className={styles.vlcTitleBar}>
-                    <span className={styles.vlcTitleIcon}>🔶</span>
-                    <span className={styles.vlcTitleText}>
-                      {selectedMessage.video.split('/').pop()}
-                    </span>
                     <button className={`${styles.vlcTitleBtn} ${styles.vlcClose}`} onClick={closeVideo} title="Fermer">✕</button>
                   </div>
 

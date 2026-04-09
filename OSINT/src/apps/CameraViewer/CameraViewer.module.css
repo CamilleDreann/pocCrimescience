@@ -1,3 +1,129 @@
+/* ── Access gate ── */
+.gate {
+  width: 100%;
+  height: 100%;
+  background: var(--color-bg-desktop);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gateBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 32px 36px;
+  background: var(--color-bg-window);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-window);
+  width: 340px;
+}
+
+.gateLock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  border: 2px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  background: linear-gradient(135deg, var(--color-accent), #c7431a);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.gateTitle {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--color-text-primary);
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.gateSubtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.gateForm {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.gateInput {
+  background: var(--color-bg-input);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  padding: 10px 14px;
+  outline: none;
+  box-shadow: var(--shadow-button-sm);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.gateInput:focus {
+  box-shadow: 3px 3px 0 var(--color-accent);
+  transform: translate(-1px, -1px);
+  border-color: var(--color-accent);
+}
+
+.gateInputError {
+  border-color: var(--color-danger) !important;
+  box-shadow: 3px 3px 0 var(--color-danger) !important;
+  animation: shake 250ms ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-6px); }
+  75%       { transform: translateX(6px); }
+}
+
+.gateError {
+  font-size: var(--font-size-xs);
+  color: var(--color-danger);
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.gateBtn {
+  background: var(--color-accent);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  padding: 10px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  box-shadow: var(--shadow-button-sm);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.gateBtn:hover {
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+.gateBtn:active {
+  background: var(--color-accent-active);
+}
+
+/* ── Main viewer ── */
 .wrapper {
   width: 100%;
   height: 100%;
@@ -123,4 +249,22 @@
 .closeBtn:hover {
   background: var(--color-accent);
   border-color: var(--color-accent);
+}
+
+/* Video preview in grid card */
+.preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  border-radius: 7px;
+}
+
+/* Full video in expanded overlay */
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
 }

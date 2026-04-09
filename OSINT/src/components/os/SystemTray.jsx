@@ -36,7 +36,7 @@ export default function SystemTray() {
         <div className={styles.popup}>
           <div className={styles.popupRow}>
             <Icon name={system.wifi ? 'wifi' : 'wifi-off'} size={16} />
-            <span>{system.wifi ? 'Wi-Fi' : 'Wi-Fi Off'}</span>
+            <span>{system.wifi ? 'Wi-Fi' : 'Wi-Fi désactivé'}</span>
             <button
               className={`${styles.toggleBtn} ${system.wifi ? styles.active : ''}`}
               onClick={() => updateSystem('wifi', !system.wifi)}
@@ -80,11 +80,11 @@ export default function SystemTray() {
           <div className={styles.divider} />
           <button className={styles.popupAction}>
             <Icon name="settings" size={16} />
-            <span>Settings</span>
+            <span>Paramètres</span>
           </button>
           <button className={styles.popupAction}>
             <Icon name="power" size={16} />
-            <span>Power Off</span>
+            <span>Éteindre</span>
           </button>
         </div>
       )}

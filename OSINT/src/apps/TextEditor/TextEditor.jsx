@@ -3,7 +3,7 @@ import Icon from '../../components/ui/Icon'
 import styles from './TextEditor.module.css'
 
 const defaultTabs = [
-  { id: 'untitled', name: 'Untitled', content: '' },
+  { id: 'untitled', name: 'Sans titre', content: '' },
 ]
 
 export default function TextEditor() {
@@ -21,7 +21,7 @@ export default function TextEditor() {
 
   const addTab = () => {
     const id = `tab-${tabCounter}`
-    const newTab = { id, name: `Untitled ${tabCounter}`, content: '' }
+    const newTab = { id, name: `Sans titre ${tabCounter}`, content: '' }
     setTabs(prev => [...prev, newTab])
     setActiveTab(id)
     setTabCounter(prev => prev + 1)
@@ -68,14 +68,14 @@ export default function TextEditor() {
           className={styles.textarea}
           value={currentTab.content}
           onChange={(e) => handleContentChange(e.target.value)}
-          placeholder="Start typing..."
+          placeholder="Commencez à écrire..."
           spellCheck={false}
         />
       </div>
       <div className={styles.statusBar}>
         <span>Ln {(currentTab.content || '').split('\n').length}, Col 1</span>
         <span>UTF-8</span>
-        <span>Plain Text</span>
+        <span>Texte brut</span>
       </div>
     </div>
   )

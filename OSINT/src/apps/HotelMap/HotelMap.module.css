@@ -6,6 +6,7 @@
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   overflow: hidden;
+  position: relative;
 }
 
 /* ── Toolbar ─────────────────────────────────────────── */
@@ -56,6 +57,28 @@
   flex: 1;
   position: relative;
   min-height: 0;
+  overflow: visible;
+}
+
+/* ── Leaflet Tooltip override ────────────────────────── */
+
+.mapWrapper :global(.leaflet-tooltip) {
+  background: #000000;
+  color: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 4px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  box-shadow: 2px 2px 0 #d85E33;
+  white-space: nowrap;
+}
+
+.mapWrapper :global(.leaflet-tooltip-top::before) {
+  border-top-color: #000000;
 }
 
 /* ── Footer ──────────────────────────────────────────── */
@@ -111,4 +134,83 @@
   opacity: 0.4;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+/* ── Error Popup ─────────────────────────────────────── */
+
+.errorOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.errorPopup {
+  background: var(--color-bg-window);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 #000;
+  padding: var(--space-6) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 320px;
+  text-align: center;
+}
+
+.errorIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #e53e3e;
+  color: #fff;
+  border: 2px solid #000;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 900;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.errorTitle {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-base);
+  font-weight: 900;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.errorBody {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  margin: 0;
+}
+
+.errorClose {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--shadow-button-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.errorClose:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--color-border);
+}
+
+.errorClose:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--color-border);
 }

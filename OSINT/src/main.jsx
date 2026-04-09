@@ -3,13 +3,10 @@ import { createRoot } from 'react-dom/client'
 import './styles/tokens.css'
 import './styles/reset.css'
 import './styles/animations.css'
-import { OSProvider } from './context/OSContext'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <OSProvider>
-      <App />
-    </OSProvider>
+    <App />
   </StrictMode>,
 )

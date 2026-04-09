@@ -44,7 +44,7 @@ export default function AppLauncher() {
           <Icon name="search" size={18} className={styles.searchIcon} />
           <input
             className={styles.searchInput}
-            placeholder="Type to search..."
+            placeholder="Rechercher..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             autoFocus
@@ -64,7 +64,7 @@ export default function AppLauncher() {
             </button>
           ))}
           {filtered.length === 0 && (
-            <div className={styles.empty}>No apps found</div>
+            <div className={styles.empty}>Aucune application trouvée</div>
           )}
         </div>
       </div>
