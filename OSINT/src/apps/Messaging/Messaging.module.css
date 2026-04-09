@@ -251,6 +251,8 @@
   white-space: pre-wrap;
   color: var(--color-text-primary);
   font-weight: 500;
+  user-select: text;
+  cursor: text;
 }
 
 
@@ -279,13 +281,6 @@
   box-shadow: 2px 2px 0 var(--color-border);
 }
 
-.objectiveBoxTitle {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  opacity: 0.5;
-  margin-bottom: var(--space-4);
-}
 
 .objectiveBoxList {
   list-style: none;
@@ -388,123 +383,105 @@
 }
 
 
-/* Video preview */
-.videoWrapper {
-  padding: var(--space-4) var(--space-6);
-  padding-top: 0;
-}
-
-.videoThumb {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.videoPreview {
-  width: 160px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  display: block;
-  background: var(--color-border);
-}
-
-.videoThumb:hover .videoPreview {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 30%, transparent);
-}
-
-.videoPlayHint {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  opacity: 0.85;
-  transition: opacity 0.15s;
-}
-
-.videoThumb:hover .videoPlayHint {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.45);
-}
-
-/* Fullscreen overlay */
+/* Overlay sombre derrière la fenêtre VLC */
 .videoOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.92);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.videoOverlayInner {
-  position: relative;
-  width: min(90vw, 960px);
-  max-height: 90vh;
+/* Fenêtre VLC */
+.vlcWindow {
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 6px 6px 0 #000;
   display: flex;
   flex-direction: column;
+  width: min(90vw, 900px);
+  max-height: 90vh;
   overflow: hidden;
-  border-radius: var(--radius-md);
-  background: var(--color-border);
 }
 
-.videoFull {
+/* Barre de titre VLC */
+.vlcTitleBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 10px;
+  background: #f8f8f8;
+  border-bottom: 2px solid #000;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: #111;
+  user-select: none;
+}
+
+.vlcTitleIcon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.vlcTitleText {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vlcTitleBtn {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: #111;
+  flex-shrink: 0;
+  transition: transform 0.08s linear, box-shadow 0.08s linear;
+}
+
+.vlcTitleBtn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #000;
+}
+
+.vlcTitleBtn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 #000;
+}
+
+.vlcTitleBtn.vlcClose:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* Zone vidéo */
+.vlcVideoArea {
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.vlcVideo {
   width: 100%;
-  max-height: 90vh;
+  max-height: 60vh;
   display: block;
   object-fit: contain;
-}
-
-.videoCloseBtn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: none;
-  background: var(--color-bg-elevated);
-  color: var(--color-text-primary);
-  font-size: 14px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-}
-
-.videoCloseBtn:hover {
-  background: var(--color-accent);
-  color: white;
-}
-
-/* Gros bouton play central */
-.videoBigPlay {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(4px);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s, transform 0.15s;
-  z-index: 2;
-}
-
-.videoBigPlay:hover {
-  background: var(--color-accent);
-  transform: scale(1.08);
 }
 
 /* Spinner buffering */
@@ -512,8 +489,8 @@
   position: absolute;
   inset: 0;
   margin: auto;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border: 3px solid rgba(255,255,255,0.2);
   border-top-color: white;
   border-radius: 50%;
@@ -525,86 +502,107 @@
   to { transform: rotate(360deg); }
 }
 
-/* Barre de contrôles YouTube-style */
-.videoControls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: var(--space-2) var(--space-3);
-  background: linear-gradient(transparent, rgba(0,0,0,0.75));
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
-  opacity: 0;
-  transition: opacity 0.25s;
-  pointer-events: none;
-}
-
-.videoControlsVisible {
-  opacity: 1;
-  pointer-events: all;
-}
-
 /* Barre de progression */
-.videoProgress {
+.vlcProgressArea {
+  padding: 8px 12px 4px;
+  border-top: 2px solid #000;
+  background: #f8f8f8;
+}
+
+.vlcProgress {
   width: 100%;
-  height: 4px;
-  background: rgba(255,255,255,0.25);
-  border-radius: 2px;
+  height: 8px;
+  background: #ddd;
+  border: 2px solid #000;
   cursor: pointer;
-  margin-bottom: var(--space-2);
   position: relative;
-  transition: height 0.1s;
+  box-shadow: 2px 2px 0 #000;
 }
 
-.videoProgress:hover {
-  height: 6px;
+.vlcProgress:hover {
+  height: 10px;
 }
 
-.videoProgressFill {
+.vlcProgressFill {
   height: 100%;
   background: var(--color-accent);
-  border-radius: 2px;
   pointer-events: none;
 }
 
-/* Ligne de boutons */
-.videoControlsRow {
+/* Bande de contrôles */
+.vlcControls {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  padding: 8px 12px;
+  background: #f8f8f8;
+  border-top: 2px solid #000;
 }
 
-.videoCtrlBtn {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 16px;
+.vlcBtn {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 #000;
+  background: #fff;
   cursor: pointer;
-  padding: 2px 4px;
-  border-radius: 4px;
-  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s;
+  color: #111;
+  flex-shrink: 0;
+  transition: transform 0.08s linear, box-shadow 0.08s linear;
 }
 
-.videoCtrlBtn:hover {
-  background: rgba(255,255,255,0.15);
+.vlcBtn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #000;
+  background: #f0f0f0;
 }
 
-/* Slider volume */
-.videoVolumeSlider {
-  width: 70px;
+.vlcBtn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 #000;
+}
+
+.vlcBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.vlcBtn:disabled:hover {
+  transform: none;
+  box-shadow: 2px 2px 0 #000;
+  background: #fff;
+}
+
+.vlcSeparator {
+  width: 2px;
+  height: 24px;
+  background: #ccc;
+  flex-shrink: 0;
+}
+
+.vlcTime {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+  margin-left: var(--space-1);
+}
+
+.vlcVolumeGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+.vlcVolumeSlider {
+  width: 80px;
   accent-color: var(--color-accent);
   cursor: pointer;
-  height: 3px;
-}
-
-/* Temps */
-.videoTime {
-  font-size: var(--font-size-xs);
-  color: rgba(255,255,255,0.9);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+  height: 4px;
 }
