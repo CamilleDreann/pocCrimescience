@@ -50,6 +50,15 @@ export default function HotelMap({ windowId }) {
 
   return (
     <div className={styles.container}>
+      <div className={styles.toolbar}>
+        <div className={styles.toolbarIcon}>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+        </div>
+        <span className={styles.toolbarTitle}>Hôtels de Lannion</span>
+        <span className={styles.toolbarSub}>{HOTELS.length} établissements</span>
+      </div>
       <div className={styles.mapWrapper}>
         <MapContainer
           center={[48.7317, -3.4568]}
