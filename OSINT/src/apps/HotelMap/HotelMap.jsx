@@ -14,13 +14,14 @@ const HOTELS = [
 ]
 
 function createPinIcon(selected) {
-  const bg = selected ? '#d85E33' : '#ffffff'
+  const bg = '#d85E33'
   const shadow = selected ? '3px 3px 0 #000' : '2px 2px 0 #000'
+  const dotColor = selected ? '#ffffff' : '#000000'
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="36" viewBox="0 0 28 36">
       <path d="M14 0C6.27 0 0 6.27 0 14c0 9.625 12.25 21.875 13.125 22.75a1.25 1.25 0 0 0 1.75 0C15.75 35.875 28 23.625 28 14 28 6.27 21.73 0 14 0z"
         fill="${bg}" stroke="#000000" stroke-width="2"/>
-      <circle cx="14" cy="14" r="5" fill="#000000"/>
+      <circle cx="14" cy="14" r="5" fill="${dotColor}"/>
     </svg>
   `
   return L.divIcon({
@@ -84,7 +85,7 @@ export default function HotelMap({ windowId }) {
           zoomControl
         >
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
             attribution='&copy; <a href="https://carto.com/">CARTO</a>'
           />
           {HOTELS.map(hotel => (
