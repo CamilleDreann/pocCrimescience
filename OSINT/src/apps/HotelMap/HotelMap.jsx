@@ -37,7 +37,7 @@ export default function HotelMap({ windowId }) {
         readed: false,
         render: true,
       })
-      closeWindow(windowId)
+      if (windowId) closeWindow(windowId)
     } else {
       addNotification({
         id: `notif-wrong-hotel-${Date.now()}`,
