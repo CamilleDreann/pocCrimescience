@@ -101,7 +101,7 @@ export const appRegistry = [
   },
   {
     id: 'hotel-map',
-    title: 'Localisation — Hôtels de Lannion',
+    title: 'Localisation — Hôtels',
     icon: 'map',
     component: HotelMap,
     defaultSize: { width: 900, height: 620 },

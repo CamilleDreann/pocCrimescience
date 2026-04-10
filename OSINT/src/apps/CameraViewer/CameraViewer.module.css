@@ -123,43 +123,87 @@
   background: var(--color-accent-active);
 }
 
-/* ── Main viewer ── */
+/* ── Wrapper ── */
 .wrapper {
   width: 100%;
   height: 100%;
-  background: var(--color-bg-window);
+  background: var(--color-bg-surface);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
 }
 
+/* ── Toolbar ── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg-window);
+  border-bottom: 2px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.toolbarIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--color-accent);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  box-shadow: var(--shadow-button-sm);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.toolbarTitle {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-base);
+  font-weight: 900;
+  letter-spacing: -0.3px;
+  color: var(--color-text-primary);
+}
+
+.toolbarBadge {
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--color-danger);
+  letter-spacing: 0.5px;
+}
+
+/* ── Grid ── */
 .grid {
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 12px;
-  padding: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  padding: 20px;
+  align-content: center;
 }
 
+/* ── Card ── */
 .card {
   position: relative;
-  background: var(--color-bg-input);
-  border: 1px solid var(--color-border);
+  background: #000;
+  border: 2px solid var(--color-border);
   border-radius: 8px;
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
-  transition: var(--transition-base);
   overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  aspect-ratio: 16 / 9;
 }
 
 .card:hover {
-  border-color: var(--color-accent);
-  background: var(--color-bg-active);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--color-border);
 }
 
 .dimmed {
@@ -167,37 +211,57 @@
   pointer-events: none;
 }
 
-.badge {
+/* ── Preview video ── */
+.preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Card footer overlay ── */
+.cardFooter {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.65);
+  gap: 8px;
+}
+
+.live {
   font-size: var(--font-size-xs);
   color: var(--color-danger);
   font-family: var(--font-mono);
+  font-weight: 700;
   letter-spacing: 0.5px;
-}
-
-.icon {
-  color: var(--color-text-muted);
-  margin-bottom: 8px;
+  white-space: nowrap;
 }
 
 .label {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  color: rgba(255, 255, 255, 0.85);
   font-family: var(--font-mono);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Overlay backdrop */
+/* ── Overlay backdrop ── */
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10;
-  animation: fadeIn 250ms ease forwards;
+  animation: fadeIn 200ms ease forwards;
 }
 
 @keyframes fadeIn {
@@ -205,36 +269,50 @@
   to   { opacity: 1; }
 }
 
-/* Expanded card */
+/* ── Expanded card ── */
 .expanded {
   position: relative;
-  width: 80%;
-  height: 80%;
-  background: var(--color-bg-input);
-  border: 1px solid var(--color-accent);
+  width: 82%;
+  max-height: 85%;
+  background: #000;
+  border: 2px solid var(--color-border);
   border-radius: 8px;
+  box-shadow: var(--shadow-window);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-  box-shadow: var(--shadow-window);
-  animation: scaleIn 250ms ease forwards;
+  animation: scaleIn 200ms ease forwards;
 }
 
 @keyframes scaleIn {
-  from { transform: scale(0.85); opacity: 0; }
+  from { transform: scale(0.88); opacity: 0; }
   to   { transform: scale(1);    opacity: 1; }
 }
 
-/* Close button */
+/* ── Expanded header ── */
+.expandedHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 8px 12px;
+  background: var(--color-bg-window);
+  border-bottom: 2px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.expandedLabel {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+/* ── Close button ── */
 .closeBtn {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
+  margin-left: auto;
+  background: var(--color-bg-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
   color: var(--color-text-primary);
   width: 28px;
   height: 28px;
@@ -243,28 +321,26 @@
   justify-content: center;
   cursor: pointer;
   font-size: 12px;
-  transition: var(--transition-fast);
+  font-weight: 700;
+  box-shadow: var(--shadow-button-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .closeBtn:hover {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--color-border);
 }
 
-/* Video preview in grid card */
-.preview {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  inset: 0;
-  border-radius: 7px;
+.closeBtn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
 }
 
-/* Full video in expanded overlay */
+/* ── Full video ── */
 .video {
   width: 100%;
-  height: 100%;
+  flex: 1;
   object-fit: contain;
   background: #000;
+  display: block;
 }

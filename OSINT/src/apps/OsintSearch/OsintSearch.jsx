@@ -232,17 +232,6 @@ export default function OsintSearch() {
           <div className={styles.emptyState}>
             <Icon name="osint-search" size={48} className={styles.emptyIcon} />
             <p className={styles.emptyText}>Entrez un email pour lancer une recherche OSINT</p>
-            <div className={styles.emailHints}>
-              {['marie.dupont@gmail.com', 'julien.caron@gmail.com', 'lucas.martin@hotmail.com', 'thomas.leroy@proton.me'].map((email) => (
-                <button
-                  key={email}
-                  className={styles.hintChip}
-                  onClick={() => { setQuery(email); inputRef.current?.focus() }}
-                >
-                  {email}
-                </button>
-              ))}
-            </div>
           </div>
         )}
       </div>

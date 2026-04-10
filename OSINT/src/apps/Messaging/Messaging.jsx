@@ -11,6 +11,7 @@ export default function Messaging() {
   const [selectedId, setSelectedId] = useState(null)
   const [videoOpen, setVideoOpen] = useState(false)
   const [showVideoPopup, setShowVideoPopup] = useState(false)
+  const [showUnavailablePopup, setShowUnavailablePopup] = useState(false)
   const [videoWatched, setVideoWatched] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -136,7 +137,7 @@ export default function Messaging() {
     return `${m}:${s.toString().padStart(2, '0')}`
   }
 
-  const unreadCount = messages.filter(m => !m.readed).length
+  const unreadCount = messages.filter(m => m.render && !m.readed).length
 
   return (
     <div className={styles.container}>
@@ -192,11 +193,15 @@ export default function Messaging() {
               </div>
             )}
             </div>
-            {(selectedMessage.objectives?.length > 0 || selectedMessage.video) && (
+            {(selectedMessage.objectives?.length > 0 || selectedMessage.video || selectedMessage.videoUnavailable) && (
               <div className={styles.readerFooter}>
                 <button
                   className={styles.activateObjectives}
                   onClick={() => {
+                    if (selectedMessage.videoUnavailable) {
+                      setShowUnavailablePopup(true)
+                      return
+                    }
                     if (selectedMessage.objectives?.length > 0) setObjectives(selectedMessage.objectives)
                     if (selectedMessage.video) {
                       if (selectedMessage.skipVideoPopup) {
@@ -335,6 +340,27 @@ export default function Messaging() {
         )}
       </div>
 
+      {showUnavailablePopup && (
+        <Popup
+          title="Vidéo indisponible"
+          message="La vidéo présentée ici n'est pas encore disponible."
+          type="info"
+          actions={[
+            {
+              label: "Fermer",
+              primary: true,
+              onClick: () => {
+                setShowUnavailablePopup(false)
+                if (selectedMessage?.onVideoEnd) setRender(selectedMessage.onVideoEnd, true)
+              }
+            }
+          ]}
+          onClose={() => {
+            setShowUnavailablePopup(false)
+            if (selectedMessage?.onVideoEnd) setRender(selectedMessage.onVideoEnd, true)
+          }}
+        />
+      )}
       {showVideoPopup && (
         <Popup
           title="Sensibilisation OSINT"

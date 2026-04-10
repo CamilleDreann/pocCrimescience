@@ -33,9 +33,10 @@ function CodeGate({ onUnlock }) {
         <form onSubmit={handleSubmit} className={styles.gateForm}>
           <input
             className={`${styles.gateInput} ${error ? styles.gateInputError : ''}`}
-            type="password"
+            type="text"
             value={value}
             onChange={(e) => { setValue(e.target.value); setError(false) }}
+            autoComplete="off"
             placeholder="Code d'accès"
             autoFocus
           />
@@ -51,16 +52,7 @@ const CAMERAS = [
   { id: 1, label: 'Caméra 01 — Station essence', video: '/cameras/Station essence.mp4' },
   { id: 2, label: 'Caméra 02 — Station essence', video: '/cameras/Station essence 2.mp4' },
   { id: 3, label: 'Caméra 03 — Sortie hôtel', video: '/cameras/sortie_hotel.mp4' },
-  { id: 4, label: 'Caméra 04' },
-  { id: 5, label: 'Caméra 05' },
-  { id: 6, label: 'Caméra 06' },
 ]
-
-const CameraIcon = () => (
-  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M15 10l4.553-2.069A1 1 0 0121 8.88v6.24a1 1 0 01-1.447.889L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
-  </svg>
-)
 
 export default function CameraViewer() {
   const [unlocked, setUnlocked] = useState(false)
@@ -71,6 +63,16 @@ export default function CameraViewer() {
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.toolbar}>
+        <div className={styles.toolbarIcon}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M15 10l4.553-2.069A1 1 0 0121 8.88v6.24a1 1 0 01-1.447.889L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
+          </svg>
+        </div>
+        <span className={styles.toolbarTitle}>SURVEILLANCE</span>
+        <span className={styles.toolbarBadge}>● {CAMERAS.length} flux actifs</span>
+      </div>
+
       <div className={styles.grid}>
         {CAMERAS.map((cam) => (
           <div
@@ -78,20 +80,18 @@ export default function CameraViewer() {
             className={`${styles.card} ${selectedId && cam.id !== selectedId ? styles.dimmed : ''}`}
             onClick={() => setSelectedId(cam.id)}
           >
-            <span className={styles.badge}>● EN DIRECT</span>
-            {cam.video ? (
-              <video
-                className={styles.preview}
-                src={cam.video}
-                autoPlay
-                loop
-                muted
-                playsInline
-              />
-            ) : (
-              <div className={styles.icon}><CameraIcon /></div>
-            )}
-            <span className={styles.label}>{cam.label}</span>
+            <video
+              className={styles.preview}
+              src={cam.video}
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+            <div className={styles.cardFooter}>
+              <span className={styles.live}>● EN DIRECT</span>
+              <span className={styles.label}>{cam.label}</span>
+            </div>
           </div>
         ))}
       </div>
@@ -99,22 +99,18 @@ export default function CameraViewer() {
       {selected && (
         <div className={styles.overlay} onClick={() => setSelectedId(null)}>
           <div className={styles.expanded} onClick={(e) => e.stopPropagation()}>
-            <span className={styles.badge}>● EN DIRECT</span>
-            {selected.video ? (
-              <video
-                className={styles.video}
-                src={selected.video}
-                autoPlay
-                loop
-                controls
-              />
-            ) : (
-              <>
-                <div className={styles.icon}><CameraIcon /></div>
-                <span className={styles.label}>{selected.label}</span>
-              </>
-            )}
-            <button className={styles.closeBtn} onClick={() => setSelectedId(null)}>✕</button>
+            <div className={styles.expandedHeader}>
+              <span className={styles.live}>● EN DIRECT</span>
+              <span className={styles.expandedLabel}>{selected.label}</span>
+              <button className={styles.closeBtn} onClick={() => setSelectedId(null)}>✕</button>
+            </div>
+            <video
+              className={styles.video}
+              src={selected.video}
+              autoPlay
+              loop
+              controls
+            />
           </div>
         </div>
       )}

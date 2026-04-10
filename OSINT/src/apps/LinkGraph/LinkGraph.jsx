@@ -29,7 +29,7 @@ const PLATFORM_THEMES = {
   Facebook: { color: "#1877F2", bg: "#ffffff" },
   GitHub: { color: "#8B5CF6", bg: "#ffffff" },
   Discord: { color: "#5865F2", bg: "#ffffff" },
-  TikTok: { color: "#00F2EA", bg: "#ffffff" },
+  TikTok: { color: "#010101", bg: "#ffffff" },
   Snapchat: { color: "#FFFC00", bg: "#ffffff" },
 };
 
@@ -49,7 +49,6 @@ const ICON_OPTIONS = [
   "link-graph",
   "osint-search",
   "terminal",
-  "text-editor",
   "file",
   "settings",
   "platform-instagram",
@@ -59,7 +58,6 @@ const ICON_OPTIONS = [
   "platform-discord",
   "platform-tiktok",
   "platform-facebook",
-  "platform-snapchat",
 ];
 
 const COLOR_OPTIONS = [
@@ -570,7 +568,7 @@ Capitaine Morel`, // Nouveau body
         videoObjectives: [
           {
             id: "obj-video-2",
-            label: "Localiser l'hôtel où se trouve le fugitif.",
+            label: "A l'aide des éléments présents dans la vidéo, localisez l'hôtel où le suspect a pu se rendre.",
           },
         ],
       });
@@ -592,7 +590,7 @@ Vos nouveaux objectifs sont ci-dessous. Restez concentré.
 Capitaine Morel`, // Nouveau body
         readed: false,
         render: true,
-        video: "/REPORTAGE.mp4",
+        videoUnavailable: true,
         onVideoEnd: missionMsgId,
       });
       completeObjective("obj-morel-3");

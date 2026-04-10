@@ -491,39 +491,45 @@
 
 .viewProfileBtn:hover {
   transform: translate(-1px, -1px);
-  box-shadow: var(--shadow-button);
+  border-color: black;
+  box-shadow: 3px 3px 0 black;
+  background: inherit;
+  color: black;
 }
 
 .viewProfileBtn:active {
   transform: translate(1px, 1px);
+  border-color: black;
   box-shadow: none;
+  background: inherit;
+  color: black;
 }
 
 .viewProfileBtn[data-platform="instagram"]:hover {
-  border-color: #E1306C;
-  color: #E1306C;
-  background: rgba(225, 48, 108, 0.08);
-  box-shadow: 3px 3px 0 #E1306C;
+  border-color: black;
+  color: black;
+  background: inherit;
+  box-shadow: 3px 3px 0 black;
 }
 
 .viewProfileBtn[data-platform="instagram"]:active {
-  border-color: #E1306C;
-  color: #E1306C;
-  background: rgba(225, 48, 108, 0.12);
+  border-color: black;
+  color: black;
+  background: inherit;
   box-shadow: none;
 }
 
 .viewProfileBtn[data-platform="strava"]:hover {
-  border-color: #FC4C02;
-  color: #FC4C02;
-  background: rgba(252, 76, 2, 0.08);
-  box-shadow: 3px 3px 0 #FC4C02;
+  border-color: black;
+  color: black;
+  background: inherit;
+  box-shadow: 3px 3px 0 black;
 }
 
 .viewProfileBtn[data-platform="strava"]:active {
-  border-color: #FC4C02;
-  color: #FC4C02;
-  background: rgba(252, 76, 2, 0.12);
+  border-color: black;
+  color: black;
+  background: inherit;
   box-shadow: none;
 }
 
@@ -1178,7 +1184,17 @@
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.reportSaveBtn:hover { transform: translate(-1px,-1px); box-shadow: var(--shadow-button); }
+.reportSaveBtn:hover {
+  background: var(--color-accent);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-button);
+}
+
+.reportSaveBtn:active {
+  background: var(--color-accent);
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
 
 .reportCloseBtn {
   background: var(--color-bg-window);
@@ -1195,7 +1211,19 @@
   transition: transform var(--transition-fast);
 }
 
-.reportCloseBtn:hover { transform: translate(-1px,-1px); }
+.reportCloseBtn:hover {
+  color: #111118;
+  background: inherit;
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-button-sm);
+}
+
+.reportCloseBtn:active {
+  color: #111118;
+  background: inherit;
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
 
 .reportPreviewFrame {
   flex: 1;
@@ -1237,7 +1265,23 @@
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.recipientItem:hover { transform: translate(-1px,-1px); box-shadow: var(--shadow-button); }
+.recipientItem:hover {
+  background: inherit;
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-button);
+}
+
+.recipientItem:active {
+  background: inherit;
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.recipientItemSelected {
+  background: inherit;
+  border-color: var(--color-accent);
+  box-shadow: 3px 3px 0 var(--color-accent);
+}
 
 .recipientAvatar {
   width: 36px;

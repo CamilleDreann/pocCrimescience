@@ -30,7 +30,7 @@ export default function MissionSelect({ onMissionSelect }) {
         </div>
         <div className={styles.content}>
           <h1 className={styles.title}>MISSION DÉBUTANT</h1>
-          <p className={styles.subtitle}>Prends tes premiers pas dans l'investigation numérique</p>
+          <p className={styles.subtitle}>Fais tes premiers pas dans l'investigation numérique</p>
           <button className={styles.btn}>CHOISIR CETTE MISSION</button>
         </div>
       </div>

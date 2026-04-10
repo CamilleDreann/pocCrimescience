@@ -26,7 +26,7 @@ const desktopIcons = [
 export default function Desktop() {
   const { windows, openApp, system } = useOS()
   const messages = useStore($messages)
-  const unreadMail = messages.filter(m => !m.readed).length
+  const unreadMail = messages.filter(m => m.render && !m.readed).length
 
   const handleOpenApp = (appId) => {
     const app = appRegistry.find(a => a.id === appId)
