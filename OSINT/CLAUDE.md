@@ -24,6 +24,7 @@ This is an OSINT (Open Source Intelligence) web application presented as a Linux
 ### State Management
 
 The OS uses a **reducer pattern** via React Context (`src/context/OSContext.jsx`):
+
 - `OSProvider` wraps the app and exposes state + actions via `useOS()` hook
 - Window management: open/close/minimize/maximize/focus/resize/drag
 - System state: volume, brightness, wifi, bluetooth, notifications
@@ -32,6 +33,7 @@ The OS uses a **reducer pattern** via React Context (`src/context/OSContext.jsx`
 ### App System
 
 Apps are registered in `src/data/appRegistry.js` with lazy-loaded components:
+
 - Each app has: `id`, `title`, `icon`, `component`, `defaultSize`
 - Opening an app creates a window entry in state; closing removes it
 - Single-instance: reopening focuses existing window
@@ -45,6 +47,7 @@ Apps are registered in `src/data/appRegistry.js` with lazy-loaded components:
 ### API
 
 Fastify server (`api/server.js`) with single endpoint:
+
 - `GET /api/search?email=...` — returns user profile data from `api/data/users.json`
 - Data indexed by email at startup for O(1) lookup
 
@@ -52,7 +55,7 @@ Fastify server (`api/server.js`) with single endpoint:
 
 - **CSS Modules** (`.module.css`) for component-scoped styles
 - **Design tokens** in `src/styles/tokens.css` — colors, typography, spacing, shadows, z-index scale
-- GNOME/Ubuntu dark theme aesthetic with `--color-accent: #e95420`
+- GNOME/Ubuntu dark theme aesthetic with `--color-accent: #d85E33`
 
 ### Custom Hooks
 
